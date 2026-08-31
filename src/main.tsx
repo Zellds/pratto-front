@@ -5,15 +5,18 @@ import './styles/tokens.css'
 import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from './app/ThemeProvider.tsx'
+import { AuthProvider } from './app/AuthProvider.tsx'
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
 )
