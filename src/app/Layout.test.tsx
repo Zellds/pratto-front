@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { Layout } from './Layout'
@@ -28,6 +28,11 @@ function renderWithRouter(initialPath: string) {
 }
 
 describe('Layout', () => {
+  beforeEach(() => {
+    localStorage.clear()
+    document.documentElement.removeAttribute('data-theme')
+  })
+
   it('renders the header and the matched child route', () => {
     renderWithRouter('/receitas')
 
