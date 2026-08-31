@@ -1,0 +1,34 @@
+/* src/styles/tokens.css */
+
+:root[data-theme='light'] {
+  --bg: #faf7f0;
+  --card: #ffffff;
+  --accent-green: #2f6b4f;
+  --accent-amber: #c98a2e;
+  --ink: #20261f;
+  --ink-soft: #5c6157;
+}
+
+:root[data-theme='dark'] {
+  --bg: #1c1a17;
+  --card: #26221d;
+  --accent-green: #5fa37d;
+  --accent-amber: #e3a63c;
+  --ink: #edeae2;
+  --ink-soft: #a8a198;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: 'Karla', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Fraunces', serif;
+}
