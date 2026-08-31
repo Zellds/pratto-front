@@ -1,32 +1,21 @@
-# React + TypeScript + Vite
+# Pratto — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+App de receitas com IA, preço regional de ingredientes, lista de compras/despensa e perfil social de chef.
 
-Currently, two official plugins are available:
+## Rodando localmente
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Abre em `http://localhost:5173`. Requer o backend (`projects/backend`) rodando via `docker compose` — ajustar `VITE_API_URL` em `.env.local` conforme a porta real.
+
+## Scripts
+
+- `npm run dev` — servidor de desenvolvimento
+- `npm run build` — build de produção
+- `npm run test` — Vitest (modo watch); `npm run test -- --run` roda uma vez só
+- `npm run lint` — ESLint
+- `npm run format` / `npm run format:check` — Prettier
