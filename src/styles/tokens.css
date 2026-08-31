@@ -1,5 +1,15 @@
 /* src/styles/tokens.css */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 :root[data-theme='light'] {
   --bg: #faf7f0;
   --card: #ffffff;
