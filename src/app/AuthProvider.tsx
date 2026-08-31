@@ -10,16 +10,32 @@ const STORAGE_KEY = 'pratto-token'
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+function readStoredToken(): string | null {
+  try {
+    return localStorage.getItem(STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(() => localStorage.getItem(STORAGE_KEY))
+  const [token, setTokenState] = useState<string | null>(readStoredToken)
 
   function setToken(newToken: string) {
-    localStorage.setItem(STORAGE_KEY, newToken)
+    try {
+      localStorage.setItem(STORAGE_KEY, newToken)
+    } catch {
+      // localStorage unavailable (e.g. blocked storage) — token still works in-memory
+    }
     setTokenState(newToken)
   }
 
   function clearToken() {
-    localStorage.removeItem(STORAGE_KEY)
+    try {
+      localStorage.removeItem(STORAGE_KEY)
+    } catch {
+      // localStorage unavailable (e.g. blocked storage) — token still works in-memory
+    }
     setTokenState(null)
   }
 

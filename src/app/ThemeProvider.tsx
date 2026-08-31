@@ -12,8 +12,12 @@ const STORAGE_KEY = 'pratto-theme'
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 function readStoredTheme(): Theme {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  return stored === 'dark' ? 'dark' : 'light'
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored === 'dark' ? 'dark' : 'light'
+  } catch {
+    return 'light'
+  }
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -21,7 +25,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem(STORAGE_KEY, theme)
+    try {
+      localStorage.setItem(STORAGE_KEY, theme)
+    } catch {
+      // localStorage unavailable (e.g. blocked storage) — theme still works in-memory
+    }
   }, [theme])
 
   function toggleTheme() {
