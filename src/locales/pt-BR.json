@@ -27,7 +27,11 @@
     "expand_sidebar": "Expandir menu",
     "open_menu": "Abrir menu",
     "close_menu": "Fechar menu",
-    "menu": "Menu"
+    "menu": "Menu",
+    "search_placeholder": "Buscar receitas, ingredientes ou chefs",
+    "notifications": "Notificações",
+    "notifications_disabled_hint": "Notificações ainda não existem nesta versão",
+    "new_recipe": "Nova receita"
   },
   "pages": {
     "recipe_detail": "Detalhe da receita",
@@ -59,6 +63,8 @@
     "dashboard_title": "Populares",
     "list_title": "Receitas",
     "view_all": "Ver todas",
+    "tab_weekly": "da semana",
+    "tab_monthly": "do mês",
     "search_label": "Buscar receitas",
     "loading": "Carregando...",
     "error": "Não foi possível carregar as receitas.",
@@ -76,6 +82,11 @@
     "saved_disabled_hint": "Favoritos ainda não existem nesta versão",
     "discover_title": "Descubra",
     "discover_badge_soon": "Em breve",
+    "tab_for_you": "pra você",
+    "tab_trending": "em ascensão",
+    "tab_surprise": "surpreenda-me",
+    "discover_refresh": "Atualizar",
+    "discover_refresh_disabled_hint": "Atualização ainda não existe nesta versão",
     "chefs_title": "Chefs",
     "chef_placeholder_name": "Chef exemplo {{n}}",
     "follow_button": "Seguir",
