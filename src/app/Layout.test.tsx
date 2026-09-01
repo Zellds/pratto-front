@@ -12,8 +12,8 @@ function renderWithRouter(initialPath: string) {
         path: '/',
         Component: Layout,
         children: [
-          { index: true, element: <StubPage title="Dashboard" /> },
-          { path: 'receitas', element: <StubPage title="Receitas" /> },
+          { index: true, element: <StubPage titleKey="pages.dashboard" /> },
+          { path: 'receitas', element: <StubPage titleKey="pages.recipes" /> },
         ],
       },
     ],
@@ -36,10 +36,6 @@ describe('Layout', () => {
   it('renders the header and the matched child route', () => {
     renderWithRouter('/receitas')
 
-    // getByText('Receitas') is ambiguous here: the header nav has a "Receitas" link
-    // AND the matched stub page renders an <h1>Receitas</h1> — both have the exact
-    // same text. Scoping to the heading role disambiguates while still asserting
-    // the actual behavior under test (the matched child route rendered).
     expect(screen.getByRole('heading', { name: 'Receitas' })).toBeInTheDocument()
     expect(screen.getByText('Em construção.')).toBeInTheDocument()
   })
@@ -52,5 +48,15 @@ describe('Layout', () => {
     fireEvent.click(screen.getByRole('button', { name: /tema/i }))
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark')
+  })
+
+  it('toggles the language from the header', () => {
+    renderWithRouter('/receitas')
+
+    expect(screen.getByRole('heading', { name: 'Receitas' })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /idioma/i }))
+
+    expect(screen.getByRole('heading', { name: 'Recipes' })).toBeInTheDocument()
   })
 })
