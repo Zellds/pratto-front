@@ -177,4 +177,28 @@ describe('Layout', () => {
     const sheet = screen.getByRole('dialog')
     expect(within(sheet).getByRole('link', { name: /categorias/i })).toBeInTheDocument()
   })
+
+  it('shows a visual-only search placeholder that is not interactive', () => {
+    renderWithRouter('/')
+
+    expect(screen.getByText('Buscar receitas, ingredientes ou chefs')).toBeInTheDocument()
+    // Não é um <input> de verdade — é só apresentação, sem role de campo de formulário.
+    expect(screen.queryByRole('searchbox')).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+  })
+
+  it('shows a disabled notifications button', () => {
+    renderWithRouter('/')
+
+    expect(screen.getByRole('button', { name: 'Notificações' })).toBeDisabled()
+  })
+
+  it('links "Nova receita" to the new-recipe stub route', () => {
+    renderWithRouter('/')
+
+    expect(screen.getByRole('link', { name: 'Nova receita' })).toHaveAttribute(
+      'href',
+      '/nova-receita',
+    )
+  })
 })
