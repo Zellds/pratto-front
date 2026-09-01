@@ -148,4 +148,29 @@ describe('RecipeList', () => {
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Próxima' })).toBeDisabled())
   })
+
+  it('resets pagination to page 1 when a new search is made after navigating pages', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(makeRecipes(20)),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderRecipeList({ showSearch: true, showPagination: true })
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Próxima' }))
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    expect(mockFetch.mock.calls[1][0]).toContain('page=2')
+
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    fireEvent.change(screen.getByLabelText('Buscar receitas'), { target: { value: 'bolo' } })
+
+    vi.advanceTimersByTime(300)
+    await vi.waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
+
+    expect(mockFetch.mock.calls[2][0]).toContain('page=1')
+    expect(mockFetch.mock.calls[2][0]).toContain('q=bolo')
+  })
 })
