@@ -73,6 +73,8 @@
     "hero_tag": "Featured this week",
     "hero_view": "View recipe",
     "hero_save": "Save",
-    "saved_disabled_hint": "Favorites don't exist in this version yet"
+    "saved_disabled_hint": "Favorites don't exist in this version yet",
+    "discover_title": "Discover",
+    "discover_badge_soon": "Coming soon"
   }
 }

@@ -73,6 +73,8 @@
     "hero_tag": "Destaque da semana",
     "hero_view": "Ver receita",
     "hero_save": "Salvar",
-    "saved_disabled_hint": "Favoritos ainda não existem nesta versão"
+    "saved_disabled_hint": "Favoritos ainda não existem nesta versão",
+    "discover_title": "Descubra",
+    "discover_badge_soon": "Em breve"
   }
 }
