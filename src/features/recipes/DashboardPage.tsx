@@ -50,9 +50,12 @@ export function DashboardPage() {
               </li>
             ))}
           </ul>
-          <Link to="/receitas">{t('recipes.view_all')}</Link>
         </section>
       )}
+
+      <div>
+        <Link to="/receitas">{t('recipes.view_all')}</Link>
+      </div>
 
       {discoverable.length > 0 && <DiscoverSection recipes={discoverable} />}
 

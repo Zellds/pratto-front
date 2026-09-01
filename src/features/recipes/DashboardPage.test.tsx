@@ -79,7 +79,7 @@ describe('DashboardPage', () => {
     expect(screen.getByRole('link', { name: 'Ver todas' })).toHaveAttribute('href', '/receitas')
   })
 
-  it('renders nothing extra when there are no recipes at all', async () => {
+  it('still shows the view-all link when there are no recipes at all', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) }),
@@ -88,5 +88,6 @@ describe('DashboardPage', () => {
     renderDashboard()
 
     expect(await screen.findByText('Nenhuma receita encontrada.')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Ver todas' })).toHaveAttribute('href', '/receitas')
   })
 })
