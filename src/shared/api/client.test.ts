@@ -49,4 +49,15 @@ describe('apiFetch', () => {
 
     await expect(apiFetch('/recipes/999')).rejects.toThrow(ApiError)
   })
+
+  it('falls back to a generic message when the error response body is not valid JSON', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 502,
+      json: () => Promise.reject(new SyntaxError('Unexpected token <')),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    await expect(apiFetch('/recipes')).rejects.toBeInstanceOf(ApiError)
+  })
 })
