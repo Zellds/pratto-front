@@ -1,13 +1,17 @@
-import { useEffect, type MouseEvent, type ReactNode } from 'react'
+import { useEffect, useRef, type MouseEvent, type ReactNode } from 'react'
 import './Modal.css'
 
 type ModalProps = {
   isOpen: boolean
   onClose: () => void
   children: ReactNode
+  ariaLabelledBy?: string
 }
 
-export function Modal({ isOpen, onClose, children }: ModalProps) {
+export function Modal({ isOpen, onClose, children, ariaLabelledBy }: ModalProps) {
+  const panelRef = useRef<HTMLDivElement>(null)
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
+
   useEffect(() => {
     if (!isOpen) return
 
@@ -19,6 +23,20 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
 
+  useEffect(() => {
+    if (isOpen) {
+      previouslyFocusedElementRef.current = document.activeElement as HTMLElement | null
+
+      const firstFocusable = panelRef.current?.querySelector<HTMLElement>(
+        'input, button, textarea, select, a[href]',
+      )
+      firstFocusable?.focus()
+    } else {
+      previouslyFocusedElementRef.current?.focus()
+      previouslyFocusedElementRef.current = null
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   function handleOverlayClick(event: MouseEvent<HTMLDivElement>) {
@@ -27,7 +45,13 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div className="modal-overlay" data-testid="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal-panel" role="dialog" aria-modal="true">
+      <div
+        ref={panelRef}
+        className="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={ariaLabelledBy}
+      >
         {children}
       </div>
     </div>

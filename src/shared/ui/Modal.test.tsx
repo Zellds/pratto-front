@@ -1,6 +1,20 @@
+import { useState } from 'react'
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Modal } from './Modal'
+
+function ModalHost() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <div>
+      <button onClick={() => setIsOpen(true)}>Abrir modal</button>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <input aria-label="Campo" />
+      </Modal>
+    </div>
+  )
+}
 
 describe('Modal', () => {
   it('does not render when isOpen is false', () => {
@@ -61,5 +75,28 @@ describe('Modal', () => {
     fireEvent.click(screen.getByText('Conteúdo'))
 
     expect(handleClose).not.toHaveBeenCalled()
+  })
+
+  it('moves focus to the first focusable element inside the panel when it opens', () => {
+    render(<ModalHost />)
+
+    const openButton = screen.getByRole('button', { name: 'Abrir modal' })
+    openButton.focus()
+    fireEvent.click(openButton)
+
+    expect(screen.getByLabelText('Campo')).toHaveFocus()
+  })
+
+  it('restores focus to the previously focused element when it closes', () => {
+    render(<ModalHost />)
+
+    const openButton = screen.getByRole('button', { name: 'Abrir modal' })
+    openButton.focus()
+    fireEvent.click(openButton)
+    expect(screen.getByLabelText('Campo')).toHaveFocus()
+
+    fireEvent.keyDown(document, { key: 'Escape' })
+
+    expect(openButton).toHaveFocus()
   })
 })
