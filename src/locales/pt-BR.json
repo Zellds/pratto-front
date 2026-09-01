@@ -1,10 +1,19 @@
 {
   "nav": {
+    "home": "Início",
+    "explore": "Explorar",
+    "categories": "Categorias",
     "recipes": "Receitas",
+    "saved": "Salvos",
+    "my_recipes": "Minhas receitas",
     "shopping_list": "Lista de compras",
     "pantry": "Despensa",
     "weekly_menu": "Cardápio",
-    "chat": "Chat"
+    "chat": "Chat",
+    "chefs": "Chefs",
+    "ranking": "Ranking",
+    "section_kitchen": "Minha cozinha",
+    "section_community": "Comunidade"
   },
   "common": {
     "under_construction": "Em construção.",
@@ -13,7 +22,11 @@
     "theme_light": "Claro",
     "toggle_language": "Alternar idioma",
     "log_in": "Entrar",
-    "log_out": "Sair"
+    "log_out": "Sair",
+    "collapse_sidebar": "Recolher menu",
+    "expand_sidebar": "Expandir menu",
+    "open_menu": "Abrir menu",
+    "close_menu": "Fechar menu"
   },
   "pages": {
     "recipe_detail": "Detalhe da receita",
@@ -22,6 +35,11 @@
     "pantry": "Despensa",
     "weekly_menu": "Cardápio semanal",
     "chat": "Chat IA",
+    "categories": "Categorias",
+    "saved": "Salvos",
+    "my_recipes": "Minhas receitas",
+    "chefs": "Chefs",
+    "ranking": "Ranking",
     "profile": "Perfil",
     "recipe_book": "Livro de receitas"
   },
