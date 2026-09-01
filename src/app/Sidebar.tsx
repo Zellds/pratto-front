@@ -41,49 +41,49 @@ export function Sidebar({
       )}
 
       <nav className="sidebar-nav">
-        <Link to="/">
+        <Link to="/" aria-label={t('nav.home')}>
           <HomeIcon />
           <span>{t('nav.home')}</span>
         </Link>
-        <Link to="/receitas">
+        <Link to="/receitas" aria-label={t('nav.explore')}>
           <ExploreIcon />
           <span>{t('nav.explore')}</span>
         </Link>
-        <Link to="/categorias">
+        <Link to="/categorias" aria-label={t('nav.categories')}>
           <CategoriesIcon />
           <span>{t('nav.categories')}</span>
         </Link>
-        <Link to="/salvos">
+        <Link to="/salvos" aria-label={t('nav.saved')}>
           <SavedIcon />
           <span>{t('nav.saved')}</span>
         </Link>
 
         <div className="sidebar-section-label">{t('nav.section_kitchen')}</div>
 
-        <Link to="/minhas-receitas">
+        <Link to="/minhas-receitas" aria-label={t('nav.my_recipes')}>
           <MyRecipesIcon />
           <span>{t('nav.my_recipes')}</span>
         </Link>
-        <Link to="/despensa">
+        <Link to="/despensa" aria-label={t('nav.pantry')}>
           <PantryIcon />
           <span>{t('nav.pantry')}</span>
         </Link>
-        <Link to="/lista-de-compras">
+        <Link to="/lista-de-compras" aria-label={t('nav.shopping_list')}>
           <ShoppingListIcon />
           <span>{t('nav.shopping_list')}</span>
         </Link>
-        <Link to="/cardapio">
+        <Link to="/cardapio" aria-label={t('nav.weekly_menu')}>
           <WeeklyMenuIcon />
           <span>{t('nav.weekly_menu')}</span>
         </Link>
 
         <div className="sidebar-section-label">{t('nav.section_community')}</div>
 
-        <Link to="/chefs">
+        <Link to="/chefs" aria-label={t('nav.chefs')}>
           <ChefsIcon />
           <span>{t('nav.chefs')}</span>
         </Link>
-        <Link to="/ranking">
+        <Link to="/ranking" aria-label={t('nav.ranking')}>
           <RankingIcon />
           <span>{t('nav.ranking')}</span>
         </Link>
