@@ -7,6 +7,7 @@ import { useAuth } from './AuthProvider'
 import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 import { Sidebar } from './Sidebar'
+import './Layout.css'
 
 type MeResponse = {
   username: string

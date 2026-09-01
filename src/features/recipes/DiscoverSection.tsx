@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { RecipeCard } from './RecipeCard'
 import type { Recipe } from './types'
+import './DiscoverSection.css'
 
 export function DiscoverSection({ recipes }: { recipes: Recipe[] }) {
   const { t } = useTranslation()
@@ -8,7 +9,7 @@ export function DiscoverSection({ recipes }: { recipes: Recipe[] }) {
   return (
     <section>
       <h2>{t('recipes.discover_title')}</h2>
-      <ul>
+      <ul className="recipe-grid">
         {recipes.map((recipe) => (
           <li key={recipe.id}>
             {/*
@@ -18,7 +19,7 @@ export function DiscoverSection({ recipes }: { recipes: Recipe[] }) {
               o selo fica visível e claramente desabilitado, sem fingir
               calcular nada.
             */}
-            <span>{t('recipes.discover_badge_soon')}</span>
+            <span className="discover-badge">{t('recipes.discover_badge_soon')}</span>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
