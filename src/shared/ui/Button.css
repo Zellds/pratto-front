@@ -1,0 +1,23 @@
+.button {
+  font-family: 'Karla', sans-serif;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-primary {
+  background-color: var(--accent-green);
+  color: #ffffff;
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink-soft);
+}
