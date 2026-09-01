@@ -8,6 +8,7 @@ import { DiscoverSection } from './DiscoverSection'
 import { ChefsSection } from './ChefsSection'
 import { FeedSection } from './FeedSection'
 import type { Recipe } from './types'
+import './DashboardPage.css'
 
 function byRatingDesc(a: Recipe, b: Recipe): number {
   if (a.averageRating === b.averageRating) return b.ratingsCount - a.ratingsCount
@@ -40,7 +41,7 @@ export function DashboardPage() {
       {popular.length > 0 && (
         <section>
           <h2>{t('recipes.dashboard_title')}</h2>
-          <ul>
+          <ul className="recipe-grid">
             {popular.map((recipe) => (
               <li key={recipe.id}>
                 <RecipeCard recipe={recipe} />

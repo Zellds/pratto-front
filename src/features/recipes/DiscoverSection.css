@@ -1,0 +1,16 @@
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+
+.discover-badge {
+  display: inline-block;
+  background-color: var(--tint);
+  color: var(--ink-soft);
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
