@@ -1,0 +1,15 @@
+.sec {
+  margin-bottom: 34px;
+}
+
+.sec > h2 {
+  margin-bottom: 15px;
+}
+
+.feed-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

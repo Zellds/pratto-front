@@ -79,6 +79,27 @@ describe('DashboardPage', () => {
     expect(screen.getByRole('link', { name: 'Ver todas' })).toHaveAttribute('href', '/receitas')
   })
 
+  it('numbers the popular recipes and shows disabled sorting tabs', async () => {
+    const recipes = [
+      makeRecipe('1', 3.0),
+      makeRecipe('2', 4.9),
+      makeRecipe('3', 4.5),
+      makeRecipe('4', 4.0),
+    ]
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(recipes) }),
+    )
+
+    renderDashboard()
+
+    expect(await screen.findByText('#1')).toBeInTheDocument()
+    expect(screen.getByText('#2')).toBeInTheDocument()
+    expect(screen.getByText('#3')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'da semana' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'do mês' })).toBeDisabled()
+  })
+
   it('still shows the view-all link when there are no recipes at all', async () => {
     vi.stubGlobal(
       'fetch',

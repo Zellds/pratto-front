@@ -40,22 +40,32 @@ export function DashboardPage() {
 
       {hero && <Hero recipe={hero} />}
 
-      {popular.length > 0 && (
-        <section>
+      <section className="sec">
+        <div className="section-head">
           <h2>{t('recipes.dashboard_title')}</h2>
+          {/* Ordenação por período ainda não existe no backend — abas presentes, mas desabilitadas. */}
+          <div className="section-tabs">
+            <button className="section-tab active" disabled>
+              {t('recipes.tab_weekly')}
+            </button>
+            <button className="section-tab" disabled>
+              {t('recipes.tab_monthly')}
+            </button>
+          </div>
+          <Link to="/receitas" className="link">
+            {t('recipes.view_all')}
+          </Link>
+        </div>
+        {popular.length > 0 && (
           <ul className="recipe-grid">
-            {popular.map((recipe) => (
+            {popular.map((recipe, index) => (
               <li key={recipe.id}>
-                <RecipeCard recipe={recipe} />
+                <RecipeCard recipe={recipe} rank={index + 1} />
               </li>
             ))}
           </ul>
-        </section>
-      )}
-
-      <div>
-        <Link to="/receitas">{t('recipes.view_all')}</Link>
-      </div>
+        )}
+      </section>
 
       {discoverable.length > 0 && <DiscoverSection recipes={discoverable} />}
 

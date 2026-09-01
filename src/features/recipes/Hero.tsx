@@ -8,7 +8,7 @@ export function Hero({ recipe }: { recipe: Recipe }) {
   const { t } = useTranslation()
 
   return (
-    <section className="hero">
+    <section className="hero sec">
       {recipe.coverDisplayUrl ? (
         <img className="hero-photo" src={recipe.coverDisplayUrl} alt={recipe.title} />
       ) : (
@@ -22,7 +22,9 @@ export function Hero({ recipe }: { recipe: Recipe }) {
           <p>{t('recipes.by_author', { name: recipe.ownerDisplayName })}</p>
         )}
         <div>
-          <Link to={`/receitas/${recipe.id}`}>{t('recipes.hero_view')}</Link>
+          <Link to={`/receitas/${recipe.id}`} className="button button-primary">
+            {t('recipes.hero_view')}
+          </Link>
           {/* Salvos/favoritos não existe como feature ainda — botão fica desabilitado, não escondido */}
           <Button variant="secondary" disabled title={t('recipes.saved_disabled_hint')}>
             {t('recipes.hero_save')}
