@@ -7,4 +7,5 @@ await i18n.changeLanguage('pt-BR')
 
 afterEach(() => {
   cleanup()
+  void i18n.changeLanguage('pt-BR')
 })
