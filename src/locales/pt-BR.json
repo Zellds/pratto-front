@@ -75,6 +75,10 @@
     "hero_save": "Salvar",
     "saved_disabled_hint": "Favoritos ainda não existem nesta versão",
     "discover_title": "Descubra",
-    "discover_badge_soon": "Em breve"
+    "discover_badge_soon": "Em breve",
+    "chefs_title": "Chefs",
+    "chef_placeholder_name": "Chef exemplo {{n}}",
+    "follow_button": "Seguir",
+    "follow_disabled_hint": "Listagem de chefs ainda não existe nesta versão"
   }
 }
