@@ -23,20 +23,16 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div>
-        <button
-          onClick={() => setMode('login')}
-          disabled={mode === 'login'}
-          aria-hidden={mode === 'login'}
-        >
-          {t('auth.tab_login')}
-        </button>
-        <button
-          onClick={() => setMode('register')}
-          disabled={mode === 'register'}
-          aria-hidden={mode === 'register'}
-        >
-          {t('auth.tab_register')}
-        </button>
+        {mode === 'login' ? (
+          <span aria-current="true">{t('auth.tab_login')}</span>
+        ) : (
+          <button onClick={() => setMode('login')}>{t('auth.tab_login')}</button>
+        )}
+        {mode === 'register' ? (
+          <span aria-current="true">{t('auth.tab_register')}</span>
+        ) : (
+          <button onClick={() => setMode('register')}>{t('auth.tab_register')}</button>
+        )}
       </div>
       {mode === 'login' ? (
         <LoginForm onSuccess={handleSuccess} />
