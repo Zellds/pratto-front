@@ -21,6 +21,10 @@
 }
 
 @media (max-width: 768px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
   .app-shell-desktop {
     display: none;
   }
