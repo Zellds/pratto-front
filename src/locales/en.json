@@ -75,6 +75,10 @@
     "hero_save": "Save",
     "saved_disabled_hint": "Favorites don't exist in this version yet",
     "discover_title": "Discover",
-    "discover_badge_soon": "Coming soon"
+    "discover_badge_soon": "Coming soon",
+    "chefs_title": "Chefs",
+    "chef_placeholder_name": "Example chef {{n}}",
+    "follow_button": "Follow",
+    "follow_disabled_hint": "Chef listing doesn't exist in this version yet"
   }
 }

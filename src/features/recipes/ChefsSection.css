@@ -1,0 +1,13 @@
+.chefs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.chef-card {
+  background-color: var(--card);
+  border: 1px solid var(--ink-soft);
+  border-radius: 16px;
+  padding: 17px;
+  text-align: center;
+}
