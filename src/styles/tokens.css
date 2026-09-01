@@ -4,16 +4,13 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-body {
   margin: 0;
+  padding: 0;
 }
 
 :root {
   --on-accent: #ffffff;
   --overlay: rgba(0, 0, 0, 0.5);
-  --tint: #f1ede3;
 }
 
 :root[data-theme='light'] {
@@ -23,6 +20,9 @@ body {
   --accent-amber: #c98a2e;
   --ink: #20261f;
   --ink-soft: #5c6157;
+  --line: #e7e1d6;
+  --line-strong: #d3c9b7;
+  --tint: #f1ede3;
 }
 
 :root[data-theme='dark'] {
@@ -32,6 +32,9 @@ body {
   --accent-amber: #e3a63c;
   --ink: #edeae2;
   --ink-soft: #a8a198;
+  --line: #3a342c;
+  --line-strong: #4e4638;
+  --tint: #322c25;
 }
 
 body {
@@ -47,6 +50,10 @@ h4,
 h5,
 h6 {
   font-family: 'Fraunces', serif;
+}
+
+h2 {
+  font-size: 21px;
 }
 
 .sr-only {
