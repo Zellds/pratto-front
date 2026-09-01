@@ -16,8 +16,6 @@
     "log_out": "Log out"
   },
   "pages": {
-    "dashboard": "Dashboard",
-    "recipes": "Recipes",
     "recipe_detail": "Recipe detail",
     "new_recipe": "New recipe",
     "shopping_list": "Shopping list",
