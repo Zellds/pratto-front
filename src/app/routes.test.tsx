@@ -48,7 +48,11 @@ describe('routing', () => {
 
     renderAt('/')
 
-    expect(await screen.findByRole('heading', { name: 'Receitas em destaque' })).toBeInTheDocument()
+    // DashboardPage no longer has a single page-level <h1> title (Task 11 replaced it
+    // with a composition of Hero + section-level <h2>s derived from the recipe list).
+    // With an empty recipe list, Hero/Populares/Descubra don't render, but the
+    // always-present ChefsSection heading confirms DashboardPage rendered.
+    expect(await screen.findByRole('heading', { name: 'Chefs' })).toBeInTheDocument()
   })
 
   it('renders the recipe list page at /receitas', async () => {

@@ -56,7 +56,7 @@
     "generic_error": "Não foi possível conectar, tente novamente."
   },
   "recipes": {
-    "dashboard_title": "Receitas em destaque",
+    "dashboard_title": "Populares",
     "list_title": "Receitas",
     "view_all": "Ver todas",
     "search_label": "Buscar receitas",
