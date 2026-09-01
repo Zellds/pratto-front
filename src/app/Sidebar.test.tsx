@@ -3,10 +3,29 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { Sidebar } from './Sidebar'
 
+const defaultAuthProps = {
+  isAuthenticated: false,
+  displayName: '',
+  onLogIn: vi.fn(),
+  onLogOut: vi.fn(),
+}
+
 function renderSidebar(isCollapsed = false, onToggleCollapse = vi.fn()) {
   return render(
     <MemoryRouter>
-      <Sidebar isCollapsed={isCollapsed} onToggleCollapse={onToggleCollapse} />
+      <Sidebar
+        isCollapsed={isCollapsed}
+        onToggleCollapse={onToggleCollapse}
+        {...defaultAuthProps}
+      />
+    </MemoryRouter>,
+  )
+}
+
+function renderSidebarAt(path: string, isCollapsed = false) {
+  return render(
+    <MemoryRouter initialEntries={[path]}>
+      <Sidebar isCollapsed={isCollapsed} onToggleCollapse={vi.fn()} {...defaultAuthProps} />
     </MemoryRouter>,
   )
 }
@@ -51,7 +70,12 @@ describe('Sidebar', () => {
   it('hides the collapse toggle when showCollapseToggle is false', () => {
     render(
       <MemoryRouter>
-        <Sidebar isCollapsed={false} onToggleCollapse={vi.fn()} showCollapseToggle={false} />
+        <Sidebar
+          isCollapsed={false}
+          onToggleCollapse={vi.fn()}
+          showCollapseToggle={false}
+          {...defaultAuthProps}
+        />
       </MemoryRouter>,
     )
 
@@ -77,5 +101,61 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: /cardápio/i })).toHaveAttribute('href', '/cardapio')
     expect(screen.getByRole('link', { name: /^chefs$/i })).toHaveAttribute('href', '/chefs')
     expect(screen.getByRole('link', { name: /ranking/i })).toHaveAttribute('href', '/ranking')
+  })
+
+  it('marks the link matching the current route as the active page', () => {
+    renderSidebarAt('/receitas')
+
+    expect(screen.getByRole('link', { name: /explorar/i })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('link', { name: /início/i })).not.toHaveAttribute('aria-current')
+  })
+
+  it('marks no link as active on an unmatched route', () => {
+    renderSidebarAt('/categorias')
+
+    expect(screen.getByRole('link', { name: /categorias/i })).toHaveAttribute(
+      'aria-current',
+      'page',
+    )
+  })
+
+  it('shows a log-in prompt in the footer when there is no session', () => {
+    const onLogIn = vi.fn()
+    render(
+      <MemoryRouter>
+        <Sidebar
+          isCollapsed={false}
+          onToggleCollapse={vi.fn()}
+          {...defaultAuthProps}
+          onLogIn={onLogIn}
+        />
+      </MemoryRouter>,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+
+    expect(onLogIn).toHaveBeenCalledOnce()
+  })
+
+  it('shows the display name and a log-out action in the footer when authenticated', () => {
+    const onLogOut = vi.fn()
+    render(
+      <MemoryRouter>
+        <Sidebar
+          isCollapsed={false}
+          onToggleCollapse={vi.fn()}
+          {...defaultAuthProps}
+          isAuthenticated
+          displayName="Gabriel Medeiros"
+          onLogOut={onLogOut}
+        />
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Gabriel Medeiros')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Sair' }))
+
+    expect(onLogOut).toHaveBeenCalledOnce()
   })
 })
