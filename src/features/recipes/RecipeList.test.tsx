@@ -2,6 +2,25 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RecipeList } from './RecipeList'
+import type { Recipe } from './types'
+
+function makeRecipes(count: number): Recipe[] {
+  return Array.from({ length: count }, (_, index) => ({
+    id: `${index + 1}`,
+    ownerId: 'o1',
+    title: `Receita ${index + 1}`,
+    description: '',
+    portions: 4,
+    prepTimeMinutes: 30,
+    status: 'published',
+    coverMediaId: null,
+    rejectionReason: null,
+    averageRating: null,
+    ratingsCount: 0,
+    ingredients: [],
+    steps: [],
+  }))
+}
 
 function renderRecipeList(props: { showSearch?: boolean; showPagination?: boolean } = {}) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
@@ -97,9 +116,11 @@ describe('RecipeList', () => {
   })
 
   it('navigates pagination with the previous/next buttons', async () => {
-    const mockFetch = vi
-      .fn()
-      .mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) })
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(makeRecipes(20)),
+    })
     vi.stubGlobal('fetch', mockFetch)
 
     renderRecipeList({ showPagination: true })
@@ -113,5 +134,18 @@ describe('RecipeList', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Anterior' }))
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
     expect(mockFetch.mock.calls[2][0]).toContain('page=1')
+  })
+
+  it('disables the next button when the current page has fewer than 20 results', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(makeRecipes(5)),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderRecipeList({ showPagination: true })
+
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Próxima' })).toBeDisabled())
   })
 })

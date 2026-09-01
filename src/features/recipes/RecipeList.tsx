@@ -60,7 +60,10 @@ export function RecipeList({ showSearch = false, showPagination = false }: Recip
           >
             {t('recipes.previous_page')}
           </button>
-          <button onClick={() => setPage((current) => current + 1)}>
+          <button
+            onClick={() => setPage((current) => current + 1)}
+            disabled={!!query.data && query.data.length < 20}
+          >
             {t('recipes.next_page')}
           </button>
         </div>
