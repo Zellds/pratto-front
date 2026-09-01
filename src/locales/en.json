@@ -1,0 +1,55 @@
+{
+  "nav": {
+    "recipes": "Recipes",
+    "shopping_list": "Shopping list",
+    "pantry": "Pantry",
+    "weekly_menu": "Weekly menu",
+    "chat": "Chat"
+  },
+  "common": {
+    "under_construction": "Under construction.",
+    "toggle_theme": "Toggle theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light",
+    "toggle_language": "Toggle language",
+    "log_in": "Log in",
+    "log_out": "Log out"
+  },
+  "pages": {
+    "dashboard": "Dashboard",
+    "recipes": "Recipes",
+    "recipe_detail": "Recipe detail",
+    "new_recipe": "New recipe",
+    "shopping_list": "Shopping list",
+    "pantry": "Pantry",
+    "weekly_menu": "Weekly menu",
+    "chat": "AI chat",
+    "profile": "Profile",
+    "recipe_book": "Recipe book"
+  },
+  "auth": {
+    "tab_login": "Log in",
+    "tab_register": "Create account",
+    "username_label": "Username",
+    "password_label": "Password",
+    "display_name_label": "Display name",
+    "login_submit": "Log in",
+    "register_submit": "Create account",
+    "generic_error": "Could not connect, please try again."
+  },
+  "recipes": {
+    "dashboard_title": "Featured recipes",
+    "list_title": "Recipes",
+    "view_all": "View all",
+    "search_label": "Search recipes",
+    "loading": "Loading...",
+    "error": "Could not load recipes.",
+    "empty": "No recipes found.",
+    "previous_page": "Previous",
+    "next_page": "Next",
+    "pending_review_badge": "Under review",
+    "prep_time": "{{minutes}} min prep time",
+    "average_rating": "Rating {{rating}}",
+    "no_ratings": "No ratings yet"
+  }
+}

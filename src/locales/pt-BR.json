@@ -1,0 +1,55 @@
+{
+  "nav": {
+    "recipes": "Receitas",
+    "shopping_list": "Lista de compras",
+    "pantry": "Despensa",
+    "weekly_menu": "Cardápio",
+    "chat": "Chat"
+  },
+  "common": {
+    "under_construction": "Em construção.",
+    "toggle_theme": "Alternar tema",
+    "theme_dark": "Escuro",
+    "theme_light": "Claro",
+    "toggle_language": "Alternar idioma",
+    "log_in": "Entrar",
+    "log_out": "Sair"
+  },
+  "pages": {
+    "dashboard": "Dashboard",
+    "recipes": "Receitas",
+    "recipe_detail": "Detalhe da receita",
+    "new_recipe": "Nova receita",
+    "shopping_list": "Lista de compras",
+    "pantry": "Despensa",
+    "weekly_menu": "Cardápio semanal",
+    "chat": "Chat IA",
+    "profile": "Perfil",
+    "recipe_book": "Livro de receitas"
+  },
+  "auth": {
+    "tab_login": "Entrar",
+    "tab_register": "Criar conta",
+    "username_label": "Usuário",
+    "password_label": "Senha",
+    "display_name_label": "Nome de exibição",
+    "login_submit": "Entrar",
+    "register_submit": "Criar conta",
+    "generic_error": "Não foi possível conectar, tente novamente."
+  },
+  "recipes": {
+    "dashboard_title": "Receitas em destaque",
+    "list_title": "Receitas",
+    "view_all": "Ver todas",
+    "search_label": "Buscar receitas",
+    "loading": "Carregando...",
+    "error": "Não foi possível carregar as receitas.",
+    "empty": "Nenhuma receita encontrada.",
+    "previous_page": "Anterior",
+    "next_page": "Próxima",
+    "pending_review_badge": "Em revisão",
+    "prep_time": "{{minutes}} min de preparo",
+    "average_rating": "Nota {{rating}}",
+    "no_ratings": "Sem avaliações ainda"
+  }
+}
