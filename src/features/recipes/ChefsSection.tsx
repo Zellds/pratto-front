@@ -2,13 +2,17 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '../../shared/ui/Button'
 import './ChefsSection.css'
 
-const PLACEHOLDER_CHEF_NUMBERS = [1, 2, 3]
+const PLACEHOLDER_CHEFS = [
+  { n: 1, initials: 'C1' },
+  { n: 2, initials: 'C2' },
+  { n: 3, initials: 'C3' },
+]
 
 export function ChefsSection() {
   const { t } = useTranslation()
 
   return (
-    <section>
+    <section className="sec">
       <h2>{t('recipes.chefs_title')}</h2>
       {/*
         Não existe endpoint de listagem/ranking de usuários no backend
@@ -17,8 +21,11 @@ export function ChefsSection() {
         botão "Seguir" desabilitado, até essa feature existir de verdade.
       */}
       <div className="chefs-grid">
-        {PLACEHOLDER_CHEF_NUMBERS.map((n) => (
+        {PLACEHOLDER_CHEFS.map(({ n, initials }) => (
           <div className="chef-card" key={n}>
+            <div className="chef-avatar" aria-hidden="true">
+              {initials}
+            </div>
             <p>{t('recipes.chef_placeholder_name', { n })}</p>
             <Button variant="secondary" disabled title={t('recipes.follow_disabled_hint')}>
               {t('recipes.follow_button')}

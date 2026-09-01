@@ -77,4 +77,18 @@ describe('RecipeCard', () => {
 
     expect(screen.getByText('por Marina Alves')).toBeInTheDocument()
   })
+
+  it('shows a rank badge and a disabled save button when rank is given', () => {
+    render(<RecipeCard recipe={baseRecipe} rank={2} />)
+
+    expect(screen.getByText('#2')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeDisabled()
+  })
+
+  it('does not show a rank badge or save button without a rank', () => {
+    render(<RecipeCard recipe={baseRecipe} />)
+
+    expect(screen.queryByText(/^#\d+$/)).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Salvar' })).not.toBeInTheDocument()
+  })
 })

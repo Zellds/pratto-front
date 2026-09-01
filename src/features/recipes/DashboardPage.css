@@ -5,3 +5,56 @@
   list-style: none;
   padding: 0;
 }
+
+.sec {
+  margin-bottom: 34px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.link {
+  margin-left: auto;
+  color: var(--accent-green);
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.link::after {
+  content: ' \2192';
+}
+
+.section-tabs {
+  display: flex;
+  gap: 3px;
+  background-color: var(--tint);
+  padding: 3px;
+  border-radius: 9px;
+}
+
+.section-tab {
+  border: none;
+  background: transparent;
+  padding: 5px 12px;
+  border-radius: 7px;
+  font-family: 'Karla', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  cursor: not-allowed;
+  white-space: nowrap;
+}
+
+.section-tab.active {
+  background-color: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+}

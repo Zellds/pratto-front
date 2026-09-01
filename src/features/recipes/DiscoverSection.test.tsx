@@ -45,4 +45,13 @@ describe('DiscoverSection', () => {
 
     expect(screen.getAllByText('Em breve').length).toBeGreaterThan(0)
   })
+
+  it('shows the sorting tabs and refresh control as disabled', () => {
+    renderSection()
+
+    expect(screen.getByRole('button', { name: 'pra você' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'em ascensão' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'surpreenda-me' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Atualizar' })).toBeDisabled()
+  })
 })
