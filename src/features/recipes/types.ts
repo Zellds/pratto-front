@@ -15,12 +15,16 @@ export type RecipeStatus = 'draft' | 'pending_review' | 'published' | 'rejected'
 export type Recipe = {
   id: string
   ownerId: string
+  ownerUsername: string | null
+  ownerDisplayName: string | null
   title: string
   description: string
   portions: number
   prepTimeMinutes: number
   status: RecipeStatus
   coverMediaId: string | null
+  coverThumbnailUrl: string | null
+  coverDisplayUrl: string | null
   rejectionReason: string | null
   averageRating: number | null
   ratingsCount: number

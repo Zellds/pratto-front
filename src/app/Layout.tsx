@@ -8,6 +8,7 @@ import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 
 type MeResponse = {
+  username: string
   displayName: string
 }
 
