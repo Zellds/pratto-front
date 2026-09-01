@@ -12,6 +12,7 @@ body {
 
 :root {
   --on-accent: #ffffff;
+  --overlay: rgba(0, 0, 0, 0.5);
 }
 
 :root[data-theme='light'] {
