@@ -19,8 +19,11 @@ type ApiFetchOptions = {
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const baseUrl = import.meta.env.VITE_API_URL
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
+  }
+
+  if (options.body !== undefined) {
+    headers['Content-Type'] = 'application/json'
   }
 
   if (options.token) {
