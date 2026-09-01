@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from './Layout'
@@ -128,5 +128,21 @@ describe('Layout', () => {
     renderWithRouter('/')
 
     expect(await screen.findByRole('button', { name: 'Entrar' })).toBeInTheDocument()
+  })
+
+  it('keeps the session when the /me request fails for a reason other than 401', async () => {
+    localStorage.setItem('pratto-token', 'abc123')
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: () => Promise.resolve({ message: 'Server error' }),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderWithRouter('/')
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalled())
+    expect(screen.queryByRole('button', { name: 'Entrar' })).not.toBeInTheDocument()
+    expect(localStorage.getItem('pratto-token')).toBe('abc123')
   })
 })

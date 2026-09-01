@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { useTheme } from './ThemeProvider'
 import { useAuth } from './AuthProvider'
-import { apiFetch } from '../shared/api/client'
+import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 
 type MeResponse = {
@@ -25,10 +25,10 @@ export function Layout() {
   })
 
   useEffect(() => {
-    if (meQuery.isError) {
+    if (meQuery.error instanceof ApiError && meQuery.error.status === 401) {
       clearToken()
     }
-  }, [meQuery.isError, clearToken])
+  }, [meQuery.error, clearToken])
 
   function toggleLanguage() {
     i18n.changeLanguage(i18n.resolvedLanguage === 'pt-BR' ? 'en' : 'pt-BR')
