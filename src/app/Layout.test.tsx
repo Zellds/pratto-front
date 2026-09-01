@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from './Layout'
@@ -144,5 +144,37 @@ describe('Layout', () => {
     await waitFor(() => expect(mockFetch).toHaveBeenCalled())
     expect(screen.queryByRole('button', { name: 'Entrar' })).not.toBeInTheDocument()
     expect(localStorage.getItem('pratto-token')).toBe('abc123')
+  })
+
+  it('persists the sidebar collapse state to localStorage', () => {
+    renderWithRouter('/')
+
+    // O sheet mobile só entra no DOM depois de "Abrir menu" (renderização
+    // condicional) — nestes dois testes ele nunca abre, então só existe uma
+    // sidebar (a desktop) no DOM, `getByRole` singular funciona normalmente.
+    fireEvent.click(screen.getByRole('button', { name: 'Recolher menu' }))
+
+    expect(localStorage.getItem('pratto-sidebar-collapsed')).toBe('true')
+    expect(screen.getByRole('button', { name: 'Expandir menu' })).toBeInTheDocument()
+  })
+
+  it('restores a previously-collapsed sidebar on mount', () => {
+    localStorage.setItem('pratto-sidebar-collapsed', 'true')
+
+    renderWithRouter('/')
+
+    expect(screen.getByRole('button', { name: 'Expandir menu' })).toBeInTheDocument()
+  })
+
+  it('opens the full-screen mobile menu sheet', () => {
+    renderWithRouter('/')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }))
+
+    // A partir daqui a sidebar desktop E a do sheet mobile coexistem no DOM
+    // (só uma escondida via CSS, que o jsdom não aplica) — escopar a busca
+    // dentro do próprio `role="dialog"` do sheet evita a ambiguidade.
+    const sheet = screen.getByRole('dialog')
+    expect(within(sheet).getByRole('link', { name: /categorias/i })).toBeInTheDocument()
   })
 })

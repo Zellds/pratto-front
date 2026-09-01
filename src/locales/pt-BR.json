@@ -26,7 +26,9 @@
     "collapse_sidebar": "Recolher menu",
     "expand_sidebar": "Expandir menu",
     "open_menu": "Abrir menu",
-    "close_menu": "Fechar menu"
+    "close_menu": "Fechar menu",
+    "profile": "Perfil",
+    "menu": "Menu"
   },
   "pages": {
     "recipe_detail": "Detalhe da receita",
