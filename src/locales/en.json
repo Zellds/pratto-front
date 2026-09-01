@@ -56,7 +56,7 @@
     "generic_error": "Could not connect, please try again."
   },
   "recipes": {
-    "dashboard_title": "Featured recipes",
+    "dashboard_title": "Popular",
     "list_title": "Recipes",
     "view_all": "View all",
     "search_label": "Search recipes",
