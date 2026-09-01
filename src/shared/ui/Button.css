@@ -13,7 +13,7 @@
 
 .button-primary {
   background-color: var(--accent-green);
-  color: #ffffff;
+  color: var(--on-accent);
 }
 
 .button-secondary {

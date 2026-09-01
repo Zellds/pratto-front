@@ -10,6 +10,10 @@ body {
   margin: 0;
 }
 
+:root {
+  --on-accent: #ffffff;
+}
+
 :root[data-theme='light'] {
   --bg: #faf7f0;
   --card: #ffffff;
