@@ -33,11 +33,16 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
   })
 
-  const data = await response.json()
-
   if (!response.ok) {
-    throw new ApiError(response.status, data.message ?? 'Request failed')
+    let message = 'Request failed'
+    try {
+      const data = await response.json()
+      message = data.message ?? message
+    } catch {
+      // error body wasn't valid JSON (e.g. an HTML error page from a proxy) — keep the generic message
+    }
+    throw new ApiError(response.status, message)
   }
 
-  return data as T
+  return (await response.json()) as T
 }
