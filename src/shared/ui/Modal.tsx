@@ -6,9 +6,16 @@ type ModalProps = {
   onClose: () => void
   children: ReactNode
   ariaLabelledBy?: string
+  fullScreen?: boolean
 }
 
-export function Modal({ isOpen, onClose, children, ariaLabelledBy }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+  ariaLabelledBy,
+  fullScreen = false,
+}: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null)
   const previouslyFocusedElementRef = useRef<HTMLElement | null>(null)
 
@@ -47,7 +54,7 @@ export function Modal({ isOpen, onClose, children, ariaLabelledBy }: ModalProps)
     <div className="modal-overlay" data-testid="modal-overlay" onClick={handleOverlayClick}>
       <div
         ref={panelRef}
-        className="modal-panel"
+        className={`modal-panel${fullScreen ? ' modal-panel-fullscreen' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={ariaLabelledBy}
