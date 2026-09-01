@@ -130,3 +130,70 @@ export function CollapseIcon({ size = 15 }: IconProps) {
     </svg>
   )
 }
+
+export function SearchIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" {...commonProps} aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  )
+}
+
+export function NotificationIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" {...commonProps} aria-hidden="true">
+      <path d="M18 8.5a6 6 0 1 0-12 0c0 5-2 6.5-2 6.5h16s-2-1.5-2-6.5z" />
+      <path d="M10.3 19a2 2 0 0 0 3.4 0" />
+    </svg>
+  )
+}
+
+export function PlusIcon({ size = 17 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      {...commonProps}
+      strokeWidth={2}
+      aria-hidden="true"
+    >
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  )
+}
+
+export function ThemeIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" {...commonProps} aria-hidden="true">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function FlagBrazilIcon({ size = 18 }: IconProps) {
+  const height = Math.round((size * 14) / 20)
+  return (
+    <svg width={size} height={height} viewBox="0 0 20 14" aria-hidden="true">
+      <rect width="20" height="14" rx="2" fill="#2e7d32" />
+      <polygon points="10,2 18,7 10,12 2,7" fill="#fdd835" />
+      <circle cx="10" cy="7" r="3" fill="#1565c0" />
+    </svg>
+  )
+}
+
+export function FlagUnitedStatesIcon({ size = 18 }: IconProps) {
+  const height = Math.round((size * 14) / 20)
+  return (
+    <svg width={size} height={height} viewBox="0 0 20 14" aria-hidden="true">
+      <rect width="20" height="14" rx="2" fill="#b22234" />
+      <rect y="2" width="20" height="1.4" fill="#ffffff" />
+      <rect y="4.8" width="20" height="1.4" fill="#ffffff" />
+      <rect y="7.6" width="20" height="1.4" fill="#ffffff" />
+      <rect y="10.4" width="20" height="1.4" fill="#ffffff" />
+      <rect width="9" height="7.5" rx="1" fill="#3c3b6e" />
+    </svg>
+  )
+}
