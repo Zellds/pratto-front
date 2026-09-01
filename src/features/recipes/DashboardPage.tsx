@@ -32,6 +32,8 @@ export function DashboardPage() {
 
   return (
     <div>
+      <h1 className="sr-only">{t('recipes.dashboard_page_title')}</h1>
+
       {query.isLoading && <p>{t('recipes.loading')}</p>}
       {query.isError && <p role="alert">{t('recipes.error')}</p>}
       {query.data && query.data.length === 0 && <p>{t('recipes.empty')}</p>}
