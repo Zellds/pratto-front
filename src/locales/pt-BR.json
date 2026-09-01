@@ -16,8 +16,6 @@
     "log_out": "Sair"
   },
   "pages": {
-    "dashboard": "Dashboard",
-    "recipes": "Receitas",
     "recipe_detail": "Detalhe da receita",
     "new_recipe": "Nova receita",
     "shopping_list": "Lista de compras",
