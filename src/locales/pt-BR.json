@@ -79,6 +79,9 @@
     "chefs_title": "Chefs",
     "chef_placeholder_name": "Chef exemplo {{n}}",
     "follow_button": "Seguir",
-    "follow_disabled_hint": "Listagem de chefs ainda não existe nesta versão"
+    "follow_disabled_hint": "Listagem de chefs ainda não existe nesta versão",
+    "feed_title": "De quem você segue",
+    "feed_empty_logged_out": "Entre pra ver as receitas de quem você segue.",
+    "feed_empty_no_follows": "Você ainda não segue ninguém."
   }
 }
