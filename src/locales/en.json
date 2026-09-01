@@ -69,6 +69,10 @@
     "prep_time": "{{minutes}} min prep time",
     "average_rating": "Rating {{rating}}",
     "no_ratings": "No ratings yet",
-    "by_author": "by {{name}}"
+    "by_author": "by {{name}}",
+    "hero_tag": "Featured this week",
+    "hero_view": "View recipe",
+    "hero_save": "Save",
+    "saved_disabled_hint": "Favorites don't exist in this version yet"
   }
 }
