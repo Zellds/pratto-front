@@ -57,4 +57,25 @@ describe('Sidebar', () => {
 
     expect(screen.queryByRole('button', { name: 'Recolher menu' })).not.toBeInTheDocument()
   })
+
+  it('keeps every navigation link accessible by name when collapsed', () => {
+    renderSidebar(true)
+
+    expect(screen.getByRole('link', { name: /início/i })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: /explorar/i })).toHaveAttribute('href', '/receitas')
+    expect(screen.getByRole('link', { name: /categorias/i })).toHaveAttribute('href', '/categorias')
+    expect(screen.getByRole('link', { name: /salvos/i })).toHaveAttribute('href', '/salvos')
+    expect(screen.getByRole('link', { name: /minhas receitas/i })).toHaveAttribute(
+      'href',
+      '/minhas-receitas',
+    )
+    expect(screen.getByRole('link', { name: /despensa/i })).toHaveAttribute('href', '/despensa')
+    expect(screen.getByRole('link', { name: /lista de compras/i })).toHaveAttribute(
+      'href',
+      '/lista-de-compras',
+    )
+    expect(screen.getByRole('link', { name: /cardápio/i })).toHaveAttribute('href', '/cardapio')
+    expect(screen.getByRole('link', { name: /^chefs$/i })).toHaveAttribute('href', '/chefs')
+    expect(screen.getByRole('link', { name: /ranking/i })).toHaveAttribute('href', '/ranking')
+  })
 })
