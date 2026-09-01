@@ -6,6 +6,7 @@ import { useTheme } from './ThemeProvider'
 import { useAuth } from './AuthProvider'
 import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
+import { Modal } from '../shared/ui/Modal'
 import { Sidebar } from './Sidebar'
 import './Layout.css'
 
@@ -97,14 +98,18 @@ export function Layout() {
         </main>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="app-mobile-sheet" role="dialog" aria-modal="true">
-          <button onClick={() => setIsMobileMenuOpen(false)} aria-label={t('common.close_menu')}>
-            {t('common.close_menu')}
-          </button>
-          <Sidebar isCollapsed={false} onToggleCollapse={() => {}} showCollapseToggle={false} />
-        </div>
-      )}
+      <Modal
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        fullScreen
+        ariaLabelledBy="mobile-menu-heading"
+      >
+        <button onClick={() => setIsMobileMenuOpen(false)} aria-label={t('common.close_menu')}>
+          {t('common.close_menu')}
+        </button>
+        <h2 id="mobile-menu-heading">{t('common.menu')}</h2>
+        <Sidebar isCollapsed={false} onToggleCollapse={() => {}} showCollapseToggle={false} />
+      </Modal>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
