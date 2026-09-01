@@ -54,4 +54,27 @@ describe('RecipeCard', () => {
 
     expect(screen.queryByText('Em revisão')).not.toBeInTheDocument()
   })
+
+  it('renders the cover photo when coverThumbnailUrl is present', () => {
+    render(
+      <RecipeCard recipe={{ ...baseRecipe, coverThumbnailUrl: 'https://example.com/thumb.jpg' }} />,
+    )
+
+    expect(screen.getByRole('img', { name: 'Bolo de cenoura' })).toHaveAttribute(
+      'src',
+      'https://example.com/thumb.jpg',
+    )
+  })
+
+  it('shows a placeholder when there is no cover photo', () => {
+    render(<RecipeCard recipe={baseRecipe} />)
+
+    expect(screen.queryByRole('img')).not.toBeInTheDocument()
+  })
+
+  it('shows the author byline when the owner display name is known', () => {
+    render(<RecipeCard recipe={{ ...baseRecipe, ownerDisplayName: 'Marina Alves' }} />)
+
+    expect(screen.getByText('por Marina Alves')).toBeInTheDocument()
+  })
 })
