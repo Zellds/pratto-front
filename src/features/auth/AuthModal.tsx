@@ -21,15 +21,19 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} ariaLabelledBy="auth-modal-title">
       <div>
         {mode === 'login' ? (
-          <span aria-current="true">{t('auth.tab_login')}</span>
+          <span id="auth-modal-title" aria-current="true">
+            {t('auth.tab_login')}
+          </span>
         ) : (
           <button onClick={() => setMode('login')}>{t('auth.tab_login')}</button>
         )}
         {mode === 'register' ? (
-          <span aria-current="true">{t('auth.tab_register')}</span>
+          <span id="auth-modal-title" aria-current="true">
+            {t('auth.tab_register')}
+          </span>
         ) : (
           <button onClick={() => setMode('register')}>{t('auth.tab_register')}</button>
         )}
