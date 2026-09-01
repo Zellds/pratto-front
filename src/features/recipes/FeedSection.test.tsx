@@ -34,6 +34,31 @@ describe('FeedSection', () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
+  it('shows a loading state while the feed request is in flight', () => {
+    localStorage.setItem('pratto-token', 'abc123')
+    vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})))
+
+    renderFeedSection()
+
+    expect(screen.getByText('Carregando...')).toBeInTheDocument()
+  })
+
+  it('shows an error message when the feed request fails', async () => {
+    localStorage.setItem('pratto-token', 'abc123')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: () => Promise.resolve({ message: 'Server error' }),
+      }),
+    )
+
+    renderFeedSection()
+
+    expect(await screen.findByRole('alert')).toBeInTheDocument()
+  })
+
   it('shows a no-follows empty state when logged in but the feed is empty', async () => {
     localStorage.setItem('pratto-token', 'abc123')
     vi.stubGlobal(
