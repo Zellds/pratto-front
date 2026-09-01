@@ -1,9 +1,16 @@
 .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-family: 'Karla', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
+  border-radius: 11px;
+  padding: 10px 16px;
   cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .button:disabled {
@@ -19,5 +26,5 @@
 .button-secondary {
   background-color: transparent;
   color: var(--ink);
-  border: 1px solid var(--ink-soft);
+  border: 1px solid var(--line-strong);
 }

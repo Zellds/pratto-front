@@ -1,6 +1,23 @@
 .card {
   background-color: var(--card);
   color: var(--ink);
-  border-radius: 8px;
-  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: var(--accent-green);
+}
+
+.card-body {
+  padding: 13px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card h3 {
+  font-size: 16.5px;
+  line-height: 1.3;
 }
