@@ -45,6 +45,17 @@ describe('DashboardPage', () => {
     vi.unstubAllGlobals()
   })
 
+  it('has a page heading for the document outline', () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) }),
+    )
+
+    renderDashboard()
+
+    expect(screen.getByRole('heading', { name: 'Dashboard', level: 1 })).toBeInTheDocument()
+  })
+
   it('shows the highest-rated recipe as the hero and the rest split across sections', async () => {
     const recipes = [
       makeRecipe('1', 3.0),
