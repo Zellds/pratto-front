@@ -8,6 +8,14 @@ import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 import { Modal } from '../shared/ui/Modal'
 import { Sidebar } from './Sidebar'
+import {
+  SearchIcon,
+  NotificationIcon,
+  PlusIcon,
+  ThemeIcon,
+  FlagBrazilIcon,
+  FlagUnitedStatesIcon,
+} from '../shared/ui/icons'
 import './Layout.css'
 
 type MeResponse = {
@@ -63,35 +71,68 @@ export function Layout() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${isSidebarCollapsed ? ' app-shell-collapsed' : ''}`}>
       <div className="app-shell-desktop">
-        <Sidebar isCollapsed={isSidebarCollapsed} onToggleCollapse={toggleSidebarCollapse} />
+        <Sidebar
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={toggleSidebarCollapse}
+          isAuthenticated={!!token}
+          displayName={meQuery.data?.displayName ?? ''}
+          onLogIn={() => setIsAuthModalOpen(true)}
+          onLogOut={clearToken}
+        />
       </div>
 
       <div className="app-shell-main">
         <header className="app-topbar">
-          <Link to="/">Pratto</Link>
-          <button onClick={toggleTheme} aria-label={t('common.toggle_theme')}>
-            {theme === 'light' ? t('common.theme_dark') : t('common.theme_light')}
-          </button>
-          <button onClick={toggleLanguage} aria-label={t('common.toggle_language')}>
-            {i18n.resolvedLanguage === 'pt-BR' ? 'EN' : 'PT'}
-          </button>
-          {token ? (
-            <>
-              <span>{meQuery.data?.displayName ?? ''}</span>
-              <button onClick={clearToken}>{t('common.log_out')}</button>
-            </>
-          ) : (
-            <button onClick={() => setIsAuthModalOpen(true)}>{t('common.log_in')}</button>
-          )}
-          <button
-            className="app-mobile-menu-button"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label={t('common.open_menu')}
-          >
-            {t('common.menu')}
-          </button>
+          <div className="app-topbar-lead">
+            <Link to="/" className="app-brand-mobile" aria-label="Pratto">
+              Prat<span className="brand-accent">to</span>
+            </Link>
+          </div>
+
+          <div className="app-search" aria-hidden="true">
+            <SearchIcon />
+            {t('common.search_placeholder')}
+          </div>
+
+          <div className="app-topbar-tools">
+            <button
+              onClick={toggleTheme}
+              aria-label={t('common.toggle_theme')}
+              title={theme === 'light' ? t('common.theme_dark') : t('common.theme_light')}
+              className="app-icon-button"
+            >
+              <ThemeIcon />
+            </button>
+            <button
+              onClick={toggleLanguage}
+              aria-label={t('common.toggle_language')}
+              title={i18n.resolvedLanguage === 'pt-BR' ? 'English' : 'Português'}
+              className="app-icon-button"
+            >
+              {i18n.resolvedLanguage === 'pt-BR' ? <FlagUnitedStatesIcon /> : <FlagBrazilIcon />}
+            </button>
+            <button
+              disabled
+              aria-label={t('common.notifications')}
+              title={t('common.notifications_disabled_hint')}
+              className="app-icon-button"
+            >
+              <NotificationIcon />
+            </button>
+            <Link to="/nova-receita" className="button button-primary">
+              <PlusIcon />
+              {t('common.new_recipe')}
+            </Link>
+            <button
+              className="app-mobile-menu-button"
+              onClick={() => setIsMobileMenuOpen(true)}
+              aria-label={t('common.open_menu')}
+            >
+              {t('common.menu')}
+            </button>
+          </div>
         </header>
         <main>
           <Outlet />
@@ -108,7 +149,15 @@ export function Layout() {
           {t('common.close_menu')}
         </button>
         <h2 id="mobile-menu-heading">{t('common.menu')}</h2>
-        <Sidebar isCollapsed={false} onToggleCollapse={() => {}} showCollapseToggle={false} />
+        <Sidebar
+          isCollapsed={false}
+          onToggleCollapse={() => {}}
+          showCollapseToggle={false}
+          isAuthenticated={!!token}
+          displayName={meQuery.data?.displayName ?? ''}
+          onLogIn={() => setIsAuthModalOpen(true)}
+          onLogOut={clearToken}
+        />
       </Modal>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />

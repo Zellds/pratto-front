@@ -2,22 +2,104 @@
   display: grid;
   grid-template-columns: 216px minmax(0, 1fr);
   min-height: 100vh;
+  transition: grid-template-columns 0.18s ease;
+}
+
+.app-shell.app-shell-collapsed {
+  grid-template-columns: 72px minmax(0, 1fr);
 }
 
 .app-shell-main {
   min-width: 0;
 }
 
+.app-shell-main main {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 24px 30px 48px;
+}
+
 .app-topbar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--ink-soft);
+  gap: 16px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-topbar-lead {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.app-brand-mobile {
+  display: none;
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent-green);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-accent {
+  color: var(--accent-amber);
+}
+
+.app-search {
+  flex: 0 1 440px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background-color: var(--tint);
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  padding: 9px 13px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.app-topbar-tools {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.app-icon-button {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background-color: var(--card);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.app-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .app-mobile-menu-button {
   display: none;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  font-size: 13px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background-color: var(--card);
+  color: var(--ink-soft);
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -27,6 +109,18 @@
 
   .app-shell-desktop {
     display: none;
+  }
+
+  .app-topbar-lead {
+    flex: 0 0 auto;
+  }
+
+  .app-search {
+    display: none;
+  }
+
+  .app-brand-mobile {
+    display: inline-flex;
   }
 
   .app-mobile-menu-button {
