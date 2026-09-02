@@ -154,6 +154,8 @@
     "validation_portions_min": "Servings must be at least 1.",
     "validation_prep_time_min": "Prep time must be at least 1 minute.",
     "validation_ingredients_min": "Add at least 1 ingredient.",
-    "validation_steps_min": "Add at least 1 step."
+    "validation_steps_min": "Add at least 1 step.",
+    "validation_ingredient_incomplete": "Fill in the name and quantity for every ingredient.",
+    "validation_step_incomplete": "Fill in the instruction for every step."
   }
 }

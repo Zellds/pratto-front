@@ -2,7 +2,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter, Route, Routes } from 'react-router'
-import { AuthProvider } from '@/providers/AuthProvider'
+import { AuthProvider, useAuth } from '@/providers/AuthProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
+import { AuthModal } from '@/features/auth/components/AuthModal'
 import { RecipeFormPage } from './RecipeFormPage'
 
 function renderPage(initialPath = '/nova-receita') {
@@ -133,5 +135,129 @@ describe('RecipeFormPage', () => {
 
     expect(await screen.findByDisplayValue('Bolo existente')).toBeInTheDocument()
     expect(screen.getByDisplayValue('Um passo salvo.')).toBeInTheDocument()
+  })
+
+  it('shows a validation error and does not submit when an ingredient row is missing its quantity', () => {
+    vi.stubGlobal('fetch', vi.fn())
+    renderPage()
+
+    fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Bolo' } })
+    fireEvent.change(screen.getByLabelText('Descrição'), { target: { value: 'Um bolo qualquer' } })
+    fireEvent.change(screen.getByLabelText('Ingrediente'), { target: { value: 'Cenoura' } })
+    fireEvent.change(screen.getByLabelText('Instrução'), { target: { value: 'Bata tudo.' } })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    expect(
+      screen.getByText('Preencha o nome e a quantidade de todos os ingredientes.'),
+    ).toBeInTheDocument()
+  })
+
+  it('shows a validation error and does not submit when an ingredient row is missing its name', () => {
+    vi.stubGlobal('fetch', vi.fn())
+    renderPage()
+
+    fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Bolo' } })
+    fireEvent.change(screen.getByLabelText('Descrição'), { target: { value: 'Um bolo qualquer' } })
+    fireEvent.change(screen.getByLabelText('Quantidade'), { target: { value: '3' } })
+    fireEvent.change(screen.getByLabelText('Instrução'), { target: { value: 'Bata tudo.' } })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    expect(
+      screen.getByText('Preencha o nome e a quantidade de todos os ingredientes.'),
+    ).toBeInTheDocument()
+  })
+
+  it('shows a validation error and does not submit when a step row is left blank', () => {
+    vi.stubGlobal('fetch', vi.fn())
+    renderPage()
+
+    fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Bolo' } })
+    fireEvent.change(screen.getByLabelText('Descrição'), { target: { value: 'Um bolo qualquer' } })
+    fireEvent.change(screen.getByLabelText('Ingrediente'), { target: { value: 'Cenoura' } })
+    fireEvent.change(screen.getByLabelText('Quantidade'), { target: { value: '3' } })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    expect(screen.getByText('Preencha a instrução de todos os passos.')).toBeInTheDocument()
+  })
+
+  it('opens the login modal on submit when logged out, and resumes publishing with the fresh login token once logged in', async () => {
+    const mockFetch = vi.fn(
+      (url: string, init?: { method?: string; headers?: Record<string, string> }) => {
+        if (url.includes('/login')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({ token: 'fresh-login-token' }),
+          })
+        }
+        if (init?.method === 'POST' && url.endsWith('/recipes')) {
+          return Promise.resolve({
+            ok: true,
+            status: 201,
+            json: () => Promise.resolve({ id: 'r1', title: 'Bolo', status: 'draft' }),
+          })
+        }
+        if (init?.method === 'POST' && url.includes('/recipes/r1/publish')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({ id: 'r1', title: 'Bolo', status: 'pending_review' }),
+          })
+        }
+        return Promise.reject(new Error(`unexpected request: ${url}`))
+      },
+    )
+    vi.stubGlobal('fetch', mockFetch)
+
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+
+    function Wrapper() {
+      const { isAuthModalOpen, closeAuthModal } = useAuth()
+      return (
+        <>
+          <RecipeFormPage />
+          <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
+        </>
+      )
+    }
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <ToastProvider>
+          <AuthProvider>
+            <MemoryRouter initialEntries={['/nova-receita']}>
+              <Routes>
+                <Route path="/nova-receita" element={<Wrapper />} />
+                <Route path="/receitas/:id" element={<div>detail page</div>} />
+              </Routes>
+            </MemoryRouter>
+          </AuthProvider>
+        </ToastProvider>
+      </QueryClientProvider>,
+    )
+
+    fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Bolo' } })
+    fireEvent.change(screen.getByLabelText('Descrição'), { target: { value: 'Um bolo qualquer' } })
+    fireEvent.change(screen.getByLabelText('Ingrediente'), { target: { value: 'Cenoura' } })
+    fireEvent.change(screen.getByLabelText('Quantidade'), { target: { value: '3' } })
+    fireEvent.change(screen.getByLabelText('Instrução'), { target: { value: 'Bata tudo.' } })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    // Logged out: submit must not fire any request — the login modal opens instead.
+    expect(mockFetch).not.toHaveBeenCalled()
+
+    fireEvent.change(screen.getByLabelText('Usuário'), { target: { value: 'gabriel' } })
+    fireEvent.change(screen.getByLabelText('Senha'), { target: { value: 'secret123' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+
+    await waitFor(() => expect(screen.getByText('detail page')).toBeInTheDocument())
+
+    const createCall = mockFetch.mock.calls.find(([url]) => (url as string).endsWith('/recipes'))!
+    const [, init] = createCall
+    expect(init!.headers!.Authorization).toBe('Bearer fresh-login-token')
   })
 })

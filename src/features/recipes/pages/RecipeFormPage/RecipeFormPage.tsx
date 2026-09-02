@@ -19,7 +19,7 @@ export function RecipeFormPage() {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { token } = useAuth()
+  const { token, openAuthModal } = useAuth()
   const isEditing = !!id
   const formId = useId()
 
@@ -63,11 +63,11 @@ export function RecipeFormPage() {
   }
 
   const publishMutation = useMutation({
-    mutationFn: async (payload: RecipePayload) => {
+    mutationFn: async ({ payload, authToken }: { payload: RecipePayload; authToken: string }) => {
       const saved = isEditing
-        ? await updateRecipe(id!, payload, token!)
-        : await createRecipe(payload, token!)
-      return publishRecipe(saved.id, token!)
+        ? await updateRecipe(id!, payload, authToken)
+        : await createRecipe(payload, authToken)
+      return publishRecipe(saved.id, authToken)
     },
     onSuccess: (published) => navigate(`/receitas/${published.id}`),
   })
@@ -81,6 +81,12 @@ export function RecipeFormPage() {
     if (Number(prepTimeMinutes) < 1) return t('recipes.validation_prep_time_min')
     if (ingredients.length === 0) return t('recipes.validation_ingredients_min')
     if (steps.length === 0) return t('recipes.validation_steps_min')
+    const hasIncompleteIngredient = ingredients.some(
+      (ingredient) => !ingredient.name.trim() || !(Number(ingredient.quantity) > 0),
+    )
+    if (hasIncompleteIngredient) return t('recipes.validation_ingredient_incomplete')
+    const hasIncompleteStep = steps.some((instruction) => !instruction.trim())
+    if (hasIncompleteStep) return t('recipes.validation_step_incomplete')
     return null
   }
 
@@ -90,7 +96,7 @@ export function RecipeFormPage() {
     setValidationError(error)
     if (error) return
 
-    publishMutation.mutate({
+    const payload: RecipePayload = {
       title,
       description,
       portions: Number(portions),
@@ -102,7 +108,13 @@ export function RecipeFormPage() {
         position: index,
       })),
       steps: steps.map((instruction, index) => ({ position: index, instruction })),
-    })
+    }
+
+    if (!token) {
+      openAuthModal((freshToken) => publishMutation.mutate({ payload, authToken: freshToken }))
+      return
+    }
+    publishMutation.mutate({ payload, authToken: token })
   }
 
   return (
