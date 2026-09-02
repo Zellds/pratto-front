@@ -48,6 +48,16 @@ export function IngredientRow({ name, quantity, unit, onChange, onRemove }: Ingr
   const [searchTerm, setSearchTerm] = useState(name)
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(name)
 
+  // Resyncs the local search term when `name` changes for a reason OTHER than
+  // this instance's own typing — e.g. a parent reusing this component instance
+  // for a different array row (index-keyed list) after a removal. Adjusting
+  // state during render (rather than in an effect) avoids an extra render pass.
+  const [prevName, setPrevName] = useState(name)
+  if (name !== prevName) {
+    setPrevName(name)
+    setSearchTerm(name)
+  }
+
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearchTerm(searchTerm), 300)
     return () => clearTimeout(timeout)
