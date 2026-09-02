@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router'
-import { Layout } from './Layout'
+import { Layout } from '../layouts/Layout'
 import { StubPage } from '../components/StubPage'
 import { DashboardPage } from '../features/recipes/DashboardPage'
 import { RecipeListPage } from '../features/recipes/RecipeListPage'
