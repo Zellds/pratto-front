@@ -1,5 +1,5 @@
-import { Outlet, Link } from 'react-router'
-import { useEffect, useState } from 'react'
+import { Outlet, Link, useNavigate } from 'react-router'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { useTheme } from './ThemeProvider'
@@ -37,11 +37,13 @@ function readStoredSidebarCollapsed(): boolean {
 
 export function Layout() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const { theme, toggleTheme } = useTheme()
   const { token, clearToken } = useAuth()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(readStoredSidebarCollapsed)
+  const [searchQuery, setSearchQuery] = useState('')
 
   const meQuery = useQuery({
     queryKey: ['me', token],
@@ -55,6 +57,12 @@ export function Layout() {
       clearToken()
     }
   }, [meQuery.error, clearToken])
+
+  function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const trimmed = searchQuery.trim()
+    navigate(trimmed ? `/receitas?q=${encodeURIComponent(trimmed)}` : '/receitas')
+  }
 
   function toggleLanguage() {
     i18n.changeLanguage(i18n.resolvedLanguage === 'pt-BR' ? 'en' : 'pt-BR')
@@ -93,10 +101,16 @@ export function Layout() {
             </Link>
           </div>
 
-          <div className="app-search" aria-hidden="true">
+          <form className="app-search" role="search" onSubmit={handleSearchSubmit}>
             <SearchIcon />
-            {t('common.search_placeholder')}
-          </div>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder={t('common.search_placeholder')}
+              aria-label={t('common.search_placeholder')}
+            />
+          </form>
 
           <div className="app-topbar-tools">
             <button

@@ -24,15 +24,18 @@ function renderWithRouter(initialPath: string) {
 
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
 
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ThemeProvider>
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </AuthProvider>
-    </QueryClientProvider>,
-  )
+  return {
+    ...render(
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider>
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>,
+    ),
+    router,
+  }
 }
 
 describe('Layout', () => {
@@ -178,13 +181,34 @@ describe('Layout', () => {
     expect(within(sheet).getByRole('link', { name: /categorias/i })).toBeInTheDocument()
   })
 
-  it('shows a visual-only search placeholder that is not interactive', () => {
+  it('shows a real search field in the topbar', () => {
     renderWithRouter('/')
 
-    expect(screen.getByText('Buscar receitas, ingredientes ou chefs')).toBeInTheDocument()
-    // Não é um <input> de verdade — é só apresentação, sem role de campo de formulário.
-    expect(screen.queryByRole('searchbox')).not.toBeInTheDocument()
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('searchbox', { name: 'Buscar receitas, ingredientes ou chefs' }),
+    ).toBeInTheDocument()
+  })
+
+  it('navigates to the recipe list with the typed query when the topbar search is submitted', () => {
+    const { router } = renderWithRouter('/')
+
+    fireEvent.change(
+      screen.getByRole('searchbox', { name: 'Buscar receitas, ingredientes ou chefs' }),
+      { target: { value: 'bolo' } },
+    )
+    fireEvent.submit(screen.getByRole('search'))
+
+    expect(router.state.location.pathname).toBe('/receitas')
+    expect(router.state.location.search).toBe('?q=bolo')
+  })
+
+  it('navigates to the recipe list without a query param when the search is submitted empty', () => {
+    const { router } = renderWithRouter('/')
+
+    fireEvent.submit(screen.getByRole('search'))
+
+    expect(router.state.location.pathname).toBe('/receitas')
+    expect(router.state.location.search).toBe('')
   })
 
   it('shows a disabled notifications button', () => {

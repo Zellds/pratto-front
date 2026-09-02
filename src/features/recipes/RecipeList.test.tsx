@@ -27,11 +27,14 @@ function makeRecipes(count: number): Recipe[] {
   }))
 }
 
-function renderRecipeList(props: { showSearch?: boolean; showPagination?: boolean } = {}) {
+function renderRecipeList(
+  props: { showSearch?: boolean; showPagination?: boolean } = {},
+  initialPath = '/receitas',
+) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={[initialPath]}>
         <RecipeList {...props} />
       </MemoryRouter>
     </QueryClientProvider>,
@@ -89,6 +92,21 @@ describe('RecipeList', () => {
     renderRecipeList()
 
     expect(await screen.findByText('Bolo de cenoura')).toBeInTheDocument()
+  })
+
+  it('starts pre-filled with the "q" query param from the URL', async () => {
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve([]),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderRecipeList({ showSearch: true }, '/receitas?q=bolo')
+
+    expect(screen.getByLabelText('Buscar receitas')).toHaveValue('bolo')
+    await waitFor(() => expect(mockFetch).toHaveBeenCalled())
+    expect(mockFetch.mock.calls[0][0]).toContain('q=bolo')
   })
 
   it('shows an error message when the request fails', async () => {
