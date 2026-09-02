@@ -66,6 +66,7 @@ describe('RecipeDetailPage', () => {
     expect(await screen.findByText('Bolo de cenoura')).toBeInTheDocument()
     expect(screen.getByText(/3.*unidade/)).toBeInTheDocument()
     expect(screen.getByText('8')).toBeInTheDocument()
+    expect(screen.getByText('Bata tudo no liquidificador.')).toBeInTheDocument()
   })
 
   it('shows a not-found message when the recipe does not exist', async () => {

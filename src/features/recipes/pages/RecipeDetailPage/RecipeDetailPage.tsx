@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { getRecipe } from '../../api'
 import { PortionsControl } from './components/PortionsControl'
 import { IngredientList } from './components/IngredientList'
+import { StepList } from './components/StepList'
 import { Skeleton } from '@/components/Skeleton'
 import { EmptyState } from '@/components/EmptyState'
 import { ApiError } from '@/api/client'
@@ -52,7 +53,10 @@ export function RecipeDetailPage() {
             currentPortions={currentPortions}
           />
         </aside>
-        <div className="recipe-detail-main" />
+        <div className="recipe-detail-main">
+          <h3>{t('recipes.steps_title')}</h3>
+          <StepList steps={recipe.steps} />
+        </div>
       </div>
     </div>
   )
