@@ -104,6 +104,22 @@
     "feed_empty_no_follows": "You aren't following anyone yet.",
     "explore_action": "Explore recipes",
     "new_recipe_action": "Publish a recipe",
-    "clear_search_action": "Clear search"
+    "clear_search_action": "Clear search",
+    "detail_error": "Could not load the recipe.",
+    "not_found": "Recipe not found.",
+    "portions_label": "Servings",
+    "decrease_portions": "Decrease servings",
+    "increase_portions": "Increase servings",
+    "ingredients_title": "Ingredients",
+    "unit_g": "g",
+    "unit_kg": "kg",
+    "unit_ml": "ml",
+    "unit_l": "l",
+    "unit_unidade": "unit",
+    "unit_xicara": "cup",
+    "unit_colher_sopa": "tablespoon",
+    "unit_colher_cha": "teaspoon",
+    "unit_pitada": "pinch",
+    "unit_a_gosto": "to taste"
   }
 }

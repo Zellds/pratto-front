@@ -104,6 +104,22 @@
     "feed_empty_no_follows": "Você ainda não segue ninguém.",
     "explore_action": "Explorar receitas",
     "new_recipe_action": "Publicar receita",
-    "clear_search_action": "Limpar busca"
+    "clear_search_action": "Limpar busca",
+    "detail_error": "Não foi possível carregar a receita.",
+    "not_found": "Receita não encontrada.",
+    "portions_label": "Porções",
+    "decrease_portions": "Diminuir porções",
+    "increase_portions": "Aumentar porções",
+    "ingredients_title": "Ingredientes",
+    "unit_g": "g",
+    "unit_kg": "kg",
+    "unit_ml": "ml",
+    "unit_l": "l",
+    "unit_unidade": "unidade",
+    "unit_xicara": "xícara",
+    "unit_colher_sopa": "colher de sopa",
+    "unit_colher_cha": "colher de chá",
+    "unit_pitada": "pitada",
+    "unit_a_gosto": "a gosto"
   }
 }

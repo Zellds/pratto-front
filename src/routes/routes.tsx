@@ -3,6 +3,7 @@ import { Layout } from '../layouts/Layout'
 import { StubPage } from '../components/StubPage'
 import { DashboardPage } from '../features/recipes/pages/DashboardPage/DashboardPage'
 import { RecipeListPage } from '../features/recipes/pages/RecipeListPage/RecipeListPage'
+import { RecipeDetailPage } from '../features/recipes/pages/RecipeDetailPage/RecipeDetailPage'
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <DashboardPage /> },
       { path: 'receitas', element: <RecipeListPage /> },
-      { path: 'receitas/:id', element: <StubPage titleKey="pages.recipe_detail" /> },
+      { path: 'receitas/:id', element: <RecipeDetailPage /> },
       { path: 'nova-receita', element: <StubPage titleKey="pages.new_recipe" /> },
       { path: 'categorias', element: <StubPage titleKey="pages.categories" /> },
       { path: 'salvos', element: <StubPage titleKey="pages.saved" /> },
