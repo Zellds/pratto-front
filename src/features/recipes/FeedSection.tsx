@@ -1,13 +1,16 @@
+import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../app/AuthProvider'
+import { EmptyState } from '../../shared/ui/EmptyState'
 import { RecipeCard } from './RecipeCard'
+import { RecipeCardSkeleton } from './RecipeCardSkeleton'
 import { getFeed } from './api'
 import './FeedSection.css'
 
 export function FeedSection() {
   const { t } = useTranslation()
-  const { token } = useAuth()
+  const { token, openAuthModal } = useAuth()
 
   const query = useQuery({
     queryKey: ['feed', token],
@@ -18,11 +21,35 @@ export function FeedSection() {
   return (
     <section className="sec">
       <h2>{t('recipes.feed_title')}</h2>
-      {!token && <p>{t('recipes.feed_empty_logged_out')}</p>}
-      {token && query.isLoading && <p>{t('recipes.loading')}</p>}
+      {!token && (
+        <EmptyState
+          message={t('recipes.feed_empty_logged_out')}
+          action={
+            <button onClick={openAuthModal} className="button button-primary">
+              {t('common.log_in')}
+            </button>
+          }
+        />
+      )}
+      {token && query.isLoading && (
+        <ul className="feed-list">
+          {[1, 2].map((n) => (
+            <li key={n}>
+              <RecipeCardSkeleton />
+            </li>
+          ))}
+        </ul>
+      )}
       {token && query.isError && <p role="alert">{t('recipes.error')}</p>}
       {token && query.data && query.data.length === 0 && (
-        <p>{t('recipes.feed_empty_no_follows')}</p>
+        <EmptyState
+          message={t('recipes.feed_empty_no_follows')}
+          action={
+            <Link to="/receitas" className="button button-secondary">
+              {t('recipes.explore_action')}
+            </Link>
+          }
+        />
       )}
       {token && query.data && query.data.length > 0 && (
         <ul className="feed-list">

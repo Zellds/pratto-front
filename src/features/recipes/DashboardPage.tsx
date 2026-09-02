@@ -7,6 +7,9 @@ import { RecipeCard } from './RecipeCard'
 import { DiscoverSection } from './DiscoverSection'
 import { ChefsSection } from './ChefsSection'
 import { FeedSection } from './FeedSection'
+import { HeroSkeleton } from './HeroSkeleton'
+import { RecipeCardSkeleton } from './RecipeCardSkeleton'
+import { EmptyState } from '../../shared/ui/EmptyState'
 import type { Recipe } from './types'
 import './DashboardPage.css'
 
@@ -34,9 +37,34 @@ export function DashboardPage() {
     <div>
       <h1 className="sr-only">{t('recipes.dashboard_page_title')}</h1>
 
-      {query.isLoading && <p>{t('recipes.loading')}</p>}
+      {query.isLoading && (
+        <>
+          <HeroSkeleton />
+          <div className="sec">
+            <div className="section-head">
+              <h2>{t('recipes.dashboard_title')}</h2>
+            </div>
+            <ul className="recipe-grid">
+              {[1, 2, 3].map((n) => (
+                <li key={n}>
+                  <RecipeCardSkeleton />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
       {query.isError && <p role="alert">{t('recipes.error')}</p>}
-      {query.data && query.data.length === 0 && <p>{t('recipes.empty')}</p>}
+      {query.data && query.data.length === 0 && (
+        <EmptyState
+          message={t('recipes.empty')}
+          action={
+            <Link to="/nova-receita" className="button button-primary">
+              {t('recipes.new_recipe_action')}
+            </Link>
+          }
+        />
+      )}
 
       {hero && <Hero recipe={hero} />}
 

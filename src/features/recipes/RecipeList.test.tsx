@@ -47,7 +47,15 @@ describe('RecipeList', () => {
     vi.useRealTimers()
   })
 
-  it('shows a loading state, then the empty message when there are no recipes', async () => {
+  it('shows card skeletons while loading', () => {
+    vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})))
+
+    renderRecipeList()
+
+    expect(document.querySelectorAll('.recipe-card-skeleton')).toHaveLength(8)
+  })
+
+  it('shows a loading state, then the empty message with a new-recipe action when browsing with no search', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) }),
@@ -56,6 +64,26 @@ describe('RecipeList', () => {
     renderRecipeList()
 
     expect(await screen.findByText('Nenhuma receita encontrada.')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Publicar receita' })).toHaveAttribute(
+      'href',
+      '/nova-receita',
+    )
+  })
+
+  it('shows a clear-search action instead when a search yields no results', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) }),
+    )
+
+    renderRecipeList({ showSearch: true }, '/receitas?q=xyz')
+
+    expect(await screen.findByText('Nenhuma receita encontrada.')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Publicar receita' })).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Limpar busca' }))
+
+    expect(screen.getByLabelText('Buscar receitas')).toHaveValue('')
   })
 
   it('shows the recipes returned by the API', async () => {

@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { RecipeCard } from './RecipeCard'
+import { RecipeCardSkeleton } from './RecipeCardSkeleton'
 import { searchRecipes } from './api'
+import { EmptyState } from '../../shared/ui/EmptyState'
+import './RecipeList.css'
+
+const SKELETON_COUNT = 8
 
 type RecipeListProps = {
   showSearch?: boolean
@@ -43,11 +48,38 @@ export function RecipeList({ showSearch = false, showPagination = false }: Recip
           onChange={(event) => setSearchInput(event.target.value)}
         />
       )}
-      {query.isLoading && <p>{t('recipes.loading')}</p>}
+      {query.isLoading && (
+        <ul className="recipe-grid">
+          {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+            <li key={index}>
+              <RecipeCardSkeleton />
+            </li>
+          ))}
+        </ul>
+      )}
       {query.isError && <p role="alert">{t('recipes.error')}</p>}
-      {query.data && query.data.length === 0 && <p>{t('recipes.empty')}</p>}
+      {query.data && query.data.length === 0 && (
+        <EmptyState
+          message={t('recipes.empty')}
+          action={
+            debouncedSearch ? (
+              <button
+                onClick={() => setSearchInput('')}
+                className="button button-secondary"
+                type="button"
+              >
+                {t('recipes.clear_search_action')}
+              </button>
+            ) : (
+              <Link to="/nova-receita" className="button button-primary">
+                {t('recipes.new_recipe_action')}
+              </Link>
+            )
+          }
+        />
+      )}
       {query.data && query.data.length > 0 && (
-        <ul>
+        <ul className="recipe-grid">
           {query.data.map((recipe) => (
             <li key={recipe.id}>
               <RecipeCard recipe={recipe} />

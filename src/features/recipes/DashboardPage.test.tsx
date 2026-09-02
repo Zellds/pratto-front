@@ -56,6 +56,15 @@ describe('DashboardPage', () => {
     expect(screen.getByRole('heading', { name: 'Dashboard', level: 1 })).toBeInTheDocument()
   })
 
+  it('shows hero and card skeletons while loading', () => {
+    vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})))
+
+    renderDashboard()
+
+    expect(document.querySelector('.hero-skeleton-photo')).toBeInTheDocument()
+    expect(document.querySelectorAll('.recipe-card-skeleton')).toHaveLength(3)
+  })
+
   it('shows the highest-rated recipe as the hero and the rest split across sections', async () => {
     const recipes = [
       makeRecipe('1', 3.0),
@@ -110,5 +119,9 @@ describe('DashboardPage', () => {
 
     expect(await screen.findByText('Nenhuma receita encontrada.')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Ver todas' })).toHaveAttribute('href', '/receitas')
+    expect(screen.getByRole('link', { name: 'Publicar receita' })).toHaveAttribute(
+      'href',
+      '/nova-receita',
+    )
   })
 })
