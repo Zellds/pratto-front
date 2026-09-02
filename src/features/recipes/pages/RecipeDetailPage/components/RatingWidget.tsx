@@ -20,9 +20,10 @@ export function RatingWidget({ recipeId }: RatingWidgetProps) {
   const [hovered, setHovered] = useState<number | null>(null)
 
   const mutation = useMutation({
-    mutationFn: (score: number) => rateRecipe(recipeId, score, token!),
-    onSuccess: (_, score) => {
-      setSelected(score)
+    mutationFn: ({ score, authToken }: { score: number; authToken: string }) =>
+      rateRecipe(recipeId, score, authToken),
+    onSuccess: (_, variables) => {
+      setSelected(variables.score)
       showToast(t('recipes.rate_success'))
     },
     onError: () => showToast(t('recipes.rate_error')),
@@ -30,10 +31,10 @@ export function RatingWidget({ recipeId }: RatingWidgetProps) {
 
   function handleSelect(score: number) {
     if (!token) {
-      openAuthModal(() => mutation.mutate(score))
+      openAuthModal((freshToken) => mutation.mutate({ score, authToken: freshToken }))
       return
     }
-    mutation.mutate(score)
+    mutation.mutate({ score, authToken: token })
   }
 
   const displayValue = hovered ?? selected ?? 0

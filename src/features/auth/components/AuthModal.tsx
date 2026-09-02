@@ -21,7 +21,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setToken(token)
     onClose()
     showToast(t('auth.login_success'))
-    pendingAction?.()
+    pendingAction?.(token)
   }
 
   return (

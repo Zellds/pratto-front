@@ -5,9 +5,9 @@ type AuthContextValue = {
   setToken: (token: string) => void
   clearToken: () => void
   isAuthModalOpen: boolean
-  openAuthModal: (onSuccess?: () => void) => void
+  openAuthModal: (onSuccess?: (token: string) => void) => void
   closeAuthModal: () => void
-  pendingAction: (() => void) | null
+  pendingAction: ((token: string) => void) | null
 }
 
 const STORAGE_KEY = 'pratto-token'
@@ -25,7 +25,7 @@ function readStoredToken(): string | null {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setTokenState] = useState<string | null>(readStoredToken)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null)
+  const [pendingAction, setPendingAction] = useState<((token: string) => void) | null>(null)
 
   function setToken(newToken: string) {
     try {
