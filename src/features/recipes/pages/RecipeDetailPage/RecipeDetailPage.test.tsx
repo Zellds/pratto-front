@@ -140,4 +140,40 @@ describe('RecipeDetailPage', () => {
     await screen.findByText('Bolo de cenoura')
     expect(screen.queryByRole('link', { name: 'Editar' })).not.toBeInTheDocument()
   })
+
+  it('does not show an edit link for a logged-out viewer', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(SAMPLE_RECIPE) }),
+    )
+
+    renderPage()
+
+    await screen.findByText('Bolo de cenoura')
+    expect(screen.queryByRole('link', { name: 'Editar' })).not.toBeInTheDocument()
+  })
+
+  it('does not show an edit link while the viewer identity is still loading', async () => {
+    localStorage.setItem('pratto-token', 'tok123')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) => {
+        if (url.includes('/me')) {
+          return new Promise(() => {})
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(SAMPLE_RECIPE),
+        })
+      }),
+    )
+
+    renderPage()
+
+    await screen.findByText('Bolo de cenoura')
+    expect(screen.queryByRole('link', { name: 'Editar' })).not.toBeInTheDocument()
+  })
 })
