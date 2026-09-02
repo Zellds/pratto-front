@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider } from '@/providers/AuthProvider'
+import { AuthProvider, useAuth } from '@/providers/AuthProvider'
 import { ToastProvider } from '@/providers/ToastProvider'
 import { AuthModal } from './AuthModal'
 
@@ -73,5 +73,46 @@ describe('AuthModal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
 
     expect(await screen.findByText('Login realizado com sucesso!')).toBeInTheDocument()
+  })
+
+  it('calls the pending action after a successful login', async () => {
+    const onSuccessAction = vi.fn()
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ token: 'tok123' }),
+      }),
+    )
+
+    function Wrapper() {
+      const { isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth()
+      return (
+        <>
+          <button onClick={() => openAuthModal(onSuccessAction)}>trigger</button>
+          <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
+        </>
+      )
+    }
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ToastProvider>
+            <Wrapper />
+          </ToastProvider>
+        </AuthProvider>
+      </QueryClientProvider>,
+    )
+
+    fireEvent.click(screen.getByText('trigger'))
+    fireEvent.change(screen.getByLabelText('Usuário'), { target: { value: 'gabriel' } })
+    fireEvent.change(screen.getByLabelText('Senha'), { target: { value: 'senha123' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+
+    await waitFor(() => expect(onSuccessAction).toHaveBeenCalledTimes(1))
   })
 })

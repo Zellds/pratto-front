@@ -13,7 +13,7 @@ type AuthModalProps = {
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const { t } = useTranslation()
-  const { setToken } = useAuth()
+  const { setToken, pendingAction } = useAuth()
   const { showToast } = useToast()
   const [mode, setMode] = useState<'login' | 'register'>('login')
 
@@ -21,6 +21,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setToken(token)
     onClose()
     showToast(t('auth.login_success'))
+    pendingAction?.()
   }
 
   return (

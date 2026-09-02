@@ -10,7 +10,7 @@ function AuthConsumer() {
       <span data-testid="modal-state">{isAuthModalOpen ? 'open' : 'closed'}</span>
       <button onClick={() => setToken('new-token')}>Set</button>
       <button onClick={clearToken}>Clear</button>
-      <button onClick={openAuthModal}>Open modal</button>
+      <button onClick={() => openAuthModal()}>Open modal</button>
       <button onClick={closeAuthModal}>Close modal</button>
     </div>
   )
@@ -84,5 +84,48 @@ describe('AuthProvider', () => {
     )
 
     expect(screen.getByTestId('current-token')).toHaveTextContent('existing-token')
+  })
+
+  it('exposes the onSuccess callback passed to openAuthModal as pendingAction', () => {
+    function Consumer() {
+      const { openAuthModal, pendingAction } = useAuth()
+      return (
+        <div>
+          <button onClick={() => openAuthModal(() => {})}>open</button>
+          <span data-testid="has-pending">{pendingAction ? 'yes' : 'no'}</span>
+        </div>
+      )
+    }
+
+    render(
+      <AuthProvider>
+        <Consumer />
+      </AuthProvider>,
+    )
+
+    expect(screen.getByTestId('has-pending')).toHaveTextContent('no')
+    fireEvent.click(screen.getByText('open'))
+    expect(screen.getByTestId('has-pending')).toHaveTextContent('yes')
+  })
+
+  it('defaults pendingAction to null when openAuthModal is called with no callback', () => {
+    function Consumer() {
+      const { openAuthModal, pendingAction } = useAuth()
+      return (
+        <div>
+          <button onClick={() => openAuthModal()}>open</button>
+          <span data-testid="has-pending">{pendingAction ? 'yes' : 'no'}</span>
+        </div>
+      )
+    }
+
+    render(
+      <AuthProvider>
+        <Consumer />
+      </AuthProvider>,
+    )
+
+    fireEvent.click(screen.getByText('open'))
+    expect(screen.getByTestId('has-pending')).toHaveTextContent('no')
   })
 })

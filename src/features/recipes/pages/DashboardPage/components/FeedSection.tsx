@@ -25,7 +25,7 @@ export function FeedSection() {
         <EmptyState
           message={t('recipes.feed_empty_logged_out')}
           action={
-            <button onClick={openAuthModal} className="button button-primary">
+            <button onClick={() => openAuthModal()} className="button button-primary">
               {t('common.log_in')}
             </button>
           }
