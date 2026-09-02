@@ -1,4 +1,4 @@
-import { Skeleton } from '../../shared/ui/Skeleton'
+import { Skeleton } from '@/components/Skeleton'
 import './RecipeCardSkeleton.css'
 
 export function RecipeCardSkeleton() {

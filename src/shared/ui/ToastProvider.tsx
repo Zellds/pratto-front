@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CloseIcon } from './icons'
+import { CloseIcon } from '../../components/icons'
 import './Toast.css'
 
 type ToastVariant = 'success' | 'error'

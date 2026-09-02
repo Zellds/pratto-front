@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Button } from '../../shared/ui/Button'
-import { ApiError } from '../../shared/api/client'
+import { Button } from '@/components/Button'
+import { ApiError } from '@/api/client'
 import { register } from './api'
 
 type RegisterFormProps = {

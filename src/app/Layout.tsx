@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { useTheme } from './ThemeProvider'
 import { useAuth } from './AuthProvider'
-import { apiFetch, ApiError } from '../shared/api/client'
+import { apiFetch, ApiError } from '../api/client'
 import { AuthModal } from '../features/auth/AuthModal'
-import { Modal } from '../shared/ui/Modal'
+import { Modal } from '../components/Modal'
 import { useToast } from '../shared/ui/ToastProvider'
 import { Sidebar } from './Sidebar'
 import { BottomBar } from './BottomBar'
@@ -18,7 +18,7 @@ import {
   ThemeIcon,
   FlagBrazilIcon,
   FlagUnitedStatesIcon,
-} from '../shared/ui/icons'
+} from '../components/icons'
 import './Layout.css'
 
 type MeResponse = {

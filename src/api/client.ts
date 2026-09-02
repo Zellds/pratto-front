@@ -1,4 +1,4 @@
-// src/shared/api/client.ts
+// src/api/client.ts
 
 export class ApiError extends Error {
   status: number

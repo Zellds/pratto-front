@@ -5,7 +5,7 @@ import { Link, useSearchParams } from 'react-router'
 import { RecipeCard } from './RecipeCard'
 import { RecipeCardSkeleton } from './RecipeCardSkeleton'
 import { searchRecipes } from './api'
-import { EmptyState } from '../../shared/ui/EmptyState'
+import { EmptyState } from '@/components/EmptyState'
 import './RecipeList.css'
 
 const SKELETON_COUNT = 8

@@ -1,4 +1,4 @@
-import { apiFetch } from '../../shared/api/client'
+import { apiFetch } from '@/api/client'
 import type { Recipe, SearchRecipesParams } from './types'
 
 export function searchRecipes(params: SearchRecipesParams): Promise<Recipe[]> {

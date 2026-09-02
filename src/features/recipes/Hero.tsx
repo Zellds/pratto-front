@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Button } from '../../shared/ui/Button'
-import { initials } from '../../shared/initials'
+import { Button } from '@/components/Button'
+import { initials } from '@/utils/initials'
 import type { Recipe } from './types'
 import './Hero.css'
 

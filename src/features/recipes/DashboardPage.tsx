@@ -9,7 +9,7 @@ import { ChefsSection } from './ChefsSection'
 import { FeedSection } from './FeedSection'
 import { HeroSkeleton } from './HeroSkeleton'
 import { RecipeCardSkeleton } from './RecipeCardSkeleton'
-import { EmptyState } from '../../shared/ui/EmptyState'
+import { EmptyState } from '@/components/EmptyState'
 import type { Recipe } from './types'
 import './DashboardPage.css'
 

@@ -10,9 +10,9 @@ import {
   WeeklyMenuIcon,
   ChefsIcon,
   RankingIcon,
-} from '../shared/ui/icons'
+} from '../components/icons'
 
-export { initials } from '../shared/initials'
+export { initials } from '../utils/initials'
 
 export type NavItem = {
   to: string
