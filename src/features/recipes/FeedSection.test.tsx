@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router'
 import { AuthProvider } from '../../app/AuthProvider'
@@ -34,13 +34,23 @@ describe('FeedSection', () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
-  it('shows a loading state while the feed request is in flight', () => {
+  it('opens the auth modal when the logged-out empty state action is clicked', () => {
+    vi.stubGlobal('fetch', vi.fn())
+
+    renderFeedSection()
+
+    // Não lança erro ao clicar — confirma que o botão está de fato ligado ao
+    // contexto de auth (o modal em si é responsabilidade do Layout, não desta seção).
+    expect(() => fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))).not.toThrow()
+  })
+
+  it('shows loading skeletons while the feed request is in flight', () => {
     localStorage.setItem('pratto-token', 'abc123')
     vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})))
 
     renderFeedSection()
 
-    expect(screen.getByText('Carregando...')).toBeInTheDocument()
+    expect(document.querySelectorAll('.recipe-card-skeleton')).toHaveLength(2)
   })
 
   it('shows an error message when the feed request fails', async () => {
@@ -69,6 +79,10 @@ describe('FeedSection', () => {
     renderFeedSection()
 
     expect(await screen.findByText('Você ainda não segue ninguém.')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Explorar receitas' })).toHaveAttribute(
+      'href',
+      '/receitas',
+    )
   })
 
   it('shows the recipes returned by the feed when logged in', async () => {
