@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider } from '../../app/AuthProvider'
-import { ToastProvider } from '../../shared/ui/ToastProvider'
+import { AuthProvider } from '@/providers/AuthProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
 import { AuthModal } from './AuthModal'
 
 function renderAuthModal(onClose = vi.fn()) {

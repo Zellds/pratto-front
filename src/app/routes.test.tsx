@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from './Layout'
-import { ThemeProvider } from './ThemeProvider'
-import { AuthProvider } from './AuthProvider'
+import { ThemeProvider } from '../providers/ThemeProvider'
+import { AuthProvider } from '../providers/AuthProvider'
 import { DashboardPage } from '../features/recipes/DashboardPage'
 import { RecipeListPage } from '../features/recipes/RecipeListPage'
-import { ToastProvider } from '../shared/ui/ToastProvider'
+import { ToastProvider } from '../providers/ToastProvider'
 
 function renderAt(initialPath: string) {
   const router = createMemoryRouter(

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from '@/components/Modal'
-import { useAuth } from '../../app/AuthProvider'
-import { useToast } from '../../shared/ui/ToastProvider'
+import { useAuth } from '@/providers/AuthProvider'
+import { useToast } from '@/providers/ToastProvider'
 import { LoginForm } from './LoginForm'
 import { RegisterForm } from './RegisterForm'
 
