@@ -23,6 +23,7 @@ export const router = createBrowserRouter([
       { path: 'chefs', element: <StubPage titleKey="pages.chefs" /> },
       { path: 'ranking', element: <StubPage titleKey="pages.ranking" /> },
       { path: 'perfil/:username', element: <StubPage titleKey="pages.profile" /> },
+      { path: 'configuracoes', element: <StubPage titleKey="pages.settings" /> },
       { path: 'livro/:username', element: <StubPage titleKey="pages.recipe_book" /> },
     ],
   },

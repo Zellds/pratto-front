@@ -1,18 +1,7 @@
 import { Link, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import {
-  HomeIcon,
-  ExploreIcon,
-  CategoriesIcon,
-  SavedIcon,
-  MyRecipesIcon,
-  PantryIcon,
-  ShoppingListIcon,
-  WeeklyMenuIcon,
-  ChefsIcon,
-  RankingIcon,
-  CollapseIcon,
-} from '../shared/ui/icons'
+import { CollapseIcon } from '../shared/ui/icons'
+import { MAIN_ITEMS, KITCHEN_ITEMS, COMMUNITY_ITEMS, initials, type NavItem } from './navItems'
 import './Sidebar.css'
 
 type SidebarProps = {
@@ -24,38 +13,6 @@ type SidebarProps = {
   onLogIn: () => void
   onLogOut: () => void
 }
-
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean)
-  if (parts.length === 0) return ''
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
-  return (parts[0][0] + parts[1][0]).toUpperCase()
-}
-
-type NavItem = {
-  to: string
-  labelKey: string
-  Icon: (props: { size?: number }) => React.JSX.Element
-}
-
-const MAIN_ITEMS: NavItem[] = [
-  { to: '/', labelKey: 'nav.home', Icon: HomeIcon },
-  { to: '/receitas', labelKey: 'nav.explore', Icon: ExploreIcon },
-  { to: '/categorias', labelKey: 'nav.categories', Icon: CategoriesIcon },
-  { to: '/salvos', labelKey: 'nav.saved', Icon: SavedIcon },
-]
-
-const KITCHEN_ITEMS: NavItem[] = [
-  { to: '/minhas-receitas', labelKey: 'nav.my_recipes', Icon: MyRecipesIcon },
-  { to: '/despensa', labelKey: 'nav.pantry', Icon: PantryIcon },
-  { to: '/lista-de-compras', labelKey: 'nav.shopping_list', Icon: ShoppingListIcon },
-  { to: '/cardapio', labelKey: 'nav.weekly_menu', Icon: WeeklyMenuIcon },
-]
-
-const COMMUNITY_ITEMS: NavItem[] = [
-  { to: '/chefs', labelKey: 'nav.chefs', Icon: ChefsIcon },
-  { to: '/ranking', labelKey: 'nav.ranking', Icon: RankingIcon },
-]
 
 export function Sidebar({
   isCollapsed,

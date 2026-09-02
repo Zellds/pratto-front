@@ -8,6 +8,8 @@ import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 import { Modal } from '../shared/ui/Modal'
 import { Sidebar } from './Sidebar'
+import { BottomBar } from './BottomBar'
+import { MobileMenuSheet } from './MobileMenuSheet'
 import {
   SearchIcon,
   NotificationIcon,
@@ -125,13 +127,6 @@ export function Layout() {
               <PlusIcon />
               {t('common.new_recipe')}
             </Link>
-            <button
-              className="app-mobile-menu-button"
-              onClick={() => setIsMobileMenuOpen(true)}
-              aria-label={t('common.open_menu')}
-            >
-              {t('common.menu')}
-            </button>
           </div>
         </header>
         <main>
@@ -139,24 +134,27 @@ export function Layout() {
         </main>
       </div>
 
+      <BottomBar
+        isAuthenticated={!!token}
+        displayName={meQuery.data?.displayName ?? ''}
+        onOpenMenu={() => setIsMobileMenuOpen(true)}
+      />
+
       <Modal
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
         fullScreen
         ariaLabelledBy="mobile-menu-heading"
       >
-        <button onClick={() => setIsMobileMenuOpen(false)} aria-label={t('common.close_menu')}>
-          {t('common.close_menu')}
-        </button>
-        <h2 id="mobile-menu-heading">{t('common.menu')}</h2>
-        <Sidebar
-          isCollapsed={false}
-          onToggleCollapse={() => {}}
-          showCollapseToggle={false}
+        <MobileMenuSheet
+          onClose={() => setIsMobileMenuOpen(false)}
           isAuthenticated={!!token}
+          username={meQuery.data?.username ?? ''}
           displayName={meQuery.data?.displayName ?? ''}
           onLogIn={() => setIsAuthModalOpen(true)}
           onLogOut={clearToken}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
       </Modal>
 

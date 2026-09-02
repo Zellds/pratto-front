@@ -171,9 +171,9 @@ describe('Layout', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }))
 
-    // A partir daqui a sidebar desktop E a do sheet mobile coexistem no DOM
-    // (só uma escondida via CSS, que o jsdom não aplica) — escopar a busca
-    // dentro do próprio `role="dialog"` do sheet evita a ambiguidade.
+    // A partir daqui a sidebar desktop E o painel do menu mobile coexistem no
+    // DOM (só um escondido via CSS, que o jsdom não aplica) — ambos têm um
+    // link "Categorias", então escopar pro `role="dialog"` evita a ambiguidade.
     const sheet = screen.getByRole('dialog')
     expect(within(sheet).getByRole('link', { name: /categorias/i })).toBeInTheDocument()
   })
@@ -196,7 +196,10 @@ describe('Layout', () => {
   it('links "Nova receita" to the new-recipe stub route', () => {
     renderWithRouter('/')
 
-    expect(screen.getByRole('link', { name: 'Nova receita' })).toHaveAttribute(
+    // A barra inferior (mobile) tem seu próprio atalho pra "Nova receita" com o
+    // mesmo nome acessível — escopar pro topbar evita a ambiguidade.
+    const topbar = screen.getByRole('banner')
+    expect(within(topbar).getByRole('link', { name: 'Nova receita' })).toHaveAttribute(
       'href',
       '/nova-receita',
     )
