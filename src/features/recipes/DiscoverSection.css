@@ -1,9 +1,18 @@
-.recipe-grid {
+.discover-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
   gap: 16px;
   list-style: none;
   padding: 0;
+}
+
+.discover-grid .recipe-card-photo,
+.discover-grid .recipe-card-photo-placeholder {
+  height: 118px;
+}
+
+.discover-grid h3 {
+  font-size: 15.5px;
 }
 
 .sec {

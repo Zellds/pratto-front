@@ -26,8 +26,13 @@ export function ChefsSection() {
             <div className="chef-avatar" aria-hidden="true">
               {initials}
             </div>
-            <p>{t('recipes.chef_placeholder_name', { n })}</p>
-            <Button variant="secondary" disabled title={t('recipes.follow_disabled_hint')}>
+            <p className="chef-name">{t('recipes.chef_placeholder_name', { n })}</p>
+            <Button
+              variant="secondary"
+              disabled
+              title={t('recipes.follow_disabled_hint')}
+              className="chef-follow"
+            >
               {t('recipes.follow_button')}
             </Button>
           </div>
