@@ -65,6 +65,30 @@
   font-size: 14px;
 }
 
+.app-search:focus-within {
+  border-color: var(--ink-soft);
+  background-color: var(--card);
+}
+
+.app-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.app-search input::placeholder {
+  color: var(--ink-soft);
+}
+
+.app-search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
 .app-topbar-tools {
   flex: 1;
   display: flex;

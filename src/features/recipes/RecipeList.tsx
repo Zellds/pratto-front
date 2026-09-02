@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router'
 import { RecipeCard } from './RecipeCard'
 import { searchRecipes } from './api'
 
@@ -11,8 +12,10 @@ type RecipeListProps = {
 
 export function RecipeList({ showSearch = false, showPagination = false }: RecipeListProps) {
   const { t } = useTranslation()
-  const [searchInput, setSearchInput] = useState('')
-  const [debouncedSearch, setDebouncedSearch] = useState('')
+  const [searchParams] = useSearchParams()
+  const initialQuery = searchParams.get('q') ?? ''
+  const [searchInput, setSearchInput] = useState(initialQuery)
+  const [debouncedSearch, setDebouncedSearch] = useState(initialQuery)
   const [page, setPage] = useState(1)
   const [previousDebouncedSearch, setPreviousDebouncedSearch] = useState(debouncedSearch)
 
