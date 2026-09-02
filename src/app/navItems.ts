@@ -12,6 +12,8 @@ import {
   RankingIcon,
 } from '../shared/ui/icons'
 
+export { initials } from '../shared/initials'
+
 export type NavItem = {
   to: string
   labelKey: string
@@ -36,10 +38,3 @@ export const COMMUNITY_ITEMS: NavItem[] = [
   { to: '/chefs', labelKey: 'nav.chefs', Icon: ChefsIcon },
   { to: '/ranking', labelKey: 'nav.ranking', Icon: RankingIcon },
 ]
-
-export function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean)
-  if (parts.length === 0) return ''
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
-  return (parts[0][0] + parts[1][0]).toUpperCase()
-}

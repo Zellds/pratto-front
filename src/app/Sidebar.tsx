@@ -29,7 +29,13 @@ export function Sidebar({
   function renderItem({ to, labelKey, Icon }: NavItem) {
     const isActive = pathname === to
     return (
-      <Link key={to} to={to} aria-label={t(labelKey)} aria-current={isActive ? 'page' : undefined}>
+      <Link
+        key={to}
+        to={to}
+        aria-label={t(labelKey)}
+        aria-current={isActive ? 'page' : undefined}
+        data-lbl={t(labelKey)}
+      >
         <Icon />
         <span>{t(labelKey)}</span>
       </Link>
