@@ -3,12 +3,15 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { AuthProvider, useAuth } from './AuthProvider'
 
 function AuthConsumer() {
-  const { token, setToken, clearToken } = useAuth()
+  const { token, setToken, clearToken, isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth()
   return (
     <div>
       <span data-testid="current-token">{token ?? 'none'}</span>
+      <span data-testid="modal-state">{isAuthModalOpen ? 'open' : 'closed'}</span>
       <button onClick={() => setToken('new-token')}>Set</button>
       <button onClick={clearToken}>Clear</button>
+      <button onClick={openAuthModal}>Open modal</button>
+      <button onClick={closeAuthModal}>Close modal</button>
     </div>
   )
 }
@@ -53,6 +56,22 @@ describe('AuthProvider', () => {
 
     expect(screen.getByTestId('current-token')).toHaveTextContent('none')
     expect(localStorage.getItem('pratto-token')).toBeNull()
+  })
+
+  it('starts with the auth modal closed and toggles it via openAuthModal/closeAuthModal', () => {
+    render(
+      <AuthProvider>
+        <AuthConsumer />
+      </AuthProvider>,
+    )
+
+    expect(screen.getByTestId('modal-state')).toHaveTextContent('closed')
+
+    fireEvent.click(screen.getByText('Open modal'))
+    expect(screen.getByTestId('modal-state')).toHaveTextContent('open')
+
+    fireEvent.click(screen.getByText('Close modal'))
+    expect(screen.getByTestId('modal-state')).toHaveTextContent('closed')
   })
 
   it('restores a previously-set token on remount', () => {

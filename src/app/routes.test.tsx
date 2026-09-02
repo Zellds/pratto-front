@@ -7,6 +7,7 @@ import { ThemeProvider } from './ThemeProvider'
 import { AuthProvider } from './AuthProvider'
 import { DashboardPage } from '../features/recipes/DashboardPage'
 import { RecipeListPage } from '../features/recipes/RecipeListPage'
+import { ToastProvider } from '../shared/ui/ToastProvider'
 
 function renderAt(initialPath: string) {
   const router = createMemoryRouter(
@@ -26,11 +27,13 @@ function renderAt(initialPath: string) {
 
   return render(
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ThemeProvider>
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </AuthProvider>
+      </ToastProvider>
     </QueryClientProvider>,
   )
 }

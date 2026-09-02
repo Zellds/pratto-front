@@ -23,6 +23,7 @@
   --line: #e7e1d6;
   --line-strong: #d3c9b7;
   --tint: #f1ede3;
+  --danger: #b3402a;
 }
 
 :root[data-theme='dark'] {
@@ -35,6 +36,7 @@
   --line: #3a342c;
   --line-strong: #4e4638;
   --tint: #322c25;
+  --danger: #e08669;
 }
 
 body {

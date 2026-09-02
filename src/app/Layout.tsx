@@ -7,6 +7,7 @@ import { useAuth } from './AuthProvider'
 import { apiFetch, ApiError } from '../shared/api/client'
 import { AuthModal } from '../features/auth/AuthModal'
 import { Modal } from '../shared/ui/Modal'
+import { useToast } from '../shared/ui/ToastProvider'
 import { Sidebar } from './Sidebar'
 import { BottomBar } from './BottomBar'
 import { MobileMenuSheet } from './MobileMenuSheet'
@@ -39,8 +40,8 @@ export function Layout() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const { theme, toggleTheme } = useTheme()
-  const { token, clearToken } = useAuth()
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const { token, clearToken, isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth()
+  const { showToast } = useToast()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(readStoredSidebarCollapsed)
   const [searchQuery, setSearchQuery] = useState('')
@@ -57,6 +58,11 @@ export function Layout() {
       clearToken()
     }
   }, [meQuery.error, clearToken])
+
+  function handleLogOut() {
+    clearToken()
+    showToast(t('common.logged_out'))
+  }
 
   function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -88,8 +94,8 @@ export function Layout() {
           onToggleCollapse={toggleSidebarCollapse}
           isAuthenticated={!!token}
           displayName={meQuery.data?.displayName ?? ''}
-          onLogIn={() => setIsAuthModalOpen(true)}
-          onLogOut={clearToken}
+          onLogIn={openAuthModal}
+          onLogOut={handleLogOut}
         />
       </div>
 
@@ -165,14 +171,14 @@ export function Layout() {
           isAuthenticated={!!token}
           username={meQuery.data?.username ?? ''}
           displayName={meQuery.data?.displayName ?? ''}
-          onLogIn={() => setIsAuthModalOpen(true)}
-          onLogOut={clearToken}
+          onLogIn={openAuthModal}
+          onLogOut={handleLogOut}
           theme={theme}
           onToggleTheme={toggleTheme}
         />
       </Modal>
 
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </div>
   )
 }
