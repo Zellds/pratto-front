@@ -46,7 +46,7 @@ describe('Hero', () => {
 
     expect(screen.getByText('40 min de preparo')).toBeInTheDocument()
     expect(screen.getByText('4 porções')).toBeInTheDocument()
-    expect(screen.getByText('Nota 4.9')).toBeInTheDocument()
+    expect(screen.getByText('★ 4.9')).toBeInTheDocument()
   })
 
   it('links "Ver receita" to the recipe detail page', () => {
