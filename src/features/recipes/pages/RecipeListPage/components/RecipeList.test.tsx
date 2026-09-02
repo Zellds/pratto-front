@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RecipeList } from './RecipeList'
-import type { Recipe } from './types'
+import type { Recipe } from '../../../types'
 
 function makeRecipes(count: number): Recipe[] {
   return Array.from({ length: count }, (_, index) => ({

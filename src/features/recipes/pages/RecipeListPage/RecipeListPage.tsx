@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { RecipeList } from './RecipeList'
+import { RecipeList } from './components/RecipeList'
 
 export function RecipeListPage() {
   const { t } = useTranslation()

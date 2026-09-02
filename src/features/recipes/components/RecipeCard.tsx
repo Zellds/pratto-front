@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/Card'
 import { SavedIcon } from '@/components/icons'
-import type { Recipe } from './types'
+import type { Recipe } from '../types'
 import './RecipeCard.css'
 
 export function RecipeCard({ recipe, rank }: { recipe: Recipe; rank?: number }) {

@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from '../layouts/Layout'
 import { ThemeProvider } from '../providers/ThemeProvider'
 import { AuthProvider } from '../providers/AuthProvider'
-import { DashboardPage } from '../features/recipes/DashboardPage'
-import { RecipeListPage } from '../features/recipes/RecipeListPage'
+import { DashboardPage } from '../features/recipes/pages/DashboardPage/DashboardPage'
+import { RecipeListPage } from '../features/recipes/pages/RecipeListPage/RecipeListPage'
 import { ToastProvider } from '../providers/ToastProvider'
 
 function renderAt(initialPath: string) {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { getFeed } from './api'
+import { getFeed } from './index'
 
 describe('getFeed', () => {
   afterEach(() => {

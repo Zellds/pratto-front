@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { RecipeCard } from './RecipeCard'
-import type { Recipe } from './types'
+import type { Recipe } from '../types'
 
 const baseRecipe: Recipe = {
   id: '1',
