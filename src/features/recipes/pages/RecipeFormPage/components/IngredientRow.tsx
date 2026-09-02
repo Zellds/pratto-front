@@ -32,6 +32,7 @@ const UNIT_KEY: Record<MeasurementUnit, string> = {
 }
 
 export type IngredientRowValue = {
+  ingredientId?: string
   name: string
   quantity: string
   unit: MeasurementUnit
@@ -42,7 +43,14 @@ type IngredientRowProps = IngredientRowValue & {
   onRemove: () => void
 }
 
-export function IngredientRow({ name, quantity, unit, onChange, onRemove }: IngredientRowProps) {
+export function IngredientRow({
+  ingredientId,
+  name,
+  quantity,
+  unit,
+  onChange,
+  onRemove,
+}: IngredientRowProps) {
   const { t } = useTranslation()
   const datalistId = useId()
   const [searchTerm, setSearchTerm] = useState(name)
@@ -78,7 +86,7 @@ export function IngredientRow({ name, quantity, unit, onChange, onRemove }: Ingr
         value={name}
         onChange={(event) => {
           setSearchTerm(event.target.value)
-          onChange({ name: event.target.value, quantity, unit })
+          onChange({ ingredientId: undefined, name: event.target.value, quantity, unit })
         }}
       />
       <datalist id={datalistId}>
@@ -94,7 +102,7 @@ export function IngredientRow({ name, quantity, unit, onChange, onRemove }: Ingr
         min={0.01}
         step={0.01}
         value={quantity}
-        onChange={(event) => onChange({ name, quantity: event.target.value, unit })}
+        onChange={(event) => onChange({ ingredientId, name, quantity: event.target.value, unit })}
       />
 
       <label htmlFor={`${datalistId}-unit`}>{t('recipes.unit_label')}</label>
@@ -102,7 +110,7 @@ export function IngredientRow({ name, quantity, unit, onChange, onRemove }: Ingr
         id={`${datalistId}-unit`}
         value={unit}
         onChange={(event) =>
-          onChange({ name, quantity, unit: event.target.value as MeasurementUnit })
+          onChange({ ingredientId, name, quantity, unit: event.target.value as MeasurementUnit })
         }
       >
         {UNITS.map((unitOption) => (

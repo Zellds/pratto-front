@@ -94,7 +94,7 @@ export function Layout() {
           onToggleCollapse={toggleSidebarCollapse}
           isAuthenticated={!!token}
           displayName={meQuery.data?.displayName ?? ''}
-          onLogIn={openAuthModal}
+          onLogIn={() => openAuthModal()}
           onLogOut={handleLogOut}
         />
       </div>
@@ -171,7 +171,7 @@ export function Layout() {
           isAuthenticated={!!token}
           username={meQuery.data?.username ?? ''}
           displayName={meQuery.data?.displayName ?? ''}
-          onLogIn={openAuthModal}
+          onLogIn={() => openAuthModal()}
           onLogOut={handleLogOut}
           theme={theme}
           onToggleTheme={toggleTheme}

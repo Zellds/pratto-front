@@ -147,6 +147,7 @@
     "publish_action": "Publish",
     "publishing_action": "Publishing...",
     "form_error": "Could not save the recipe.",
+    "form_load_error": "Could not load the recipe for editing.",
     "validation_title_required": "Title is required.",
     "validation_title_max": "Title must be at most 120 characters.",
     "validation_description_required": "Description is required.",

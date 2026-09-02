@@ -90,6 +90,35 @@ describe('Layout', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
+  it('completes a real login started from the sidebar log-in button without throwing', async () => {
+    // Regressão: onLogIn={openAuthModal} passava o MouseEvent do clique como
+    // primeiro argumento de openAuthModal, que virava `pendingAction`. No
+    // sucesso do login, `pendingAction?.(token)` chamava o MouseEvent como
+    // função e explodia com TypeError. Este teste evita retroceder isso: só
+    // clicar não bastava (o bug só se manifestava ao completar o login).
+    const mockFetch = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({ token: 'new-token' }),
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderWithRouter('/')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Entrar' }))
+    const dialog = screen.getByRole('dialog')
+
+    fireEvent.change(screen.getByLabelText('Usuário'), { target: { value: 'gabriel' } })
+    fireEvent.change(screen.getByLabelText('Senha'), { target: { value: 'secret123' } })
+
+    expect(() => {
+      fireEvent.click(within(dialog).getByRole('button', { name: 'Entrar' }))
+    }).not.toThrow()
+
+    expect(await screen.findByText('Login realizado com sucesso!')).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
   it('shows the display name and a log-out button when a session exists', async () => {
     localStorage.setItem('pratto-token', 'abc123')
     const mockFetch = vi.fn().mockResolvedValue({

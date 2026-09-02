@@ -4,15 +4,17 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/providers/AuthProvider'
 import { Button } from '@/components/Button'
+import { Skeleton } from '@/components/Skeleton'
+import { EmptyState } from '@/components/EmptyState'
 import { ApiError } from '@/api/client'
 import { getRecipe, createRecipe, updateRecipe, publishRecipe } from '../../api'
-import type { RecipePayload, MeasurementUnit } from '../../types'
+import type { RecipePayload, RecipeIngredientPayload, MeasurementUnit } from '../../types'
 import { IngredientRow, type IngredientRowValue } from './components/IngredientRow'
 import { StepRow } from './components/StepRow'
 import './RecipeFormPage.css'
 
 function emptyIngredient(): IngredientRowValue {
-  return { name: '', quantity: '', unit: 'unidade' }
+  return { ingredientId: undefined, name: '', quantity: '', unit: 'unidade' }
 }
 
 export function RecipeFormPage() {
@@ -51,6 +53,7 @@ export function RecipeFormPage() {
     if (existingQuery.data.ingredients.length > 0) {
       setIngredients(
         existingQuery.data.ingredients.map((ingredient) => ({
+          ingredientId: ingredient.ingredientId,
           name: '',
           quantity: String(ingredient.quantity),
           unit: ingredient.unit as MeasurementUnit,
@@ -72,6 +75,13 @@ export function RecipeFormPage() {
     onSuccess: (published) => navigate(`/receitas/${published.id}`),
   })
 
+  if (isEditing && existingQuery.isLoading) {
+    return <Skeleton className="recipe-form-page-skeleton" />
+  }
+  if (isEditing && existingQuery.isError) {
+    return <EmptyState message={t('recipes.form_load_error')} />
+  }
+
   function validate(): string | null {
     if (!title.trim()) return t('recipes.validation_title_required')
     if (title.length > 120) return t('recipes.validation_title_max')
@@ -82,7 +92,8 @@ export function RecipeFormPage() {
     if (ingredients.length === 0) return t('recipes.validation_ingredients_min')
     if (steps.length === 0) return t('recipes.validation_steps_min')
     const hasIncompleteIngredient = ingredients.some(
-      (ingredient) => !ingredient.name.trim() || !(Number(ingredient.quantity) > 0),
+      (ingredient) =>
+        !(Number(ingredient.quantity) > 0) || (!ingredient.ingredientId && !ingredient.name.trim()),
     )
     if (hasIncompleteIngredient) return t('recipes.validation_ingredient_incomplete')
     const hasIncompleteStep = steps.some((instruction) => !instruction.trim())
@@ -101,12 +112,16 @@ export function RecipeFormPage() {
       description,
       portions: Number(portions),
       prep_time_minutes: Number(prepTimeMinutes),
-      ingredients: ingredients.map((ingredient, index) => ({
-        ingredient_name: ingredient.name,
-        quantity: Number(ingredient.quantity),
-        unit: ingredient.unit,
-        position: index,
-      })),
+      ingredients: ingredients.map((ingredient, index): RecipeIngredientPayload => {
+        const base = {
+          quantity: Number(ingredient.quantity),
+          unit: ingredient.unit,
+          position: index,
+        }
+        return ingredient.ingredientId
+          ? { ...base, ingredient_id: ingredient.ingredientId }
+          : { ...base, ingredient_name: ingredient.name }
+      }),
       steps: steps.map((instruction, index) => ({ position: index, instruction })),
     }
 

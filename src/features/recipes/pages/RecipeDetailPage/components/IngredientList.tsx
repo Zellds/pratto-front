@@ -50,7 +50,7 @@ export function IngredientList({
       <h3>{t('recipes.ingredients_title')}</h3>
       <ul className="ingredient-list">
         {scaled.map((ingredient) => (
-          <li key={ingredient.ingredientId} className="ingredient-list-item">
+          <li key={ingredient.position} className="ingredient-list-item">
             {ingredient.quantity} {t(UNIT_KEY[ingredient.unit] ?? ingredient.unit)}
           </li>
         ))}

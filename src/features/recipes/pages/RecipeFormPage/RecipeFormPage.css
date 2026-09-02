@@ -53,3 +53,8 @@
     max-width: 100%;
   }
 }
+
+.recipe-form-page-skeleton {
+  height: 320px;
+  max-width: 640px;
+}

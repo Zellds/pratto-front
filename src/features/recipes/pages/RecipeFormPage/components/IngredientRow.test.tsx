@@ -33,6 +33,66 @@ describe('IngredientRow', () => {
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ name: 'Cenoura' }))
   })
 
+  it('clears ingredientId when the user retypes the ingredient name', () => {
+    const onChange = vi.fn()
+    const onRemove = vi.fn()
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve([]) }),
+    )
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <IngredientRow
+          ingredientId="i1"
+          name=""
+          quantity="2"
+          unit="unidade"
+          onChange={onChange}
+          onRemove={onRemove}
+        />
+      </QueryClientProvider>,
+    )
+
+    fireEvent.change(screen.getByLabelText('Ingrediente'), { target: { value: 'Cenoura ralada' } })
+
+    expect(onChange).toHaveBeenCalledWith({
+      ingredientId: undefined,
+      name: 'Cenoura ralada',
+      quantity: '2',
+      unit: 'unidade',
+    })
+  })
+
+  it('preserves ingredientId when only the quantity or unit changes', () => {
+    const onChange = vi.fn()
+    const onRemove = vi.fn()
+    const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <IngredientRow
+          ingredientId="i1"
+          name=""
+          quantity="2"
+          unit="unidade"
+          onChange={onChange}
+          onRemove={onRemove}
+        />
+      </QueryClientProvider>,
+    )
+
+    fireEvent.change(screen.getByLabelText('Quantidade'), { target: { value: '3' } })
+
+    expect(onChange).toHaveBeenCalledWith({
+      ingredientId: 'i1',
+      name: '',
+      quantity: '3',
+      unit: 'unidade',
+    })
+  })
+
   it('searches ingredients after the name is typed', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
