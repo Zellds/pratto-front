@@ -78,7 +78,7 @@
     "pending_review_badge": "Under review",
     "prep_time": "{{minutes}} min prep time",
     "portions": "{{count}} servings",
-    "average_rating": "Rating {{rating}}",
+    "average_rating": "★ {{rating}}",
     "no_ratings": "No ratings yet",
     "by_author": "by {{name}}",
     "hero_tag": "Featured this week",

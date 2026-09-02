@@ -58,7 +58,7 @@ describe('RecipeCard', () => {
   it('shows the average rating when present', () => {
     renderCard({ ...baseRecipe, averageRating: 4.5, ratingsCount: 2 })
 
-    expect(screen.getByText('Nota 4.5')).toBeInTheDocument()
+    expect(screen.getByText('★ 4.5')).toBeInTheDocument()
   })
 
   it('shows a pending-review badge when the recipe is not yet approved', () => {
