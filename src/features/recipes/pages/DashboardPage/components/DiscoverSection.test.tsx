@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { DiscoverSection } from './DiscoverSection'
-import type { Recipe } from './types'
+import type { Recipe } from '../../../types'
 
 const recipe: Recipe = {
   id: '1',

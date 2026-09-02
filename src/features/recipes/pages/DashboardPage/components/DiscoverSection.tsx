@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { RecipeCard } from './RecipeCard'
-import type { Recipe } from './types'
+import { RecipeCard } from '../../../components/RecipeCard'
+import type { Recipe } from '../../../types'
 import './DiscoverSection.css'
 
 export function DiscoverSection({ recipes }: { recipes: Recipe[] }) {

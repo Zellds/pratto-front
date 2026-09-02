@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/providers/AuthProvider'
 import { EmptyState } from '@/components/EmptyState'
-import { RecipeCard } from './RecipeCard'
-import { RecipeCardSkeleton } from './RecipeCardSkeleton'
-import { getFeed } from './api'
+import { RecipeCard } from '../../../components/RecipeCard'
+import { RecipeCardSkeleton } from '../../../components/RecipeCardSkeleton'
+import { getFeed } from '../../../api'
 import './FeedSection.css'
 
 export function FeedSection() {

@@ -1,5 +1,5 @@
 import { apiFetch } from '@/api/client'
-import type { Recipe, SearchRecipesParams } from './types'
+import type { Recipe, SearchRecipesParams } from '../types'
 
 export function searchRecipes(params: SearchRecipesParams): Promise<Recipe[]> {
   const query = new URLSearchParams()

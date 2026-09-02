@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
 import { initials } from '@/utils/initials'
-import type { Recipe } from './types'
+import type { Recipe } from '../../../types'
 import './Hero.css'
 
 export function Hero({ recipe }: { recipe: Recipe }) {

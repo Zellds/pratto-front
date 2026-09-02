@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router'
 import { Layout } from '../layouts/Layout'
 import { StubPage } from '../components/StubPage'
-import { DashboardPage } from '../features/recipes/DashboardPage'
-import { RecipeListPage } from '../features/recipes/RecipeListPage'
+import { DashboardPage } from '../features/recipes/pages/DashboardPage/DashboardPage'
+import { RecipeListPage } from '../features/recipes/pages/RecipeListPage/RecipeListPage'
 
 export const router = createBrowserRouter([
   {
