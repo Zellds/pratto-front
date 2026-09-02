@@ -127,6 +127,10 @@
     "unit_colher_sopa": "tablespoon",
     "unit_colher_cha": "teaspoon",
     "unit_pitada": "pinch",
-    "unit_a_gosto": "to taste"
+    "unit_a_gosto": "to taste",
+    "ingredient_name_label": "Ingredient",
+    "quantity_label": "Quantity",
+    "unit_label": "Unit",
+    "remove_ingredient_action": "Remove ingredient"
   }
 }

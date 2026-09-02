@@ -127,6 +127,10 @@
     "unit_colher_sopa": "colher de sopa",
     "unit_colher_cha": "colher de chá",
     "unit_pitada": "pitada",
-    "unit_a_gosto": "a gosto"
+    "unit_a_gosto": "a gosto",
+    "ingredient_name_label": "Ingrediente",
+    "quantity_label": "Quantidade",
+    "unit_label": "Unidade",
+    "remove_ingredient_action": "Remover ingrediente"
   }
 }
