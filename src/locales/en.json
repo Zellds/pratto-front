@@ -131,6 +131,8 @@
     "ingredient_name_label": "Ingredient",
     "quantity_label": "Quantity",
     "unit_label": "Unit",
-    "remove_ingredient_action": "Remove ingredient"
+    "remove_ingredient_action": "Remove ingredient",
+    "step_instruction_label": "Instruction",
+    "remove_step_action": "Remove step"
   }
 }
