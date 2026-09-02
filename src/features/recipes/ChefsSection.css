@@ -8,7 +8,7 @@
 
 .chefs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
 }
 
@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .chef-avatar {
@@ -33,5 +33,18 @@
   display: grid;
   place-items: center;
   font-weight: 600;
+  font-size: 16px;
+}
+
+.chef-name {
+  font-weight: 600;
   font-size: 15px;
+}
+
+.chef-follow {
+  margin-top: 6px;
+  width: 100%;
+  justify-content: center;
+  border-color: var(--accent-green);
+  color: var(--accent-green);
 }

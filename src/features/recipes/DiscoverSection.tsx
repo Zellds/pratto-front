@@ -26,7 +26,7 @@ export function DiscoverSection({ recipes }: { recipes: Recipe[] }) {
           {t('recipes.discover_refresh')}
         </button>
       </div>
-      <ul className="recipe-grid">
+      <ul className="discover-grid">
         {recipes.map((recipe) => (
           <li key={recipe.id}>
             {/*
