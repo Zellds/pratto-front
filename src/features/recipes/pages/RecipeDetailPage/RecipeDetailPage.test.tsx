@@ -46,6 +46,7 @@ const SAMPLE_RECIPE = {
 describe('RecipeDetailPage', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
+    localStorage.clear()
   })
 
   it('shows a loading state while the recipe is being fetched', () => {
