@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { HomeIcon, ExploreIcon, PlusIcon, MenuIcon, ProfileIcon } from '../shared/ui/icons'
+import { HomeIcon, ExploreIcon, PlusIcon, MenuIcon, ProfileIcon } from '../components/icons'
 import { initials } from './navItems'
 import './BottomBar.css'
 

@@ -1,4 +1,4 @@
-import { apiFetch } from '../../shared/api/client'
+import { apiFetch } from '@/api/client'
 import type { LoginPayload, RegisterPayload, AuthResponse } from './types'
 
 export function login(payload: LoginPayload): Promise<AuthResponse> {

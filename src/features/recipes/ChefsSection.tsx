@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Button } from '../../shared/ui/Button'
+import { Button } from '@/components/Button'
 import './ChefsSection.css'
 
 const PLACEHOLDER_CHEFS = [

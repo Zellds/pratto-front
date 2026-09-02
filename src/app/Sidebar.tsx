@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { CollapseIcon } from '../shared/ui/icons'
+import { CollapseIcon } from '../components/icons'
 import { MAIN_ITEMS, KITCHEN_ITEMS, COMMUNITY_ITEMS, initials, type NavItem } from './navItems'
 import './Sidebar.css'
 

@@ -1,4 +1,4 @@
-// src/shared/api/client.test.ts
+// src/api/client.test.ts
 
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { apiFetch, ApiError } from './client'
