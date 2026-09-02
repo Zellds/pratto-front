@@ -13,7 +13,10 @@
     "chefs": "Chefs",
     "ranking": "Ranking",
     "section_kitchen": "My kitchen",
-    "section_community": "Community"
+    "section_community": "Community",
+    "section_discover": "Discover",
+    "section_account": "Account",
+    "profile": "Profile"
   },
   "common": {
     "under_construction": "Under construction.",
@@ -46,7 +49,8 @@
     "chefs": "Chefs",
     "ranking": "Ranking",
     "profile": "Profile",
-    "recipe_book": "Recipe book"
+    "recipe_book": "Recipe book",
+    "settings": "Settings"
   },
   "auth": {
     "tab_login": "Log in",

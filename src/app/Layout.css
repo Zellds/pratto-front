@@ -87,22 +87,7 @@
   opacity: 0.6;
 }
 
-.app-mobile-menu-button {
-  display: none;
-  min-width: 38px;
-  height: 38px;
-  padding: 0 10px;
-  font-size: 13px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border: 1px solid var(--line-strong);
-  background-color: var(--card);
-  color: var(--ink-soft);
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .app-shell {
     grid-template-columns: 1fr;
   }
@@ -123,7 +108,7 @@
     display: inline-flex;
   }
 
-  .app-mobile-menu-button {
-    display: inline-flex;
+  .app-shell-main main {
+    padding-bottom: 78px;
   }
 }
