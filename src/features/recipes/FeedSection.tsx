@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../app/AuthProvider'
+import { useAuth } from '@/providers/AuthProvider'
 import { EmptyState } from '@/components/EmptyState'
 import { RecipeCard } from './RecipeCard'
 import { RecipeCardSkeleton } from './RecipeCardSkeleton'

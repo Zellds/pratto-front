@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router'
-import { AuthProvider } from '../../app/AuthProvider'
+import { AuthProvider } from '@/providers/AuthProvider'
 import { FeedSection } from './FeedSection'
 
 function renderFeedSection() {

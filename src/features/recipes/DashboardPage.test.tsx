@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router'
-import { AuthProvider } from '../../app/AuthProvider'
+import { AuthProvider } from '@/providers/AuthProvider'
 import { DashboardPage } from './DashboardPage'
 
 function makeRecipe(id: string, averageRating: number | null) {

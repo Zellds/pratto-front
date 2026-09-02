@@ -5,9 +5,9 @@ import { RouterProvider } from 'react-router'
 import './styles/tokens.css'
 import './config/i18n'
 import { router } from './app/routes.tsx'
-import { ThemeProvider } from './app/ThemeProvider.tsx'
-import { AuthProvider } from './app/AuthProvider.tsx'
-import { ToastProvider } from './shared/ui/ToastProvider.tsx'
+import { ThemeProvider } from './providers/ThemeProvider.tsx'
+import { AuthProvider } from './providers/AuthProvider.tsx'
+import { ToastProvider } from './providers/ToastProvider.tsx'
 
 const queryClient = new QueryClient()
 
