@@ -111,6 +111,7 @@
     "decrease_portions": "Decrease servings",
     "increase_portions": "Increase servings",
     "ingredients_title": "Ingredients",
+    "edit_action": "Edit",
     "steps_title": "Instructions",
     "rate_prompt": "Rate this recipe",
     "rate_value": "Rate {{value}} stars",

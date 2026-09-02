@@ -111,6 +111,7 @@
     "decrease_portions": "Diminuir porções",
     "increase_portions": "Aumentar porções",
     "ingredients_title": "Ingredientes",
+    "edit_action": "Editar",
     "steps_title": "Modo de preparo",
     "rate_prompt": "Avalie esta receita",
     "rate_value": "Avaliar com {{value}} estrelas",

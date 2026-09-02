@@ -86,4 +86,58 @@ describe('RecipeDetailPage', () => {
 
     expect(await screen.findByText('Receita não encontrada.')).toBeInTheDocument()
   })
+
+  it('shows an edit link when the viewer is the recipe owner', async () => {
+    localStorage.setItem('pratto-token', 'tok123')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) => {
+        if (url.includes('/me')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({ username: 'gabriel', displayName: 'Gabriel Medeiros' }),
+          })
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(SAMPLE_RECIPE),
+        })
+      }),
+    )
+
+    renderPage()
+
+    expect(await screen.findByRole('link', { name: 'Editar' })).toHaveAttribute(
+      'href',
+      '/receitas/1/editar',
+    )
+  })
+
+  it('does not show an edit link when the viewer is not the owner', async () => {
+    localStorage.setItem('pratto-token', 'tok123')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url: string) => {
+        if (url.includes('/me')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve({ username: 'other-user', displayName: 'Other' }),
+          })
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(SAMPLE_RECIPE),
+        })
+      }),
+    )
+
+    renderPage()
+
+    await screen.findByText('Bolo de cenoura')
+    expect(screen.queryByRole('link', { name: 'Editar' })).not.toBeInTheDocument()
+  })
 })
