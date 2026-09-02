@@ -3,19 +3,22 @@ import { render, screen } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter, Route, Routes } from 'react-router'
 import { AuthProvider } from '@/providers/AuthProvider'
+import { ToastProvider } from '@/providers/ToastProvider'
 import { RecipeDetailPage } from './RecipeDetailPage'
 
 function renderPage(id = '1') {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   return render(
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <MemoryRouter initialEntries={[`/receitas/${id}`]}>
-          <Routes>
-            <Route path="/receitas/:id" element={<RecipeDetailPage />} />
-          </Routes>
-        </MemoryRouter>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <MemoryRouter initialEntries={[`/receitas/${id}`]}>
+            <Routes>
+              <Route path="/receitas/:id" element={<RecipeDetailPage />} />
+            </Routes>
+          </MemoryRouter>
+        </AuthProvider>
+      </ToastProvider>
     </QueryClientProvider>,
   )
 }
