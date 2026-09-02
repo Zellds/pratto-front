@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal } from '../../shared/ui/Modal'
 import { useAuth } from '../../app/AuthProvider'
+import { useToast } from '../../shared/ui/ToastProvider'
 import { LoginForm } from './LoginForm'
 import { RegisterForm } from './RegisterForm'
 
@@ -13,11 +14,13 @@ type AuthModalProps = {
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const { t } = useTranslation()
   const { setToken } = useAuth()
+  const { showToast } = useToast()
   const [mode, setMode] = useState<'login' | 'register'>('login')
 
   function handleSuccess(token: string) {
     setToken(token)
     onClose()
+    showToast(t('auth.login_success'))
   }
 
   return (

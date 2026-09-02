@@ -6,6 +6,7 @@ import { Layout } from './Layout'
 import { ThemeProvider } from './ThemeProvider'
 import { AuthProvider } from './AuthProvider'
 import { StubPage } from './StubPage'
+import { ToastProvider } from '../shared/ui/ToastProvider'
 
 function renderWithRouter(initialPath: string) {
   const router = createMemoryRouter(
@@ -27,11 +28,13 @@ function renderWithRouter(initialPath: string) {
   return {
     ...render(
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <ThemeProvider>
-            <RouterProvider router={router} />
-          </ThemeProvider>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <ThemeProvider>
+              <RouterProvider router={router} />
+            </ThemeProvider>
+          </AuthProvider>
+        </ToastProvider>
       </QueryClientProvider>,
     ),
     router,
@@ -117,6 +120,25 @@ describe('Layout', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Sair' }))
 
     expect(await screen.findByRole('button', { name: 'Entrar' })).toBeInTheDocument()
+  })
+
+  it('shows a toast when logging out', async () => {
+    localStorage.setItem('pratto-token', 'abc123')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ displayName: 'Gabriel' }),
+      }),
+    )
+
+    renderWithRouter('/')
+    await screen.findByText('Gabriel')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Sair' }))
+
+    expect(await screen.findByText('Você saiu da sua conta.')).toBeInTheDocument()
   })
 
   it('falls back to the logged-out state when the session is invalid', async () => {

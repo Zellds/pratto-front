@@ -4,6 +4,9 @@ type AuthContextValue = {
   token: string | null
   setToken: (token: string) => void
   clearToken: () => void
+  isAuthModalOpen: boolean
+  openAuthModal: () => void
+  closeAuthModal: () => void
 }
 
 const STORAGE_KEY = 'pratto-token'
@@ -20,6 +23,7 @@ function readStoredToken(): string | null {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setTokenState] = useState<string | null>(readStoredToken)
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
 
   function setToken(newToken: string) {
     try {
@@ -40,7 +44,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken, clearToken }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider
+      value={{
+        token,
+        setToken,
+        clearToken,
+        isAuthModalOpen,
+        openAuthModal: () => setIsAuthModalOpen(true),
+        closeAuthModal: () => setIsAuthModalOpen(false),
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   )
 }
 

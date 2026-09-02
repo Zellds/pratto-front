@@ -34,7 +34,9 @@
     "search_placeholder": "Search recipes, ingredients or chefs",
     "notifications": "Notifications",
     "notifications_disabled_hint": "Notifications don't exist in this version yet",
-    "new_recipe": "New recipe"
+    "new_recipe": "New recipe",
+    "dismiss_notification": "Dismiss notification",
+    "logged_out": "You've been logged out."
   },
   "pages": {
     "recipe_detail": "Recipe detail",
@@ -60,7 +62,8 @@
     "display_name_label": "Display name",
     "login_submit": "Log in",
     "register_submit": "Create account",
-    "generic_error": "Could not connect, please try again."
+    "generic_error": "Could not connect, please try again.",
+    "login_success": "Logged in successfully!"
   },
   "recipes": {
     "dashboard_page_title": "Dashboard",
@@ -98,6 +101,9 @@
     "follow_disabled_hint": "Chef listing doesn't exist in this version yet",
     "feed_title": "From who you follow",
     "feed_empty_logged_out": "Log in to see recipes from people you follow.",
-    "feed_empty_no_follows": "You aren't following anyone yet."
+    "feed_empty_no_follows": "You aren't following anyone yet.",
+    "explore_action": "Explore recipes",
+    "new_recipe_action": "Publish a recipe",
+    "clear_search_action": "Clear search"
   }
 }
