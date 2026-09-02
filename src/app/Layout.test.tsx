@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from './Layout'
 import { ThemeProvider } from './ThemeProvider'
 import { AuthProvider } from './AuthProvider'
-import { StubPage } from './StubPage'
+import { StubPage } from '../components/StubPage'
 import { ToastProvider } from '../shared/ui/ToastProvider'
 
 function renderWithRouter(initialPath: string) {
