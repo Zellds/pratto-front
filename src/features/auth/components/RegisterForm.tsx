@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
 import { ApiError } from '@/api/client'
-import { register } from './api'
+import { register } from '../api'
 
 type RegisterFormProps = {
   onSuccess: (token: string) => void
