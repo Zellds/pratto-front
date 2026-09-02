@@ -46,6 +46,15 @@
   cursor: not-allowed;
 }
 
+.recipe-card-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipe-card-title-link:hover {
+  text-decoration: underline;
+}
+
 .recipe-card-author {
   font-size: 13px;
   color: var(--ink-soft);

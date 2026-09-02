@@ -4,6 +4,7 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .card:hover {

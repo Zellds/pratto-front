@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RecipeList } from './RecipeList'
 import type { Recipe } from './types'
@@ -30,7 +31,9 @@ function renderRecipeList(props: { showSearch?: boolean; showPagination?: boolea
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   return render(
     <QueryClientProvider client={queryClient}>
-      <RecipeList {...props} />
+      <MemoryRouter>
+        <RecipeList {...props} />
+      </MemoryRouter>
     </QueryClientProvider>,
   )
 }

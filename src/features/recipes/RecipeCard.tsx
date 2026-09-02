@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../shared/ui/Card'
 import { SavedIcon } from '../../shared/ui/icons'
@@ -30,7 +31,11 @@ export function RecipeCard({ recipe, rank }: { recipe: Recipe; rank?: number }) 
         )}
       </div>
       <div className="card-body">
-        <h3>{recipe.title}</h3>
+        <h3>
+          <Link to={`/receitas/${recipe.id}`} className="recipe-card-title-link">
+            {recipe.title}
+          </Link>
+        </h3>
         {recipe.ownerDisplayName && (
           <p className="recipe-card-author">
             {t('recipes.by_author', { name: recipe.ownerDisplayName })}
