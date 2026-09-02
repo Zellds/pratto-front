@@ -14,7 +14,7 @@ organização **dentro** de cada domínio e o que vive fora de `features/`
 ```
 src/
 ├── api/
-│   └── client.ts               → cliente HTTP base (fetch wrapper, tratamento de erro)
+│   └── client.ts / .test.ts    → cliente HTTP base (fetch wrapper, tratamento de erro)
 ├── components/
 │   ├── Button.tsx / .css
 │   ├── Card.tsx / .css
@@ -76,8 +76,11 @@ src/
 └── main.tsx
 ```
 
-(Cada `.tsx` listado acima tem seu `.test.tsx` ao lado, no mesmo diretório —
-isso não muda, é a convenção de co-localização já em uso no projeto.)
+(Onde existe teste, ele fica em `.test.tsx`/`.test.ts` ao lado do arquivo, no
+mesmo diretório — é a convenção de co-localização já em uso no projeto. Isso
+não é garantia de cobertura: nem todo `.tsx` acima tem teste hoje, ex.
+`components/Skeleton.tsx`, `components/StubPage.tsx`, `components/icons.tsx`
+e `pages/RecipeListPage/RecipeListPage.tsx`.)
 
 ## O que vai em cada pasta
 
@@ -163,7 +166,15 @@ dela vai ter algo de verdade. Mesmo princípio de `hooks/` (ver abaixo).
 ## Alias de import
 
 `@/` aponta para `src/` (configurado em `vite.config.ts` e `tsconfig.json`).
-Evita cadeias `../../../` a partir de arquivos mais fundos, como
-`pages/DashboardPage/components/Hero.tsx` importando algo de
-`components/`. Prefira `@/components/Button` a caminho relativo sempre que
-o import atravessar mais de um nível de pasta.
+Usa `@/` quando um arquivo dentro de `features/<dominio>/` importa de uma
+pasta de infra do topo (`components/`, `providers/`, `api/`, `utils/`,
+`config/`, `layouts/`, `routes/` — as que vivem direto em `src/`), como
+`FeedSection.tsx` importando `@/providers/AuthProvider` ou
+`@/components/EmptyState`.
+
+Import dentro da mesma feature fica relativo, não importa a profundidade —
+`FeedSection.tsx` importa `RecipeCard` e `getFeed` como
+`../../../components/RecipeCard` e `../../../api`, porque são
+`features/recipes/components/` e `features/recipes/api/`, não pastas do
+topo. `@/` não existe pra evitar `../../../` em si; existe pra marcar a
+fronteira entre a feature e a infra compartilhada.
