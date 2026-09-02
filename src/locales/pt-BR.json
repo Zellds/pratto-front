@@ -133,6 +133,27 @@
     "unit_label": "Unidade",
     "remove_ingredient_action": "Remover ingrediente",
     "step_instruction_label": "Instrução",
-    "remove_step_action": "Remover passo"
+    "remove_step_action": "Remover passo",
+    "form_title_create": "Nova receita",
+    "form_title_edit": "Editar receita",
+    "title_label": "Título",
+    "description_label": "Descrição",
+    "portions_field_label": "Porções",
+    "prep_time_label": "Tempo de preparo (minutos)",
+    "ingredients_section_title": "Ingredientes",
+    "steps_section_title": "Modo de preparo",
+    "add_ingredient_action": "Adicionar ingrediente",
+    "add_step_action": "Adicionar passo",
+    "publish_action": "Publicar",
+    "publishing_action": "Publicando...",
+    "form_error": "Não foi possível salvar a receita.",
+    "validation_title_required": "Título é obrigatório.",
+    "validation_title_max": "Título deve ter no máximo 120 caracteres.",
+    "validation_description_required": "Descrição é obrigatória.",
+    "validation_description_max": "Descrição deve ter no máximo 2000 caracteres.",
+    "validation_portions_min": "Porções deve ser pelo menos 1.",
+    "validation_prep_time_min": "Tempo de preparo deve ser pelo menos 1 minuto.",
+    "validation_ingredients_min": "Adicione pelo menos 1 ingrediente.",
+    "validation_steps_min": "Adicione pelo menos 1 passo."
   }
 }

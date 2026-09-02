@@ -133,6 +133,27 @@
     "unit_label": "Unit",
     "remove_ingredient_action": "Remove ingredient",
     "step_instruction_label": "Instruction",
-    "remove_step_action": "Remove step"
+    "remove_step_action": "Remove step",
+    "form_title_create": "New recipe",
+    "form_title_edit": "Edit recipe",
+    "title_label": "Title",
+    "description_label": "Description",
+    "portions_field_label": "Servings",
+    "prep_time_label": "Prep time (minutes)",
+    "ingredients_section_title": "Ingredients",
+    "steps_section_title": "Instructions",
+    "add_ingredient_action": "Add ingredient",
+    "add_step_action": "Add step",
+    "publish_action": "Publish",
+    "publishing_action": "Publishing...",
+    "form_error": "Could not save the recipe.",
+    "validation_title_required": "Title is required.",
+    "validation_title_max": "Title must be at most 120 characters.",
+    "validation_description_required": "Description is required.",
+    "validation_description_max": "Description must be at most 2000 characters.",
+    "validation_portions_min": "Servings must be at least 1.",
+    "validation_prep_time_min": "Prep time must be at least 1 minute.",
+    "validation_ingredients_min": "Add at least 1 ingredient.",
+    "validation_steps_min": "Add at least 1 step."
   }
 }

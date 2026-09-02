@@ -4,6 +4,7 @@ import { StubPage } from '../components/StubPage'
 import { DashboardPage } from '../features/recipes/pages/DashboardPage/DashboardPage'
 import { RecipeListPage } from '../features/recipes/pages/RecipeListPage/RecipeListPage'
 import { RecipeDetailPage } from '../features/recipes/pages/RecipeDetailPage/RecipeDetailPage'
+import { RecipeFormPage } from '../features/recipes/pages/RecipeFormPage/RecipeFormPage'
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,8 @@ export const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
       { path: 'receitas', element: <RecipeListPage /> },
       { path: 'receitas/:id', element: <RecipeDetailPage /> },
-      { path: 'nova-receita', element: <StubPage titleKey="pages.new_recipe" /> },
+      { path: 'receitas/:id/editar', element: <RecipeFormPage /> },
+      { path: 'nova-receita', element: <RecipeFormPage /> },
       { path: 'categorias', element: <StubPage titleKey="pages.categories" /> },
       { path: 'salvos', element: <StubPage titleKey="pages.saved" /> },
       { path: 'minhas-receitas', element: <StubPage titleKey="pages.my_recipes" /> },
