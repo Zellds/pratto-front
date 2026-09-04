@@ -10,7 +10,7 @@ import { ApiError } from '@/api/client'
 import { getRecipe, createRecipe, updateRecipe, publishRecipe } from '../../api'
 import type { RecipePayload, RecipeIngredientPayload, MeasurementUnit } from '../../types'
 import { IngredientRow, type IngredientRowValue } from './components/IngredientRow'
-import { StepRow } from './components/StepRow'
+import { StepLine } from './components/StepLine'
 import './RecipeFormPage.css'
 
 function emptyIngredient(): IngredientRowValue {
@@ -201,8 +201,9 @@ export function RecipeFormPage() {
             <div className="paper-inner">
               <h2>{t('recipes.steps_section_title')}</h2>
               {steps.map((instruction, index) => (
-                <StepRow
+                <StepLine
                   key={index}
+                  stepNumber={index + 1}
                   instruction={instruction}
                   onChange={(next) =>
                     setSteps((current) => current.map((step, i) => (i === index ? next : step)))
