@@ -13,7 +13,7 @@
   display: block;
 }
 
-.ingredient-row input,
+.ingredient-row input:not([type='checkbox']),
 .ingredient-row select {
   width: 100%;
   padding: 8px 10px;
@@ -33,7 +33,14 @@
   cursor: pointer;
 }
 
-.ingredient-row-optional {
+/*
+ * Selector repeats `.ingredient-row` on purpose: this is a <label>, and
+ * `.ingredient-row label` above (matching every plain-label field in this
+ * row) sets display:block at equal-or-higher specificity, which would
+ * otherwise silently win over a bare `.ingredient-row-optional` rule and
+ * break this one label's flex layout regardless of source order.
+ */
+.ingredient-row .ingredient-row-optional {
   display: flex;
   align-items: center;
   gap: 4px;

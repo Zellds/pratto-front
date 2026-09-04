@@ -107,9 +107,46 @@ describe('RecipeFormPage', () => {
     const createCall = mockFetch.mock.calls.find(([url]) => url.endsWith('/recipes'))!
     const body = JSON.parse(createCall[1].body)
     expect(body.ingredients).toEqual([
-      { ingredient_name: 'Cenoura', quantity: 3, unit: 'unidade', position: 0 },
+      { ingredient_name: 'Cenoura', quantity: 3, unit: 'unidade', position: 0, is_optional: false },
     ])
     expect(body.steps).toEqual([{ position: 0, instruction: 'Bata tudo.' }])
+  })
+
+  it('includes is_optional in the payload when an ingredient is marked optional', async () => {
+    const mockFetch = vi.fn((url: string, init?: { method?: string; body?: string }) => {
+      if (init?.method === 'POST' && url.endsWith('/recipes')) {
+        return Promise.resolve({
+          ok: true,
+          status: 201,
+          json: () => Promise.resolve({ id: 'r1', title: 'Bolo', status: 'draft' }),
+        })
+      }
+      if (init?.method === 'POST' && url.includes('/recipes/r1/publish')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ id: 'r1', title: 'Bolo', status: 'pending_review' }),
+        })
+      }
+      return Promise.reject(new Error(`unexpected request: ${url}`))
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderPage()
+
+    fireEvent.change(screen.getByLabelText('Título'), { target: { value: 'Bolo' } })
+    fireEvent.change(screen.getByLabelText('Descrição'), { target: { value: 'Um bolo qualquer' } })
+    fireEvent.change(screen.getByLabelText('Ingrediente'), { target: { value: 'Leite' } })
+    fireEvent.change(screen.getByLabelText('Quantidade'), { target: { value: '1' } })
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Opcional' }))
+    fireEvent.change(screen.getByLabelText('Instrução'), { target: { value: 'Bata tudo.' } })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    const createCall = mockFetch.mock.calls.find(([url]) => url.endsWith('/recipes'))!
+    const body = JSON.parse(createCall[1]!.body!)
+    expect(body.ingredients[0].is_optional).toBe(true)
   })
 
   it('loads the existing recipe when editing', async () => {

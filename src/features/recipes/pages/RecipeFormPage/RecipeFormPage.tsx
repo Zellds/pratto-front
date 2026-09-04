@@ -14,7 +14,7 @@ import { StepRow } from './components/StepRow'
 import './RecipeFormPage.css'
 
 function emptyIngredient(): IngredientRowValue {
-  return { ingredientId: undefined, name: '', quantity: '', unit: 'unidade' }
+  return { ingredientId: undefined, name: '', quantity: '', unit: 'unidade', isOptional: false }
 }
 
 export function RecipeFormPage() {
@@ -57,6 +57,7 @@ export function RecipeFormPage() {
           name: '',
           quantity: String(ingredient.quantity),
           unit: ingredient.unit as MeasurementUnit,
+          isOptional: ingredient.isOptional,
         })),
       )
     }
@@ -117,6 +118,7 @@ export function RecipeFormPage() {
           quantity: Number(ingredient.quantity),
           unit: ingredient.unit,
           position: index,
+          is_optional: ingredient.isOptional,
         }
         return ingredient.ingredientId
           ? { ...base, ingredient_id: ingredient.ingredientId }
@@ -137,70 +139,83 @@ export function RecipeFormPage() {
       <h1>{isEditing ? t('recipes.form_title_edit') : t('recipes.form_title_create')}</h1>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor={`${formId}-title`}>{t('recipes.title_label')}</label>
-        <input
-          id={`${formId}-title`}
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
+        <div className="recipe-form-grid">
+          <div className="recipe-form-sidebar">
+            <label htmlFor={`${formId}-title`}>{t('recipes.title_label')}</label>
+            <input
+              id={`${formId}-title`}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
 
-        <label htmlFor={`${formId}-description`}>{t('recipes.description_label')}</label>
-        <textarea
-          id={`${formId}-description`}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
+            <label htmlFor={`${formId}-description`}>{t('recipes.description_label')}</label>
+            <textarea
+              id={`${formId}-description`}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
 
-        <label htmlFor={`${formId}-portions`}>{t('recipes.portions_field_label')}</label>
-        <input
-          id={`${formId}-portions`}
-          type="number"
-          min={1}
-          value={portions}
-          onChange={(event) => setPortions(event.target.value)}
-        />
+            <label htmlFor={`${formId}-portions`}>{t('recipes.portions_field_label')}</label>
+            <input
+              id={`${formId}-portions`}
+              type="number"
+              min={1}
+              value={portions}
+              onChange={(event) => setPortions(event.target.value)}
+            />
 
-        <label htmlFor={`${formId}-prep-time`}>{t('recipes.prep_time_label')}</label>
-        <input
-          id={`${formId}-prep-time`}
-          type="number"
-          min={1}
-          value={prepTimeMinutes}
-          onChange={(event) => setPrepTimeMinutes(event.target.value)}
-        />
+            <label htmlFor={`${formId}-prep-time`}>{t('recipes.prep_time_label')}</label>
+            <input
+              id={`${formId}-prep-time`}
+              type="number"
+              min={1}
+              value={prepTimeMinutes}
+              onChange={(event) => setPrepTimeMinutes(event.target.value)}
+            />
 
-        <h2>{t('recipes.ingredients_section_title')}</h2>
-        {ingredients.map((ingredient, index) => (
-          <IngredientRow
-            key={index}
-            {...ingredient}
-            onChange={(next) =>
-              setIngredients((current) => current.map((row, i) => (i === index ? next : row)))
-            }
-            onRemove={() => setIngredients((current) => current.filter((_, i) => i !== index))}
-          />
-        ))}
-        <button
-          type="button"
-          onClick={() => setIngredients((current) => [...current, emptyIngredient()])}
-        >
-          {t('recipes.add_ingredient_action')}
-        </button>
+            <h2>{t('recipes.ingredients_section_title')}</h2>
+            {ingredients.map((ingredient, index) => (
+              <IngredientRow
+                key={index}
+                {...ingredient}
+                onChange={(next) =>
+                  setIngredients((current) => current.map((row, i) => (i === index ? next : row)))
+                }
+                onRemove={() => setIngredients((current) => current.filter((_, i) => i !== index))}
+              />
+            ))}
+            <button
+              type="button"
+              onClick={() => setIngredients((current) => [...current, emptyIngredient()])}
+            >
+              {t('recipes.add_ingredient_action')}
+            </button>
+          </div>
 
-        <h2>{t('recipes.steps_section_title')}</h2>
-        {steps.map((instruction, index) => (
-          <StepRow
-            key={index}
-            instruction={instruction}
-            onChange={(next) =>
-              setSteps((current) => current.map((step, i) => (i === index ? next : step)))
-            }
-            onRemove={() => setSteps((current) => current.filter((_, i) => i !== index))}
-          />
-        ))}
-        <button type="button" onClick={() => setSteps((current) => [...current, ''])}>
-          {t('recipes.add_step_action')}
-        </button>
+          <div className="recipe-form-board">
+            <div className="recipe-form-clip" aria-hidden="true">
+              <span className="recipe-form-clip-bar" />
+              <span className="recipe-form-clip-rivet recipe-form-clip-rivet-left" />
+              <span className="recipe-form-clip-rivet recipe-form-clip-rivet-right" />
+            </div>
+            <div className="paper-inner">
+              <h2>{t('recipes.steps_section_title')}</h2>
+              {steps.map((instruction, index) => (
+                <StepRow
+                  key={index}
+                  instruction={instruction}
+                  onChange={(next) =>
+                    setSteps((current) => current.map((step, i) => (i === index ? next : step)))
+                  }
+                  onRemove={() => setSteps((current) => current.filter((_, i) => i !== index))}
+                />
+              ))}
+              <button type="button" onClick={() => setSteps((current) => [...current, ''])}>
+                {t('recipes.add_step_action')}
+              </button>
+            </div>
+          </div>
+        </div>
 
         {(validationError ||
           (publishMutation.isError &&
