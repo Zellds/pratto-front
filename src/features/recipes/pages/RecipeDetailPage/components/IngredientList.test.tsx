@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { IngredientList, scaleIngredients } from './IngredientList'
 import type { RecipeIngredient } from '../../../types'
 
 const INGREDIENTS: RecipeIngredient[] = [
-  { ingredientId: 'i1', quantity: 2, unit: 'unidade', position: 0 },
-  { ingredientId: 'i2', quantity: 1.5, unit: 'xicara', position: 1 },
+  { ingredientId: 'i1', quantity: 2, unit: 'unidade', position: 0, isOptional: false },
+  { ingredientId: 'i2', quantity: 1.5, unit: 'xicara', position: 1, isOptional: false },
 ]
 
 describe('scaleIngredients', () => {
@@ -32,5 +32,22 @@ describe('IngredientList', () => {
 
     expect(screen.getByText(/2/)).toBeInTheDocument()
     expect(screen.getByText(/1[.,]5/)).toBeInTheDocument()
+  })
+
+  it('shows an optional badge next to an optional ingredient', () => {
+    render(
+      <IngredientList
+        ingredients={[
+          { ingredientId: 'i1', quantity: 2, unit: 'unidade', position: 0, isOptional: false },
+          { ingredientId: 'i2', quantity: 1, unit: 'xicara', position: 1, isOptional: true },
+        ]}
+        originalPortions={4}
+        currentPortions={4}
+      />,
+    )
+
+    const items = screen.getAllByRole('listitem')
+    expect(within(items[0]).queryByText('opcional')).not.toBeInTheDocument()
+    expect(within(items[1]).getByText('opcional')).toBeInTheDocument()
   })
 })
