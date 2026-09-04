@@ -3,6 +3,7 @@ export type RecipeIngredient = {
   quantity: number
   unit: string
   position: number
+  isOptional: boolean
 }
 
 export type RecipeStep = {
@@ -55,6 +56,7 @@ export type RecipeIngredientPayload = {
   quantity: number
   unit: MeasurementUnit
   position: number
+  is_optional?: boolean
 }
 
 export type RecipeStepPayload = {

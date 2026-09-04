@@ -36,6 +36,7 @@ export type IngredientRowValue = {
   name: string
   quantity: string
   unit: MeasurementUnit
+  isOptional: boolean
 }
 
 type IngredientRowProps = IngredientRowValue & {
@@ -48,6 +49,7 @@ export function IngredientRow({
   name,
   quantity,
   unit,
+  isOptional,
   onChange,
   onRemove,
 }: IngredientRowProps) {
@@ -86,7 +88,13 @@ export function IngredientRow({
         value={name}
         onChange={(event) => {
           setSearchTerm(event.target.value)
-          onChange({ ingredientId: undefined, name: event.target.value, quantity, unit })
+          onChange({
+            ingredientId: undefined,
+            name: event.target.value,
+            quantity,
+            unit,
+            isOptional,
+          })
         }}
       />
       <datalist id={datalistId}>
@@ -102,7 +110,9 @@ export function IngredientRow({
         min={0.01}
         step={0.01}
         value={quantity}
-        onChange={(event) => onChange({ ingredientId, name, quantity: event.target.value, unit })}
+        onChange={(event) =>
+          onChange({ ingredientId, name, quantity: event.target.value, unit, isOptional })
+        }
       />
 
       <label htmlFor={`${datalistId}-unit`}>{t('recipes.unit_label')}</label>
@@ -110,7 +120,13 @@ export function IngredientRow({
         id={`${datalistId}-unit`}
         value={unit}
         onChange={(event) =>
-          onChange({ ingredientId, name, quantity, unit: event.target.value as MeasurementUnit })
+          onChange({
+            ingredientId,
+            name,
+            quantity,
+            unit: event.target.value as MeasurementUnit,
+            isOptional,
+          })
         }
       >
         {UNITS.map((unitOption) => (
@@ -119,6 +135,17 @@ export function IngredientRow({
           </option>
         ))}
       </select>
+
+      <label className="ingredient-row-optional">
+        <input
+          type="checkbox"
+          checked={isOptional}
+          onChange={(event) =>
+            onChange({ ingredientId, name, quantity, unit, isOptional: event.target.checked })
+          }
+        />
+        {t('recipes.optional_label')}
+      </label>
 
       <button type="button" onClick={onRemove} aria-label={t('recipes.remove_ingredient_action')}>
         ×

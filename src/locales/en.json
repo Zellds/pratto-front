@@ -132,6 +132,7 @@
     "quantity_label": "Quantity",
     "unit_label": "Unit",
     "remove_ingredient_action": "Remove ingredient",
+    "optional_label": "Optional",
     "step_instruction_label": "Instruction",
     "remove_step_action": "Remove step",
     "form_title_create": "New recipe",

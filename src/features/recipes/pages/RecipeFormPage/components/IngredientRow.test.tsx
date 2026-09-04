@@ -10,7 +10,14 @@ function renderRow(onChange = vi.fn(), onRemove = vi.fn()) {
     onRemove,
     ...render(
       <QueryClientProvider client={queryClient}>
-        <IngredientRow name="" quantity="" unit="unidade" onChange={onChange} onRemove={onRemove} />
+        <IngredientRow
+          name=""
+          quantity=""
+          unit="unidade"
+          isOptional={false}
+          onChange={onChange}
+          onRemove={onRemove}
+        />
       </QueryClientProvider>,
     ),
   }
@@ -49,6 +56,7 @@ describe('IngredientRow', () => {
           name=""
           quantity="2"
           unit="unidade"
+          isOptional={false}
           onChange={onChange}
           onRemove={onRemove}
         />
@@ -62,6 +70,7 @@ describe('IngredientRow', () => {
       name: 'Cenoura ralada',
       quantity: '2',
       unit: 'unidade',
+      isOptional: false,
     })
   })
 
@@ -77,6 +86,7 @@ describe('IngredientRow', () => {
           name=""
           quantity="2"
           unit="unidade"
+          isOptional={false}
           onChange={onChange}
           onRemove={onRemove}
         />
@@ -90,6 +100,7 @@ describe('IngredientRow', () => {
       name: '',
       quantity: '3',
       unit: 'unidade',
+      isOptional: false,
     })
   })
 
@@ -133,6 +144,7 @@ describe('IngredientRow', () => {
           name="Batata"
           quantity=""
           unit="unidade"
+          isOptional={false}
           onChange={onChange}
           onRemove={onRemove}
         />
@@ -148,6 +160,7 @@ describe('IngredientRow', () => {
           name="Arroz"
           quantity=""
           unit="unidade"
+          isOptional={false}
           onChange={onChange}
           onRemove={onRemove}
         />
@@ -158,6 +171,30 @@ describe('IngredientRow', () => {
       () =>
         expect(mockFetch.mock.calls.some((call) => String(call[0]).includes('q=Arroz'))).toBe(true),
       { timeout: 1000 },
+    )
+  })
+
+  it('calls onChange with isOptional toggled when the checkbox is clicked', () => {
+    const onChange = vi.fn()
+    render(
+      <QueryClientProvider
+        client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+      >
+        <IngredientRow
+          name="Leite"
+          quantity="1"
+          unit="xicara"
+          isOptional={false}
+          onChange={onChange}
+          onRemove={vi.fn()}
+        />
+      </QueryClientProvider>,
+    )
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Opcional' }))
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Leite', isOptional: true }),
     )
   })
 })
