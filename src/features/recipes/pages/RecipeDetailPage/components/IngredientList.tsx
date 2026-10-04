@@ -51,10 +51,15 @@ export function IngredientList({
       <ul className="ingredient-list">
         {scaled.map((ingredient) => (
           <li key={ingredient.position} className="ingredient-list-item">
-            {ingredient.quantity} {t(UNIT_KEY[ingredient.unit] ?? ingredient.unit)}
-            {ingredient.isOptional && (
-              <span className="ingredient-list-badge">{t('recipes.optional_badge')}</span>
-            )}
+            <span className="ingredient-list-name">
+              {ingredient.ingredientName}
+              {ingredient.isOptional && (
+                <span className="ingredient-list-badge">{t('recipes.optional_badge')}</span>
+              )}
+            </span>
+            <span className="ingredient-list-quantity">
+              {ingredient.quantity} {t(UNIT_KEY[ingredient.unit] ?? ingredient.unit)}
+            </span>
           </li>
         ))}
       </ul>

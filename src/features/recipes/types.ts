@@ -1,5 +1,6 @@
 export type RecipeIngredient = {
   ingredientId: string
+  ingredientName: string | null
   quantity: number
   unit: string
   position: number

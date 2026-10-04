@@ -99,7 +99,7 @@ export function RecipeWizardPage() {
       setIngredients(
         existingQuery.data.ingredients.map((ingredient) => ({
           ingredientId: ingredient.ingredientId,
-          name: '',
+          name: ingredient.ingredientName ?? '',
           quantity: String(ingredient.quantity),
           unit: ingredient.unit as MeasurementUnit,
           isOptional: ingredient.isOptional,

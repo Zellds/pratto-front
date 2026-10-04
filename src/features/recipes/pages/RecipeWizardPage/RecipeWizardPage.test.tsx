@@ -380,6 +380,71 @@ describe('RecipeWizardPage', () => {
     ])
   })
 
+  it('shows the saved ingredient name when editing, without sending it in the payload', async () => {
+    const mockFetch = vi.fn((url: string, init?: { method?: string; body?: string }) => {
+      if ((init?.method === undefined || init?.method === 'GET') && url.endsWith('/recipes/r1')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () =>
+            Promise.resolve({
+              id: 'r1',
+              title: 'Bolo existente',
+              description: 'Já cadastrado',
+              portions: 6,
+              prepTimeMinutes: 45,
+              ingredients: [
+                {
+                  ingredientId: 'i1',
+                  ingredientName: 'Cenoura',
+                  quantity: 2,
+                  unit: 'unidade',
+                  position: 0,
+                  isOptional: false,
+                },
+              ],
+              steps: [{ position: 0, instruction: 'Um passo salvo.' }],
+            }),
+        })
+      }
+      if (init?.method === 'PATCH' && url.endsWith('/recipes/r1')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ id: 'r1', title: 'Bolo existente', status: 'draft' }),
+        })
+      }
+      if (init?.method === 'POST' && url.includes('/recipes/r1/publish')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () =>
+            Promise.resolve({ id: 'r1', title: 'Bolo existente', status: 'pending_review' }),
+        })
+      }
+      return Promise.reject(new Error(`unexpected request: ${url}`))
+    })
+    vi.stubGlobal('fetch', mockFetch)
+
+    renderPage('/receitas/r1/editar')
+
+    await screen.findByDisplayValue('Bolo existente')
+    fireEvent.click(screen.getByRole('button', { name: /Ingredientes/ }))
+    expect(screen.getByDisplayValue('Cenoura')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /Preparo/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Publicar' }))
+
+    await waitFor(() => expect(screen.getByText('detail page')).toBeInTheDocument())
+    const patchCall = mockFetch.mock.calls.find(
+      ([, init]) => (init as { method?: string } | undefined)?.method === 'PATCH',
+    )!
+    const body = JSON.parse((patchCall[1] as { body: string }).body)
+    expect(body.ingredients).toEqual([
+      { ingredient_id: 'i1', quantity: 2, unit: 'unidade', position: 0, is_optional: false },
+    ])
+  })
+
   it('opens the login modal on publish when logged out, and resumes publishing with the fresh token', async () => {
     const mockFetch = vi.fn(
       (url: string, init?: { method?: string; headers?: Record<string, string> }) => {

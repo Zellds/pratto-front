@@ -6,12 +6,18 @@
 
 .ingredient-list-item {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
   padding: 8px 0;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
+}
+
+.ingredient-list-quantity {
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .ingredient-list-item:last-child {
@@ -24,6 +30,10 @@
   letter-spacing: 0.04em;
   padding: 2px 7px;
   border-radius: 10px;
-  background: var(--tint);
+  border: 1px solid var(--accent-amber);
+  background: transparent;
   color: var(--accent-amber);
+  text-transform: none;
+  margin-left: 8px;
+  font-weight: 700;
 }
