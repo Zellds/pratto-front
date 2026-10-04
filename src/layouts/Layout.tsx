@@ -145,7 +145,7 @@ export function Layout() {
             </button>
             <Link to="/nova-receita" className="button button-primary">
               <PlusIcon />
-              {t('common.new_recipe')}
+              <span className="app-topbar-new-recipe-label">{t('common.new_recipe')}</span>
             </Link>
           </div>
         </header>
