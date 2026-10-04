@@ -1,15 +1,21 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { StepList } from './StepList'
+import { StepsSheet } from './StepsSheet'
 
 const STEPS = [
   { position: 1, instruction: 'Asse por 40 minutos.' },
   { position: 0, instruction: 'Bata tudo no liquidificador.' },
 ]
 
-describe('StepList', () => {
+describe('StepsSheet', () => {
+  it('shows the section heading', () => {
+    render(<StepsSheet steps={STEPS} />)
+
+    expect(screen.getByRole('heading', { name: 'Modo de preparo' })).toBeInTheDocument()
+  })
+
   it('renders steps in position order, numbered starting at 1', () => {
-    render(<StepList steps={STEPS} />)
+    render(<StepsSheet steps={STEPS} />)
 
     const items = screen.getAllByRole('listitem')
     expect(items[0]).toHaveTextContent('1.')

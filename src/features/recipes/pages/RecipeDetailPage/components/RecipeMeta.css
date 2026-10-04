@@ -1,0 +1,59 @@
+.recipe-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.recipe-meta-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recipe-meta-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--accent-green);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.recipe-meta-author-name {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+
+.recipe-meta-username,
+.recipe-meta-pill-soft {
+  color: var(--ink-soft);
+}
+
+.recipe-meta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.recipe-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: var(--tint);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.recipe-meta-pill-soft {
+  font-weight: 500;
+}

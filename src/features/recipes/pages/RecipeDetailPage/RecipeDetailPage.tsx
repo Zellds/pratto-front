@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/providers/AuthProvider'
 import { getRecipe } from '../../api'
 import { PortionsControl } from './components/PortionsControl'
 import { IngredientList } from './components/IngredientList'
-import { StepList } from './components/StepList'
+import { RecipeHero } from './components/RecipeHero'
+import { RecipeMeta } from './components/RecipeMeta'
+import { StepsSheet } from './components/StepsSheet'
 import { RatingWidget } from './components/RatingWidget'
 import { Skeleton } from '@/components/Skeleton'
 import { EmptyState } from '@/components/EmptyState'
@@ -22,6 +24,8 @@ export function RecipeDetailPage() {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const [portions, setPortions] = useState<number | null>(null)
+  // Read in Task 3 (cooking mode); for now the start button only flips it.
+  const [, setIsCooking] = useState(false)
 
   const query = useQuery({
     queryKey: ['recipe', id],
@@ -40,7 +44,7 @@ export function RecipeDetailPage() {
   if (query.isLoading) {
     return (
       <div className="recipe-detail-page">
-        <Skeleton className="recipe-detail-title-skeleton" />
+        <Skeleton className="recipe-detail-cover-skeleton" />
         <Skeleton className="recipe-detail-body-skeleton" />
       </div>
     )
@@ -57,16 +61,12 @@ export function RecipeDetailPage() {
 
   return (
     <div className="recipe-detail-page">
-      <h1>{recipe.title}</h1>
-      {isOwner && (
-        <Link to={`/receitas/${recipe.id}/editar`} className="recipe-detail-edit-link">
-          {t('recipes.edit_action')}
-        </Link>
-      )}
+      <RecipeHero title={recipe.title} coverUrl={recipe.coverDisplayUrl} />
+      <RecipeMeta recipe={recipe} isOwner={isOwner} onStartCooking={() => setIsCooking(true)} />
       <p className="recipe-detail-description">{recipe.description}</p>
 
       <div className="recipe-detail-grid">
-        <aside className="recipe-detail-sidebar">
+        <aside className="recipe-detail-ingredients">
           <PortionsControl value={currentPortions} onChange={setPortions} />
           <IngredientList
             ingredients={recipe.ingredients}
@@ -75,9 +75,12 @@ export function RecipeDetailPage() {
           />
         </aside>
         <div className="recipe-detail-main">
-          <h3>{t('recipes.steps_title')}</h3>
-          <StepList steps={recipe.steps} />
-          <RatingWidget recipeId={recipe.id} />
+          <StepsSheet steps={recipe.steps} />
+          <section className="recipe-detail-rating">
+            <h3>{t('recipes.rate_card_title')}</h3>
+            <p>{t('recipes.rate_card_hint')}</p>
+            <RatingWidget recipeId={recipe.id} />
+          </section>
         </div>
       </div>
     </div>

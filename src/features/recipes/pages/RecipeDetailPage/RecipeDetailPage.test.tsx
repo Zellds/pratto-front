@@ -39,7 +39,16 @@ const SAMPLE_RECIPE = {
   rejectionReason: null,
   averageRating: 4.5,
   ratingsCount: 12,
-  ingredients: [{ ingredientId: 'i1', quantity: 3, unit: 'unidade', position: 0 }],
+  ingredients: [
+    {
+      ingredientId: 'i1',
+      ingredientName: 'Cenoura',
+      quantity: 3,
+      unit: 'unidade',
+      position: 0,
+      isOptional: false,
+    },
+  ],
   steps: [{ position: 0, instruction: 'Bata tudo no liquidificador.' }],
 }
 
@@ -71,6 +80,33 @@ describe('RecipeDetailPage', () => {
     expect(screen.getByText(/3.*unidade/)).toBeInTheDocument()
     expect(screen.getByText('8')).toBeInTheDocument()
     expect(screen.getByText('Bata tudo no liquidificador.')).toBeInTheDocument()
+  })
+
+  it('shows the ingredient name and the recipe author', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(SAMPLE_RECIPE) }),
+    )
+
+    renderPage()
+
+    expect(await screen.findByText('Cenoura')).toBeInTheDocument()
+    expect(screen.getByText('Gabriel Medeiros')).toBeInTheDocument()
+  })
+
+  it('shows the cover image when the recipe has one', async () => {
+    const withCover = { ...SAMPLE_RECIPE, coverDisplayUrl: 'https://example.com/cover.jpg' }
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve(withCover) }),
+    )
+
+    const { container } = renderPage()
+
+    await screen.findByText('Bolo de cenoura')
+    expect(container.querySelector('img')).toHaveAttribute('src', 'https://example.com/cover.jpg')
   })
 
   it('shows a not-found message when the recipe does not exist', async () => {

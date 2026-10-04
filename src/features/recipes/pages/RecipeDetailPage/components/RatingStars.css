@@ -1,0 +1,13 @@
+.rating-stars {
+  font-size: 16px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  background: linear-gradient(
+    90deg,
+    var(--accent-amber) calc(var(--rating-value) / 5 * 100%),
+    var(--line-strong) 0
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

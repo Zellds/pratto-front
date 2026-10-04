@@ -26,8 +26,6 @@
 
 .ingredient-list-badge {
   font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   padding: 2px 7px;
   border-radius: 10px;
   border: 1px solid var(--accent-amber);
