@@ -185,10 +185,54 @@ describe('CookMode', () => {
     expect(screen.getByRole('heading', { name: 'Bom apetite!' })).toHaveFocus()
   })
 
-  it('renders nothing when the recipe has no steps', () => {
-    renderCookMode({ recipe: { ...RECIPE, steps: [] } })
+  it('announces the instruction, not only the step label, in one live region', async () => {
+    const user = userEvent.setup()
+    renderCookMode()
 
-    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
-    expect(screen.queryByText(/^Passo \d/)).not.toBeInTheDocument()
+    const liveRegion = screen.getByText('Bata tudo no liquidificador.').closest('[aria-live]')
+    expect(liveRegion).toHaveAttribute('aria-live', 'polite')
+    expect(liveRegion).toHaveAttribute('aria-atomic', 'true')
+    expect(liveRegion).toHaveTextContent('Passo 1 de 3')
+
+    await user.click(screen.getByRole('button', { name: 'Próximo passo' }))
+    expect(liveRegion).toHaveTextContent('Misture com o açúcar e a farinha.')
+  })
+
+  it('moves focus to the cooking mode heading on entry', () => {
+    renderCookMode()
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Bolo de cenoura' })).toHaveFocus()
+  })
+
+  it('keeps the step in range when the recipe loses steps after a refetch', async () => {
+    const user = userEvent.setup()
+    const { props, rerender } = renderCookMode()
+    await user.click(screen.getByRole('button', { name: 'Ir para o passo 3' }))
+
+    const fewerSteps = { ...RECIPE, steps: RECIPE.steps.slice(0, 2) }
+    rerender(wrap(<CookMode {...props} recipe={fewerSteps} />))
+
+    expect(screen.getByText('Passo 2 de 2')).toBeInTheDocument()
+    expect(screen.getByText('Misture com o açúcar e a farinha.')).toBeInTheDocument()
+  })
+
+  it('keeps the progress segments out of the tab order', () => {
+    renderCookMode()
+
+    expect(screen.getByRole('button', { name: 'Ir para o passo 2' })).toHaveAttribute(
+      'tabindex',
+      '-1',
+    )
+  })
+
+  it("shows a rating given in the finish panel as the cook's own score", async () => {
+    const user = userEvent.setup()
+    renderCookMode({ myRating: 4 })
+
+    await user.click(screen.getByRole('button', { name: 'Ir para o passo 3' }))
+    await user.click(screen.getByRole('button', { name: 'Concluir' }))
+
+    expect(screen.getByText('Sua nota: 4')).toBeInTheDocument()
+    expect(screen.queryByText('Avalie esta receita')).not.toBeInTheDocument()
   })
 })

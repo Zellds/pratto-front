@@ -44,8 +44,22 @@ describe('RecipeMeta', () => {
   it('shows the average rating and the ratings count', () => {
     renderMeta(RECIPE)
 
-    expect(screen.getByText('4.5')).toBeInTheDocument()
+    expect(screen.getByText('4,5')).toBeInTheDocument()
     expect(screen.getByText('(12)')).toBeInTheDocument()
+  })
+
+  it('gives the ratings count a spoken label and hides the visible number from screen readers', () => {
+    renderMeta(RECIPE)
+
+    expect(screen.getByText('12 avaliações')).toHaveClass('sr-only')
+    expect(screen.getByText('4,5')).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByText('(12)')).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('uses the singular form for a single rating', () => {
+    renderMeta({ ...RECIPE, ratingsCount: 1 })
+
+    expect(screen.getByText('1 avaliação')).toBeInTheDocument()
   })
 
   it('says there are no ratings when the average is null', () => {

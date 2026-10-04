@@ -13,7 +13,7 @@
 }
 
 .rating-widget-star-bg {
-  color: var(--line);
+  color: var(--line-strong);
 }
 
 .rating-widget-star-fill {

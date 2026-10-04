@@ -1,3 +1,7 @@
+.ingredient-list-title {
+  font-size: 1.17em;
+}
+
 .ingredient-list {
   list-style: none;
   margin: 0;
@@ -22,16 +26,4 @@
 
 .ingredient-list-item:last-child {
   border-bottom: none;
-}
-
-.ingredient-list-badge {
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 10px;
-  border: 1px solid var(--accent-amber);
-  background: transparent;
-  color: var(--accent-amber);
-  text-transform: none;
-  margin-left: 8px;
-  font-weight: 700;
 }

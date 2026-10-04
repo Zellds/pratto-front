@@ -1,8 +1,10 @@
+import type { Ref } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
 import { initials } from '@/utils/initials'
 import { formatDuration } from '@/utils/formatDuration'
+import { formatNumber } from '@/utils/formatNumber'
 import type { Recipe } from '../../../types'
 import { RatingStars } from './RatingStars'
 import './RecipeMeta.css'
@@ -11,10 +13,11 @@ type RecipeMetaProps = {
   recipe: Recipe
   isOwner: boolean
   onStartCooking: () => void
+  startButtonRef?: Ref<HTMLButtonElement>
 }
 
-export function RecipeMeta({ recipe, isOwner, onStartCooking }: RecipeMetaProps) {
-  const { t } = useTranslation()
+export function RecipeMeta({ recipe, isOwner, onStartCooking, startButtonRef }: RecipeMetaProps) {
+  const { t, i18n } = useTranslation()
 
   return (
     <div className="recipe-meta">
@@ -38,9 +41,12 @@ export function RecipeMeta({ recipe, isOwner, onStartCooking }: RecipeMetaProps)
           ) : (
             <>
               <RatingStars value={recipe.averageRating} />
-              <span>{recipe.averageRating.toFixed(1)}</span>
-              <span className="recipe-meta-pill-soft">
+              <span aria-hidden="true">{formatNumber(recipe.averageRating, i18n.language, 1)}</span>
+              <span className="recipe-meta-pill-soft" aria-hidden="true">
                 {t('recipes.ratings_count', { count: recipe.ratingsCount })}
+              </span>
+              <span className="sr-only">
+                {t('recipes.ratings_count_label', { count: recipe.ratingsCount })}
               </span>
             </>
           )}
@@ -52,7 +58,9 @@ export function RecipeMeta({ recipe, isOwner, onStartCooking }: RecipeMetaProps)
           </Link>
         )}
         {recipe.steps.length > 0 && (
-          <Button onClick={onStartCooking}>{t('recipes.start_cooking_action')}</Button>
+          <Button ref={startButtonRef} onClick={onStartCooking}>
+            {t('recipes.start_cooking_action')}
+          </Button>
         )}
       </div>
     </div>

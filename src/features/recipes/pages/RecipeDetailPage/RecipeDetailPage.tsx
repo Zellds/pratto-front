@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -26,6 +26,16 @@ export function RecipeDetailPage() {
   const { id } = useParams<{ id: string }>()
   const [portions, setPortions] = useState<number | null>(null)
   const [isCooking, setIsCooking] = useState(false)
+  const [myRating, setMyRating] = useState<number | null>(null)
+  const startButtonRef = useRef<HTMLButtonElement>(null)
+  const wasCookingRef = useRef(false)
+
+  // Leaving the cooking mode unmounts whatever had focus; hand it back to the
+  // button that opened the mode.
+  useEffect(() => {
+    if (wasCookingRef.current && !isCooking) startButtonRef.current?.focus()
+    wasCookingRef.current = isCooking
+  }, [isCooking])
 
   const query = useQuery({
     queryKey: ['recipe', id],
@@ -59,13 +69,15 @@ export function RecipeDetailPage() {
   const currentPortions = portions ?? recipe.portions
   const isOwner = !!recipe && meQuery.data?.username === recipe.ownerUsername
 
-  if (isCooking) {
+  if (isCooking && recipe.steps.length > 0) {
     return (
       <CookMode
         recipe={recipe}
         portions={currentPortions}
         onPortionsChange={setPortions}
         onExit={() => setIsCooking(false)}
+        myRating={myRating}
+        onRated={setMyRating}
       />
     )
   }
@@ -73,7 +85,12 @@ export function RecipeDetailPage() {
   return (
     <div className="recipe-detail-page">
       <RecipeHero title={recipe.title} coverUrl={recipe.coverDisplayUrl} />
-      <RecipeMeta recipe={recipe} isOwner={isOwner} onStartCooking={() => setIsCooking(true)} />
+      <RecipeMeta
+        recipe={recipe}
+        isOwner={isOwner}
+        onStartCooking={() => setIsCooking(true)}
+        startButtonRef={startButtonRef}
+      />
       <p className="recipe-detail-description">{recipe.description}</p>
 
       <div className="recipe-detail-grid">
@@ -88,9 +105,14 @@ export function RecipeDetailPage() {
         <div className="recipe-detail-main">
           <StepsSheet steps={recipe.steps} />
           <section className="recipe-detail-rating">
-            <h3>{t('recipes.rate_card_title')}</h3>
+            <h2>{t('recipes.rate_card_title')}</h2>
             <p>{t('recipes.rate_card_hint')}</p>
-            <RatingWidget recipeId={recipe.id} />
+            <RatingWidget
+              recipeId={recipe.id}
+              selectedScore={myRating}
+              onRated={setMyRating}
+              showPrompt={false}
+            />
           </section>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
-import { IngredientList, scaleIngredients } from './IngredientList'
+import { IngredientList } from './IngredientList'
 import type { RecipeIngredient } from '../../../types'
 
 const INGREDIENTS: RecipeIngredient[] = [
@@ -22,24 +22,6 @@ const INGREDIENTS: RecipeIngredient[] = [
   },
 ]
 
-describe('scaleIngredients', () => {
-  it('returns the same quantities when target equals original portions', () => {
-    expect(scaleIngredients(INGREDIENTS, 4, 4)).toEqual(INGREDIENTS)
-  })
-
-  it('scales each quantity proportionally, rounded to 2 decimals', () => {
-    const result = scaleIngredients(INGREDIENTS, 4, 8)
-    expect(result[0].quantity).toBe(4)
-    expect(result[1].quantity).toBe(3)
-  })
-
-  it('handles a non-integer ratio without floating point noise', () => {
-    const result = scaleIngredients(INGREDIENTS, 4, 3)
-    expect(result[0].quantity).toBe(1.5)
-    expect(result[1].quantity).toBe(1.13)
-  })
-})
-
 describe('IngredientList', () => {
   it('renders each ingredient name together with its quantity and unit', () => {
     render(<IngredientList ingredients={INGREDIENTS} originalPortions={4} currentPortions={4} />)
@@ -49,6 +31,18 @@ describe('IngredientList', () => {
     expect(within(items[0]).getByText('2 unidade')).toBeInTheDocument()
     expect(within(items[1]).getByText('Farinha')).toBeInTheDocument()
     expect(within(items[1]).getByText(/1[.,]5/)).toBeInTheDocument()
+  })
+
+  it('titles the list with a second-level heading', () => {
+    render(<IngredientList ingredients={INGREDIENTS} originalPortions={4} currentPortions={4} />)
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Ingredientes' })).toBeInTheDocument()
+  })
+
+  it('uses the locale decimal separator for fractional quantities', () => {
+    render(<IngredientList ingredients={INGREDIENTS} originalPortions={4} currentPortions={4} />)
+
+    expect(screen.getByText('1,5 xícara')).toBeInTheDocument()
   })
 
   it('still shows quantity and unit when the ingredient name is missing', () => {

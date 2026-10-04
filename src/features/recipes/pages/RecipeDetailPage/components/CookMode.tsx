@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
 import { formatDuration } from '@/utils/formatDuration'
+import { formatNumber } from '@/utils/formatNumber'
 import type { Recipe } from '../../../types'
 import { PortionsControl } from './PortionsControl'
-import { UNIT_KEY, scaleIngredients } from './IngredientList'
+import { formatIngredientQuantity, scaleIngredients } from '../ingredientQuantity'
+import { OptionalBadge } from './OptionalBadge'
 import { RatingStars } from './RatingStars'
 import { RatingWidget } from './RatingWidget'
 import './StepsSheet.css'
@@ -15,17 +17,34 @@ type CookModeProps = {
   portions: number
   onPortionsChange: (next: number) => void
   onExit: () => void
+  myRating?: number | null
+  onRated?: (score: number) => void
 }
 
-export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookModeProps) {
-  const { t } = useTranslation()
+export function CookMode({
+  recipe,
+  portions,
+  onPortionsChange,
+  onExit,
+  myRating,
+  onRated,
+}: CookModeProps) {
+  const { t, i18n } = useTranslation()
   const steps = [...recipe.steps].sort((a, b) => a.position - b.position)
   const ingredients = scaleIngredients(recipe.ingredients, recipe.portions, portions)
-  const [stepIndex, setStepIndex] = useState(0)
+  const [requestedStepIndex, setStepIndex] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
   const [gathered, setGathered] = useState<Set<number>>(new Set())
 
+  const titleRef = useRef<HTMLHeadingElement>(null)
   const finishHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  // Entering the mode swaps the whole page body; keep keyboard and
+  // screen-reader users at the top of the new content.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    titleRef.current?.focus()
+  }, [])
 
   // The step controls unmount when the cook finishes, which would drop focus
   // to <body>; land keyboard and screen-reader users on the new content.
@@ -35,6 +54,8 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
 
   if (steps.length === 0) return null
 
+  // The recipe can be refetched with fewer steps while cooking.
+  const stepIndex = Math.min(requestedStepIndex, steps.length - 1)
   const isLastStep = stepIndex === steps.length - 1
 
   function toggleGathered(position: number) {
@@ -54,14 +75,16 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
     <div className="cook-mode">
       <header className="cook-mode-header">
         <div>
-          <h1>{recipe.title}</h1>
+          <h1 ref={titleRef} tabIndex={-1}>
+            {recipe.title}
+          </h1>
           <p className="cook-mode-support">
             {recipe.ownerDisplayName && <span>{recipe.ownerDisplayName}</span>}
             <span>{formatDuration(recipe.prepTimeMinutes, t)}</span>
             {recipe.averageRating !== null && (
               <span className="cook-mode-support-rating">
                 <RatingStars value={recipe.averageRating} />
-                {recipe.averageRating.toFixed(1)}
+                {formatNumber(recipe.averageRating, i18n.language, 1)}
               </span>
             )}
           </p>
@@ -74,7 +97,7 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
       <div className="cook-mode-grid">
         <aside className="cook-mode-ingredients">
           <PortionsControl value={portions} onChange={onPortionsChange} />
-          <h3>{t('recipes.ingredients_title')}</h3>
+          <h2 className="cook-mode-ingredients-title">{t('recipes.ingredients_title')}</h2>
           <ul className="cook-mode-ingredient-list">
             {ingredients.map((ingredient) => (
               <li key={ingredient.position}>
@@ -86,14 +109,10 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
                   />
                   <span className="cook-mode-ingredient-name">
                     {ingredient.ingredientName}
-                    {ingredient.isOptional && (
-                      <span className="cook-mode-ingredient-badge">
-                        {t('recipes.optional_badge')}
-                      </span>
-                    )}
+                    {ingredient.isOptional && <OptionalBadge />}
                   </span>
                   <span className="cook-mode-ingredient-quantity">
-                    {ingredient.quantity} {t(UNIT_KEY[ingredient.unit] ?? ingredient.unit)}
+                    {formatIngredientQuantity(ingredient, t, i18n.language)}
                   </span>
                 </label>
               </li>
@@ -113,17 +132,24 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
               {t('recipes.cook_done_title')}
             </h2>
             <p>{t('recipes.cook_done_hint')}</p>
-            <RatingWidget recipeId={recipe.id} />
+            <RatingWidget
+              recipeId={recipe.id}
+              selectedScore={myRating}
+              onRated={onRated}
+              showPrompt={false}
+            />
             <Button onClick={onExit}>{t('recipes.cook_back_to_recipe_action')}</Button>
           </section>
         ) : (
           <div className="cook-mode-steps">
             <section className="steps-sheet cook-mode-sheet">
               <span className="steps-sheet-tape" aria-hidden="true" />
-              <p className="cook-mode-step-label" aria-live="polite">
-                {t('recipes.cook_step_progress', { current: stepIndex + 1, total: steps.length })}
-              </p>
-              <p className="cook-mode-step-text">{steps[stepIndex].instruction}</p>
+              <div aria-live="polite" aria-atomic="true">
+                <p className="cook-mode-step-label">
+                  {t('recipes.cook_step_progress', { current: stepIndex + 1, total: steps.length })}
+                </p>
+                <p className="cook-mode-step-text">{steps[stepIndex].instruction}</p>
+              </div>
             </section>
             <div className="cook-mode-controls">
               <Button
@@ -146,6 +172,7 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
                     }
                     aria-label={t('recipes.cook_go_to_step', { step: index + 1 })}
                     aria-current={index === stepIndex ? 'step' : undefined}
+                    tabIndex={-1}
                     onClick={() => setStepIndex(index)}
                   />
                 ))}

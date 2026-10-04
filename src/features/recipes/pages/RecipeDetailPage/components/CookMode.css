@@ -17,6 +17,10 @@
   line-height: 1.2;
 }
 
+.cook-mode-header h1:focus {
+  outline: none;
+}
+
 .cook-mode-support {
   display: flex;
   flex-wrap: wrap;
@@ -49,6 +53,10 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 16px;
+}
+
+.cook-mode-ingredients-title {
+  font-size: 1.17em;
 }
 
 .cook-mode-ingredient-list {
@@ -114,17 +122,6 @@
   text-decoration: line-through;
 }
 
-.cook-mode-ingredient-badge {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 7px;
-  border: 1px solid var(--accent-amber);
-  border-radius: 10px;
-  color: var(--accent-amber);
-  font-size: 10px;
-  font-weight: 700;
-}
-
 .cook-mode-ingredients-progress {
   margin-top: 10px;
   color: var(--ink-soft);
@@ -136,7 +133,7 @@
  * --sheet-line variable, so the text line-height and the ruled lines always
  * grow together.
  */
-.cook-mode-sheet {
+.steps-sheet.cook-mode-sheet {
   --sheet-line: 34px;
 
   min-height: calc(var(--sheet-line) * 8);
@@ -151,7 +148,6 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #3a3630;
   opacity: 0.7;
 }
 
@@ -176,14 +172,15 @@
 .cook-mode-progress {
   display: flex;
   flex: 1;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: 2px 6px;
 }
 
 .cook-mode-progress-segment {
   position: relative;
   flex: 0 1 36px;
-  min-width: 8px;
+  min-width: 16px;
   height: 24px;
   padding: 0;
   border: none;
@@ -242,7 +239,7 @@
     font-size: 22px;
   }
 
-  .cook-mode-sheet {
+  .steps-sheet.cook-mode-sheet {
     font-size: 18px;
   }
 
@@ -252,11 +249,13 @@
 
   .cook-mode-progress {
     flex-basis: 100%;
+    gap: 2px 4px;
     order: -1;
   }
 
   .cook-mode-progress-segment {
     flex: 1 1 0;
+    min-width: 16px;
     max-width: 48px;
   }
 

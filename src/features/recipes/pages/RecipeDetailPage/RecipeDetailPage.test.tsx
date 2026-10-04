@@ -261,7 +261,78 @@ describe('RecipeDetailPage', () => {
 
       expect(screen.getByText('Passo 1 de 1')).toBeInTheDocument()
       expect(screen.getByText('9')).toBeInTheDocument()
-      expect(screen.getByText('3.38 unidade')).toBeInTheDocument()
+      expect(screen.getByText('3,38 unidade')).toBeInTheDocument()
+    })
+
+    it('puts focus on the cooking mode heading, then back on "Iniciar preparo" when leaving', async () => {
+      const user = userEvent.setup()
+      stubRecipe()
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Iniciar preparo' }))
+      expect(screen.getByRole('heading', { level: 1, name: 'Bolo de cenoura' })).toHaveFocus()
+
+      await user.click(screen.getByRole('button', { name: 'Sair do modo cozinha' }))
+      expect(screen.getByRole('button', { name: 'Iniciar preparo' })).toHaveFocus()
+    })
+
+    function stubRecipeAndRating(recipeAfterRating = SAMPLE_RECIPE) {
+      localStorage.setItem('pratto-token', 'tok123')
+      let ratingSent = false
+      vi.stubGlobal(
+        'fetch',
+        vi.fn((url: string, init?: { method?: string }) => {
+          if (url.includes('/me')) {
+            return Promise.resolve({
+              ok: true,
+              status: 200,
+              json: () => Promise.resolve({ username: 'someone', displayName: 'Someone' }),
+            })
+          }
+          if (url.includes('/rating') && init?.method === 'PUT') {
+            ratingSent = true
+            return Promise.resolve({
+              ok: true,
+              status: 200,
+              json: () => Promise.resolve({ id: 'rt1', recipeId: '1', userId: 'u1', score: 5 }),
+            })
+          }
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: () => Promise.resolve(ratingSent ? recipeAfterRating : SAMPLE_RECIPE),
+          })
+        }),
+      )
+    }
+
+    it('keeps the rating given while cooking when going back to the recipe', async () => {
+      const user = userEvent.setup()
+      stubRecipeAndRating()
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Iniciar preparo' }))
+      await user.click(screen.getByRole('button', { name: 'Concluir' }))
+      await user.click(screen.getByRole('button', { name: 'Avaliar com 5 estrelas' }))
+      expect(await screen.findByText('Sua nota: 5')).toBeInTheDocument()
+
+      await user.click(screen.getByRole('button', { name: 'Voltar à receita' }))
+
+      expect(screen.getByRole('heading', { name: 'Modo de preparo' })).toBeInTheDocument()
+      expect(screen.getByText('Sua nota: 5')).toBeInTheDocument()
+    })
+
+    it('falls back to the full recipe if a refetch leaves the recipe without steps', async () => {
+      const user = userEvent.setup()
+      stubRecipeAndRating({ ...SAMPLE_RECIPE, steps: [] })
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Iniciar preparo' }))
+      await user.click(screen.getByRole('button', { name: 'Concluir' }))
+      await user.click(screen.getByRole('button', { name: 'Avaliar com 5 estrelas' }))
+
+      expect(await screen.findByRole('heading', { name: 'Bolo de cenoura' })).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Sair do modo cozinha' })).not.toBeInTheDocument()
     })
   })
 })

@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/providers/AuthProvider'
 import { useToast } from '@/providers/ToastProvider'
+import { formatNumber } from '@/utils/formatNumber'
 import { rateRecipe } from '../../../api'
 import './RatingWidget.css'
 
@@ -10,20 +11,34 @@ const STAR_VALUES = [1, 2, 3, 4, 5]
 
 type RatingWidgetProps = {
   recipeId: string
+  // When the parent owns the score it survives this widget being unmounted
+  // (e.g. rating in the cooking mode, then going back to the recipe).
+  selectedScore?: number | null
+  onRated?: (score: number) => void
+  showPrompt?: boolean
 }
 
-export function RatingWidget({ recipeId }: RatingWidgetProps) {
-  const { t } = useTranslation()
+export function RatingWidget({
+  recipeId,
+  selectedScore,
+  onRated,
+  showPrompt = true,
+}: RatingWidgetProps) {
+  const { t, i18n } = useTranslation()
+  const queryClient = useQueryClient()
   const { token, openAuthModal } = useAuth()
   const { showToast } = useToast()
-  const [selected, setSelected] = useState<number | null>(null)
+  const [internalSelected, setInternalSelected] = useState<number | null>(null)
+  const selected = selectedScore === undefined ? internalSelected : selectedScore
   const [hovered, setHovered] = useState<number | null>(null)
 
   const mutation = useMutation({
     mutationFn: ({ score, authToken }: { score: number; authToken: string }) =>
       rateRecipe(recipeId, score, authToken),
     onSuccess: (_, variables) => {
-      setSelected(variables.score)
+      setInternalSelected(variables.score)
+      onRated?.(variables.score)
+      void queryClient.invalidateQueries({ queryKey: ['recipe', recipeId] })
       showToast(t('recipes.rate_success'))
     },
     onError: () => showToast(t('recipes.rate_error')),
@@ -72,11 +87,13 @@ export function RatingWidget({ recipeId }: RatingWidgetProps) {
           )
         })}
       </div>
-      <p className="rating-widget-caption">
-        {selected !== null
-          ? t('recipes.your_rating', { score: selected })
-          : t('recipes.rate_prompt')}
-      </p>
+      {selected !== null ? (
+        <p className="rating-widget-caption">
+          {t('recipes.your_rating', { score: formatNumber(selected, i18n.language, 1) })}
+        </p>
+      ) : (
+        showPrompt && <p className="rating-widget-caption">{t('recipes.rate_prompt')}</p>
+      )}
     </div>
   )
 }

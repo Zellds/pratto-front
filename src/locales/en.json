@@ -124,6 +124,8 @@
     "cook_back_to_recipe_action": "Back to recipe",
     "rating_stars_label": "Rated {{value}} out of 5",
     "ratings_count": "({{count}})",
+    "ratings_count_label_one": "{{count}} rating",
+    "ratings_count_label_other": "{{count}} ratings",
     "rate_card_title": "What did you think?",
     "rate_card_hint": "Tap a star — half stars count.",
     "edit_action": "Edit",

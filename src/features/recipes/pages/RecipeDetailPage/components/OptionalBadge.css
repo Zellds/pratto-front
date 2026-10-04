@@ -1,0 +1,11 @@
+.optional-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border: 1px solid var(--accent-amber);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--accent-amber);
+  font-size: 10px;
+  font-weight: 700;
+}
