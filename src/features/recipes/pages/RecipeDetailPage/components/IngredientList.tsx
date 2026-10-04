@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next'
 import type { RecipeIngredient } from '../../../types'
 import './IngredientList.css'
 
-const UNIT_KEY: Record<string, string> = {
+// eslint-disable-next-line react-refresh/only-export-components -- shared with the cooking mode checklist
+export const UNIT_KEY: Record<string, string> = {
   g: 'recipes.unit_g',
   kg: 'recipes.unit_kg',
   ml: 'recipes.unit_ml',

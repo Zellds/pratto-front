@@ -3,16 +3,20 @@
  * recipe form. The cream, rule, margin and tape colours are the documented
  * hex exception to the tokens-only rule: paper looks the same in both themes.
  *
- * The ruled lines belong to the sheet: one 28px grid starting under the
- * heading row. Every text line (heading, each wrapped line of each step) has
- * a 28px line-height, so it always lands on a rule.
+ * The ruled lines belong to the sheet: one grid of --sheet-line (28px by
+ * default) starting under the heading row. Every text line (heading, each
+ * wrapped line of each step) has a line-height of --sheet-line, so it always
+ * lands on a rule. Modifiers (e.g. the cooking mode sheet) only override the
+ * variable and the font size.
  */
 .steps-sheet {
+  --sheet-line: 28px;
+
   position: relative;
   isolation: isolate;
   min-height: 260px;
   margin-top: 10px;
-  padding: 28px 22px 22px 42px;
+  padding: var(--sheet-line) 22px 22px 42px;
   background: #fbf6e9;
   border-radius: 2px;
   box-shadow:
@@ -22,7 +26,7 @@
   font-family: 'Lora', serif;
   font-style: italic;
   font-size: 16px;
-  line-height: 28px;
+  line-height: var(--sheet-line);
 }
 
 .steps-sheet::before {
@@ -38,10 +42,14 @@
 .steps-sheet::after {
   content: '';
   position: absolute;
-  inset: 28px 0 0 0;
+  inset: var(--sheet-line) 0 0 0;
   z-index: -1;
   pointer-events: none;
-  background: repeating-linear-gradient(to bottom, transparent 0 27px, #e3d9bd 27px 28px);
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--sheet-line) - 1px),
+    #e3d9bd calc(var(--sheet-line) - 1px) var(--sheet-line)
+  );
 }
 
 .steps-sheet-tape {
@@ -61,7 +69,7 @@
   font-style: italic;
   font-size: 17px;
   font-weight: 500;
-  line-height: 28px;
+  line-height: var(--sheet-line);
   color: #3a3630;
 }
 

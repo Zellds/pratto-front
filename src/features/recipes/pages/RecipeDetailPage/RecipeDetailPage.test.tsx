@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter, Route, Routes } from 'react-router'
 import { AuthProvider } from '@/providers/AuthProvider'
@@ -212,5 +213,55 @@ describe('RecipeDetailPage', () => {
 
     await screen.findByText('Bolo de cenoura')
     expect(screen.queryByRole('link', { name: 'Editar' })).not.toBeInTheDocument()
+  })
+
+  describe('cooking mode', () => {
+    function stubRecipe() {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(SAMPLE_RECIPE),
+        }),
+      )
+    }
+
+    it('swaps the full view for the step-by-step mode when "Iniciar preparo" is clicked', async () => {
+      const user = userEvent.setup()
+      stubRecipe()
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Iniciar preparo' }))
+
+      expect(screen.getByText('Passo 1 de 1')).toBeInTheDocument()
+      expect(screen.queryByRole('heading', { name: 'Modo de preparo' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'Iniciar preparo' })).not.toBeInTheDocument()
+    })
+
+    it('returns to the full view with "Sair do modo cozinha"', async () => {
+      const user = userEvent.setup()
+      stubRecipe()
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Iniciar preparo' }))
+      await user.click(screen.getByRole('button', { name: 'Sair do modo cozinha' }))
+
+      expect(screen.getByRole('heading', { name: 'Modo de preparo' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Iniciar preparo' })).toBeInTheDocument()
+    })
+
+    it('keeps the portions chosen before starting inside the cooking mode', async () => {
+      const user = userEvent.setup()
+      stubRecipe()
+      renderPage()
+
+      await user.click(await screen.findByRole('button', { name: 'Aumentar porções' }))
+      await user.click(screen.getByRole('button', { name: 'Iniciar preparo' }))
+
+      expect(screen.getByText('Passo 1 de 1')).toBeInTheDocument()
+      expect(screen.getByText('9')).toBeInTheDocument()
+      expect(screen.getByText('3.38 unidade')).toBeInTheDocument()
+    })
   })
 })

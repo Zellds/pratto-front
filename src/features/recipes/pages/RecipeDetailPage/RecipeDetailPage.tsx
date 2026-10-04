@@ -10,6 +10,7 @@ import { RecipeHero } from './components/RecipeHero'
 import { RecipeMeta } from './components/RecipeMeta'
 import { StepsSheet } from './components/StepsSheet'
 import { RatingWidget } from './components/RatingWidget'
+import { CookMode } from './components/CookMode'
 import { Skeleton } from '@/components/Skeleton'
 import { EmptyState } from '@/components/EmptyState'
 import { apiFetch, ApiError } from '@/api/client'
@@ -24,8 +25,7 @@ export function RecipeDetailPage() {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const [portions, setPortions] = useState<number | null>(null)
-  // Read in Task 3 (cooking mode); for now the start button only flips it.
-  const [, setIsCooking] = useState(false)
+  const [isCooking, setIsCooking] = useState(false)
 
   const query = useQuery({
     queryKey: ['recipe', id],
@@ -58,6 +58,17 @@ export function RecipeDetailPage() {
   const recipe = query.data!
   const currentPortions = portions ?? recipe.portions
   const isOwner = !!recipe && meQuery.data?.username === recipe.ownerUsername
+
+  if (isCooking) {
+    return (
+      <CookMode
+        recipe={recipe}
+        portions={currentPortions}
+        onPortionsChange={setPortions}
+        onExit={() => setIsCooking(false)}
+      />
+    )
+  }
 
   return (
     <div className="recipe-detail-page">
