@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { PaperSheet } from '@/components/PaperSheet/PaperSheet'
 import type { RecipeStep } from '../../../types'
 import './StepsSheet.css'
 
@@ -11,8 +12,7 @@ export function StepsSheet({ steps }: StepsSheetProps) {
   const sorted = [...steps].sort((a, b) => a.position - b.position)
 
   return (
-    <section className="steps-sheet">
-      <span className="steps-sheet-tape" aria-hidden="true" />
+    <PaperSheet as="section" className="steps-sheet">
       <h2 className="steps-sheet-heading">{t('recipes.steps_title')}</h2>
       <ol className="steps-sheet-list">
         {sorted.map((step, index) => (
@@ -21,6 +21,6 @@ export function StepsSheet({ steps }: StepsSheetProps) {
           </li>
         ))}
       </ol>
-    </section>
+    </PaperSheet>
   )
 }

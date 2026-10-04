@@ -1,0 +1,81 @@
+/*
+ * A loose ruled sheet taped to the page, shared by the recipe form, the recipe
+ * page and the cooking mode.
+ *
+ * The cream, ink, rule, margin, tape and dashed-edge colours below are the one
+ * documented hex exception to the tokens-only rule: paper looks the same in
+ * both themes (on the dark theme it is the brightest object on the screen,
+ * which is the point). Consumers that need a paper colour read the --paper-*
+ * custom properties instead of repeating the hex.
+ *
+ * The ruled lines belong to the sheet: one grid of --sheet-line (28px by
+ * default) starting under the first text row. Every text line on the paper
+ * (heading, each wrapped line of each step) has a line-height of --sheet-line,
+ * so it always lands on a rule. Consumers override --sheet-line (and the font
+ * size) to scale the paper, e.g. the cooking mode uses 34px.
+ */
+.paper-sheet {
+  --sheet-line: 28px;
+  --paper-bg: #fbf6e9;
+  --paper-ink: #3a3630;
+  --paper-edge: #c9b98a;
+
+  position: relative;
+  isolation: isolate;
+  margin-top: 10px;
+  padding: var(--sheet-line) 22px 22px 42px;
+  background: var(--paper-bg);
+  border-radius: 2px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+  color: var(--paper-ink);
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: var(--sheet-line);
+}
+
+.paper-sheet::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #d98a8a;
+}
+
+.paper-sheet::after {
+  content: '';
+  position: absolute;
+  inset: var(--sheet-line) 0 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--sheet-line) - 1px),
+    #e3d9bd calc(var(--sheet-line) - 1px) var(--sheet-line)
+  );
+}
+
+.paper-sheet-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 96px;
+  height: 22px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(226, 201, 120, 0.7);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 640px) {
+  .paper-sheet {
+    padding-left: 32px;
+  }
+
+  .paper-sheet::before {
+    left: 18px;
+  }
+}

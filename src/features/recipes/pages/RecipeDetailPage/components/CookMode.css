@@ -133,7 +133,7 @@
  * --sheet-line variable, so the text line-height and the ruled lines always
  * grow together.
  */
-.steps-sheet.cook-mode-sheet {
+.paper-sheet.cook-mode-sheet {
   --sheet-line: 34px;
 
   min-height: calc(var(--sheet-line) * 8);
@@ -239,7 +239,7 @@
     font-size: 22px;
   }
 
-  .steps-sheet.cook-mode-sheet {
+  .paper-sheet.cook-mode-sheet {
     font-size: 18px;
   }
 

@@ -1,11 +1,7 @@
 import type { ReactNode } from 'react'
+import { PaperSheet } from '@/components/PaperSheet/PaperSheet'
 import './PrepPaper.css'
 
 export function PrepPaper({ children }: { children: ReactNode }) {
-  return (
-    <div className="prep-paper">
-      <span className="prep-paper-tape" aria-hidden="true" />
-      {children}
-    </div>
-  )
+  return <PaperSheet className="prep-paper">{children}</PaperSheet>
 }

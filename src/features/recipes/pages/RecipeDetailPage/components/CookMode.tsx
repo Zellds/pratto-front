@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
+import { PaperSheet } from '@/components/PaperSheet/PaperSheet'
 import { formatDuration } from '@/utils/formatDuration'
 import { formatNumber } from '@/utils/formatNumber'
 import type { Recipe } from '../../../types'
@@ -9,7 +10,6 @@ import { formatIngredientQuantity, scaleIngredients } from '../ingredientQuantit
 import { OptionalBadge } from './OptionalBadge'
 import { RatingStars } from './RatingStars'
 import { RatingWidget } from './RatingWidget'
-import './StepsSheet.css'
 import './CookMode.css'
 
 type CookModeProps = {
@@ -142,15 +142,14 @@ export function CookMode({
           </section>
         ) : (
           <div className="cook-mode-steps">
-            <section className="steps-sheet cook-mode-sheet">
-              <span className="steps-sheet-tape" aria-hidden="true" />
+            <PaperSheet as="section" className="cook-mode-sheet">
               <div aria-live="polite" aria-atomic="true">
                 <p className="cook-mode-step-label">
                   {t('recipes.cook_step_progress', { current: stepIndex + 1, total: steps.length })}
                 </p>
                 <p className="cook-mode-step-text">{steps[stepIndex].instruction}</p>
               </div>
-            </section>
+            </PaperSheet>
             <div className="cook-mode-controls">
               <Button
                 variant="secondary"

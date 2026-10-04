@@ -1,66 +1,6 @@
-/*
- * A loose ruled sheet taped to the page, same look as the PrepPaper in the
- * recipe form. The cream, rule, margin and tape colours are the documented
- * hex exception to the tokens-only rule: paper looks the same in both themes.
- *
- * The ruled lines belong to the sheet: one grid of --sheet-line (28px by
- * default) starting under the heading row. Every text line (heading, each
- * wrapped line of each step) has a line-height of --sheet-line, so it always
- * lands on a rule. Modifiers (e.g. the cooking mode sheet) only override the
- * variable and the font size.
- */
+/* Recipe-page specifics on top of the shared PaperSheet (paper visual lives there). */
 .steps-sheet {
-  --sheet-line: 28px;
-
-  position: relative;
-  isolation: isolate;
   min-height: 260px;
-  margin-top: 10px;
-  padding: var(--sheet-line) 22px 22px 42px;
-  background: #fbf6e9;
-  border-radius: 2px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.18),
-    0 6px 16px rgba(0, 0, 0, 0.18);
-  color: #3a3630;
-  font-family: 'Lora', serif;
-  font-style: italic;
-  font-size: 16px;
-  line-height: var(--sheet-line);
-}
-
-.steps-sheet::before {
-  content: '';
-  position: absolute;
-  left: 24px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #d98a8a;
-}
-
-.steps-sheet::after {
-  content: '';
-  position: absolute;
-  inset: var(--sheet-line) 0 0 0;
-  z-index: -1;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0 calc(var(--sheet-line) - 1px),
-    #e3d9bd calc(var(--sheet-line) - 1px) var(--sheet-line)
-  );
-}
-
-.steps-sheet-tape {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  width: 96px;
-  height: 22px;
-  transform: translateX(-50%) rotate(-2deg);
-  background: rgba(226, 201, 120, 0.7);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .steps-sheet-heading {
@@ -87,14 +27,4 @@
   margin-right: 4px;
   font-style: normal;
   font-weight: 700;
-}
-
-@media (max-width: 640px) {
-  .steps-sheet {
-    padding-left: 32px;
-  }
-
-  .steps-sheet::before {
-    left: 18px;
-  }
 }
