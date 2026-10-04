@@ -79,7 +79,7 @@
     "previous_page": "Previous",
     "next_page": "Next",
     "pending_review_badge": "Under review",
-    "prep_time": "{{minutes}} min prep time",
+    "prep_time": "{{duration}} prep time",
     "portions": "{{count}} servings",
     "average_rating": "★ {{rating}}",
     "no_ratings": "No ratings yet",

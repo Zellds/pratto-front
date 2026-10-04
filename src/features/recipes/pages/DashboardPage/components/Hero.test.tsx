@@ -24,10 +24,10 @@ const recipe: Recipe = {
   steps: [],
 }
 
-function renderHero() {
+function renderHero(heroRecipe: Recipe = recipe) {
   return render(
     <MemoryRouter>
-      <Hero recipe={recipe} />
+      <Hero recipe={heroRecipe} />
     </MemoryRouter>,
   )
 }
@@ -39,6 +39,12 @@ describe('Hero', () => {
     expect(screen.getByRole('heading', { name: 'Risoto de cogumelos' })).toBeInTheDocument()
     expect(screen.getByText('Cremoso e pronto em 40 minutos.')).toBeInTheDocument()
     expect(screen.getByText('por Marina Alves')).toBeInTheDocument()
+  })
+
+  it('shows long prep times as hours and minutes', () => {
+    renderHero({ ...recipe, prepTimeMinutes: 105 })
+
+    expect(screen.getByText('1h45 de preparo')).toBeInTheDocument()
   })
 
   it('shows prep time, portions and rating', () => {

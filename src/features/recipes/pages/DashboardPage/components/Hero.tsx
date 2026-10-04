@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
+import { formatDuration } from '@/utils/formatDuration'
 import { initials } from '@/utils/initials'
 import type { Recipe } from '../../../types'
 import './Hero.css'
@@ -28,7 +29,9 @@ export function Hero({ recipe }: { recipe: Recipe }) {
           </div>
         )}
         <div className="hero-meta">
-          <span>{t('recipes.prep_time', { minutes: recipe.prepTimeMinutes })}</span>
+          <span>
+            {t('recipes.prep_time', { duration: formatDuration(recipe.prepTimeMinutes, t) })}
+          </span>
           <span>{t('recipes.portions', { count: recipe.portions })}</span>
           <span className="hero-rating">
             {recipe.averageRating !== null

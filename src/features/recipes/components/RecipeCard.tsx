@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/Card'
 import { SavedIcon } from '@/components/icons'
+import { formatDuration } from '@/utils/formatDuration'
 import type { Recipe } from '../types'
 import './RecipeCard.css'
 
@@ -45,7 +46,9 @@ export function RecipeCard({ recipe, rank }: { recipe: Recipe; rank?: number }) 
           <span className="pill">{t('recipes.pending_review_badge')}</span>
         )}
         <div className="recipe-card-meta">
-          <span>{t('recipes.prep_time', { minutes: recipe.prepTimeMinutes })}</span>
+          <span>
+            {t('recipes.prep_time', { duration: formatDuration(recipe.prepTimeMinutes, t) })}
+          </span>
           <span className="recipe-card-rating">
             {recipe.averageRating !== null
               ? t('recipes.average_rating', { rating: recipe.averageRating })

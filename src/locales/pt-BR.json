@@ -79,7 +79,7 @@
     "previous_page": "Anterior",
     "next_page": "Próxima",
     "pending_review_badge": "Em revisão",
-    "prep_time": "{{minutes}} min de preparo",
+    "prep_time": "{{duration}} de preparo",
     "portions": "{{count}} porções",
     "average_rating": "★ {{rating}}",
     "no_ratings": "Sem avaliações ainda",

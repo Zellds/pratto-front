@@ -37,7 +37,13 @@ describe('RecipeCard', () => {
     renderCard()
 
     expect(screen.getByText('Bolo de cenoura')).toBeInTheDocument()
-    expect(screen.getByText('60 min de preparo')).toBeInTheDocument()
+    expect(screen.getByText('1 h de preparo')).toBeInTheDocument()
+  })
+
+  it('shows long prep times as hours and minutes', () => {
+    renderCard({ ...baseRecipe, prepTimeMinutes: 105 })
+
+    expect(screen.getByText('1h45 de preparo')).toBeInTheDocument()
   })
 
   it('links the title to the recipe detail page', () => {
