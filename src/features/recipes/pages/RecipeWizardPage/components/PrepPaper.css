@@ -1,0 +1,85 @@
+/*
+ * A loose ruled sheet taped to the page. The cream, rule and margin colours
+ * are the documented hex exception to the tokens-only rule: paper looks the
+ * same in both themes (on the dark theme it is the brightest object on the
+ * screen, which is the point).
+ *
+ * The ruled lines belong to the sheet: one 28px grid starting under the
+ * heading row. Every text line on the paper (heading, each wrapped line of
+ * each step) has a 28px line-height, so it always lands on a rule.
+ */
+.prep-paper {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  margin-top: 10px;
+  padding: 28px 20px 20px 40px;
+  background: #fbf6e9;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.prep-paper::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #d98a8a;
+}
+
+.prep-paper::after {
+  content: '';
+  position: absolute;
+  inset: 28px 0 0 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 27px, #e3d9bd 27px 28px);
+}
+
+.prep-paper-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 96px;
+  height: 22px;
+  transform: translateX(-50%) rotate(-2deg);
+  background: rgba(226, 201, 120, 0.7);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.prep-paper h2 {
+  margin: 0;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 28px;
+  color: #3a3630;
+}
+
+.prep-paper > button[type='button'] {
+  align-self: flex-start;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border: 1px dashed #c9b98a;
+  border-radius: 8px;
+  background: #fbf6e9;
+  color: #3a3630;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .prep-paper {
+    padding-left: 30px;
+  }
+
+  .prep-paper::before {
+    left: 18px;
+  }
+}

@@ -3,16 +3,10 @@
   align-items: baseline;
   gap: 6px;
   line-height: 28px;
-  padding-top: 14px;
-  border-bottom: 1px solid #e3d9bd;
   font-family: 'Lora', serif;
   font-style: italic;
   font-size: 16px;
   color: #3a3630;
-}
-
-.step-line:last-of-type {
-  border-bottom: none;
 }
 
 .step-line-number {
@@ -33,10 +27,14 @@
   line-height: 28px;
 }
 
+.step-line textarea::placeholder {
+  color: #a89f88;
+}
+
 .step-line button {
   flex-shrink: 0;
   align-self: flex-start;
-  margin-top: 14px;
+  margin-top: 2px;
   height: 24px;
   width: 24px;
   border-radius: 50%;

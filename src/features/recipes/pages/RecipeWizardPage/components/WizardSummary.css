@@ -1,0 +1,37 @@
+.wizard-summary {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.wizard-summary h2 {
+  font-size: 16px;
+}
+
+.wizard-summary-name {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.wizard-summary-name.is-empty,
+.wizard-summary-meta {
+  color: var(--ink-soft);
+}
+
+.wizard-summary-chip {
+  margin-left: 8px;
+  padding: 1px 8px;
+  border: 1px solid var(--accent-amber);
+  border-radius: 999px;
+  color: var(--accent-amber);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}

@@ -159,6 +159,23 @@
     "validation_ingredients_min": "Add at least 1 ingredient.",
     "validation_steps_min": "Add at least 1 step.",
     "validation_ingredient_incomplete": "Fill in the name and quantity for every ingredient.",
-    "validation_step_incomplete": "Fill in the instruction for every step."
+    "validation_step_incomplete": "Fill in the instruction for every step.",
+    "step_placeholder": "Write the next step…",
+    "wizard_steps_label": "Recipe steps",
+    "wizard_step_basics": "Basics",
+    "wizard_step_ingredients": "Ingredients",
+    "wizard_step_preparation": "Preparation",
+    "wizard_basics_heading": "About the recipe",
+    "wizard_back_action": "Back",
+    "wizard_next_action": "Continue",
+    "wizard_summary_title": "Summary",
+    "wizard_summary_untitled": "Untitled so far",
+    "wizard_summary_meta": "{{portions}} servings · {{minutes}} min",
+    "wizard_summary_ingredients_single": "{{count}} ingredient",
+    "wizard_summary_ingredients_multiple": "{{count}} ingredients",
+    "wizard_summary_optional_single": "{{count}} optional",
+    "wizard_summary_optional_multiple": "{{count}} optional",
+    "wizard_summary_steps_single": "{{count}} step",
+    "wizard_summary_steps_multiple": "{{count}} steps"
   }
 }

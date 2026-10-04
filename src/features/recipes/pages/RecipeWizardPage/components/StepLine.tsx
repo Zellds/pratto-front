@@ -7,9 +7,16 @@ type StepLineProps = {
   instruction: string
   onChange: (next: string) => void
   onRemove: () => void
+  placeholder?: string
 }
 
-export function StepLine({ stepNumber, instruction, onChange, onRemove }: StepLineProps) {
+export function StepLine({
+  stepNumber,
+  instruction,
+  onChange,
+  onRemove,
+  placeholder,
+}: StepLineProps) {
   const { t } = useTranslation()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -30,6 +37,7 @@ export function StepLine({ stepNumber, instruction, onChange, onRemove }: StepLi
         ref={textareaRef}
         rows={1}
         value={instruction}
+        placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
         aria-label={t('recipes.step_instruction_label')}
       />

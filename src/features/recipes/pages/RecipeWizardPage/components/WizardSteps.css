@@ -1,0 +1,85 @@
+.wizard-steps {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+}
+
+.wizard-steps-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.wizard-step {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.wizard-step:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.wizard-step:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+.wizard-step-current {
+  border-color: var(--accent-green);
+  box-shadow: inset 0 -3px 0 var(--accent-green);
+  color: var(--ink);
+}
+
+.wizard-step-dot {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.wizard-step-complete .wizard-step-dot {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--on-accent);
+}
+
+.wizard-step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .wizard-steps {
+    gap: 6px;
+  }
+
+  .wizard-step {
+    justify-content: center;
+    padding: 10px 8px;
+  }
+
+  .wizard-step:not(.wizard-step-current) .wizard-step-label {
+    display: none;
+  }
+
+  .wizard-steps-item:has(.wizard-step-current) {
+    flex: 3;
+  }
+}

@@ -159,6 +159,23 @@
     "validation_ingredients_min": "Adicione pelo menos 1 ingrediente.",
     "validation_steps_min": "Adicione pelo menos 1 passo.",
     "validation_ingredient_incomplete": "Preencha o nome e a quantidade de todos os ingredientes.",
-    "validation_step_incomplete": "Preencha a instrução de todos os passos."
+    "validation_step_incomplete": "Preencha a instrução de todos os passos.",
+    "step_placeholder": "Escreva o próximo passo…",
+    "wizard_steps_label": "Etapas da receita",
+    "wizard_step_basics": "Básico",
+    "wizard_step_ingredients": "Ingredientes",
+    "wizard_step_preparation": "Preparo",
+    "wizard_basics_heading": "Sobre a receita",
+    "wizard_back_action": "Voltar",
+    "wizard_next_action": "Continuar",
+    "wizard_summary_title": "Resumo",
+    "wizard_summary_untitled": "Sem título ainda",
+    "wizard_summary_meta": "{{portions}} porções · {{minutes}} min",
+    "wizard_summary_ingredients_single": "{{count}} ingrediente",
+    "wizard_summary_ingredients_multiple": "{{count}} ingredientes",
+    "wizard_summary_optional_single": "{{count}} opcional",
+    "wizard_summary_optional_multiple": "{{count}} opcionais",
+    "wizard_summary_steps_single": "{{count}} passo",
+    "wizard_summary_steps_multiple": "{{count}} passos"
   }
 }
