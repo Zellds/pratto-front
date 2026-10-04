@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/Button'
 import { formatDuration } from '@/utils/formatDuration'
@@ -24,6 +24,16 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
   const [stepIndex, setStepIndex] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
   const [gathered, setGathered] = useState<Set<number>>(new Set())
+
+  const finishHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  // The step controls unmount when the cook finishes, which would drop focus
+  // to <body>; land keyboard and screen-reader users on the new content.
+  useEffect(() => {
+    if (isFinished) finishHeadingRef.current?.focus()
+  }, [isFinished])
+
+  if (steps.length === 0) return null
 
   const isLastStep = stepIndex === steps.length - 1
 
@@ -99,7 +109,9 @@ export function CookMode({ recipe, portions, onPortionsChange, onExit }: CookMod
 
         {isFinished ? (
           <section className="cook-mode-finish">
-            <h2>{t('recipes.cook_done_title')}</h2>
+            <h2 ref={finishHeadingRef} tabIndex={-1}>
+              {t('recipes.cook_done_title')}
+            </h2>
             <p>{t('recipes.cook_done_hint')}</p>
             <RatingWidget recipeId={recipe.id} />
             <Button onClick={onExit}>{t('recipes.cook_back_to_recipe_action')}</Button>

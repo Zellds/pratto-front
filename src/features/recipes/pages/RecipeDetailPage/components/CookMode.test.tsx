@@ -174,4 +174,21 @@ describe('CookMode', () => {
     expect(withChip).toHaveLength(1)
     expect(withChip[0]).toHaveTextContent('Leite')
   })
+
+  it('moves focus to the finish heading when the cook finishes', async () => {
+    const user = userEvent.setup()
+    renderCookMode()
+
+    await user.click(screen.getByRole('button', { name: 'Ir para o passo 3' }))
+    await user.click(screen.getByRole('button', { name: 'Concluir' }))
+
+    expect(screen.getByRole('heading', { name: 'Bom apetite!' })).toHaveFocus()
+  })
+
+  it('renders nothing when the recipe has no steps', () => {
+    renderCookMode({ recipe: { ...RECIPE, steps: [] } })
+
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+    expect(screen.queryByText(/^Passo \d/)).not.toBeInTheDocument()
+  })
 })
