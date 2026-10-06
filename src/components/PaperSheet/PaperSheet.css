@@ -2,10 +2,10 @@
  * A loose ruled sheet taped to the page, shared by the recipe form, the recipe
  * page and the cooking mode.
  *
- * The cream, ink, rule, margin, tape and dashed-edge colours below are the one
- * documented hex exception to the tokens-only rule: paper looks the same in
- * both themes (on the dark theme it is the brightest object on the screen,
- * which is the point). Consumers that need a paper colour read the --paper-*
+ * The cream, ink, rule, margin, tape, dashed-edge, placeholder and
+ * remove-button colours below are the one documented hex exception to the
+ * tokens-only rule: paper looks the same in both themes (on the dark theme it
+ * is the brightest object on the screen, which is the point). Consumers that need a paper colour read the --paper-*
  * custom properties instead of repeating the hex.
  *
  * The ruled lines belong to the sheet: one grid of --sheet-line (28px by
@@ -19,6 +19,8 @@
   --paper-bg: #fbf6e9;
   --paper-ink: #3a3630;
   --paper-edge: #c9b98a;
+  --paper-placeholder: #a89f88;
+  --paper-remove: #8f5c30;
 
   position: relative;
   isolation: isolate;

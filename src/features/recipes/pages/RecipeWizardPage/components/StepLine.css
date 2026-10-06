@@ -6,7 +6,7 @@
   font-family: 'Lora', serif;
   font-style: italic;
   font-size: 16px;
-  color: #3a3630;
+  color: var(--paper-ink);
 }
 
 .step-line-number {
@@ -28,7 +28,7 @@
 }
 
 .step-line textarea::placeholder {
-  color: #a89f88;
+  color: var(--paper-placeholder);
 }
 
 .step-line button {
@@ -40,6 +40,6 @@
   border-radius: 50%;
   border: none;
   background: transparent;
-  color: #8f5c30;
+  color: var(--paper-remove);
   cursor: pointer;
 }
